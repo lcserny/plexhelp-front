@@ -7,6 +7,7 @@ import { Hero } from './hero';
 })
 export class InMemoryDataService implements InMemoryDbService {
     createDb() {
+        // this const name is used by webApi for its url, "api/<thisName>"
         const heroes = [
             { id: 12, name: 'Dr. Nice' },
             { id: 13, name: 'Bombasto' },

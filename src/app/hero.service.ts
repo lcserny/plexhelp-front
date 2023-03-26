@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Hero } from './hero';
 import { MessageService } from './message.service';
-import { HEROES } from './mock-heroes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -23,19 +22,6 @@ export class HeroService {
         this.messageService.add(`HeroService: ${message}`);
     }
 
-    getHeroes(): Observable<Hero[]> {
-        // const heroes = of(HEROES);
-        // this.log("fetched heroes");
-        // return heroes;
-
-        // use .map(...) to get from observable nested
-        return this.http.get<Hero[]>(this.heroesUrl)
-            .pipe(
-                tap(_ => this.log('fetched heroes')),
-                catchError(this.handleError<Hero[]>("getHeroes", []))
-            );
-    }
-
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
 
@@ -48,6 +34,19 @@ export class HeroService {
             // Let the app keep running by returning an empty result.
             return of(result as T);
         };
+    }
+
+    getHeroes(): Observable<Hero[]> {
+        // const heroes = of(HEROES);
+        // this.log("fetched heroes");
+        // return heroes;
+
+        // use .map(...) to get from observable nested
+        return this.http.get<Hero[]>(this.heroesUrl)
+            .pipe(
+                tap(_ => this.log('fetched heroes')),
+                catchError(this.handleError<Hero[]>("getHeroes", []))
+            );
     }
 
     getHero(id: number): Observable<Hero> {
