@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
+import { SearchSnapshot } from '../search-snapshot';
 
 @Component({
     selector: 'app-heroes',
@@ -13,7 +14,8 @@ export class HeroesComponent implements OnInit {
     heroes: Hero[] = [];
     // selectedHero?: Hero;
 
-    constructor(private heroService: HeroService, private messageService: MessageService) { }
+    constructor(private heroService: HeroService, private messageService: MessageService,
+        private searchSnapshot: SearchSnapshot) { }
 
     ngOnInit(): void {
         this.initHeroes();
@@ -38,6 +40,8 @@ export class HeroesComponent implements OnInit {
             .subscribe(hero => {
                 this.heroes.push(hero);
             });
+        
+        console.log(this.searchSnapshot.getNextSearch());
     }
 
     delete(hero: Hero): void {
