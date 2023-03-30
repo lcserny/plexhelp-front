@@ -1,3 +1,12 @@
+Build with:
+`ng build`
+
+Create Docker image with:
+`docker build -t plexhelp-front .`
+
+Run image with:
+`docker run -p 8888:80 --name front plexhelp-front:latest`
+
 # Front
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.2.
