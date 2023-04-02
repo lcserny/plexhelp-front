@@ -1,1 +1,14 @@
-<h1>Is it prod? : {{env}}</h1>
+<h1>Media Files</h1>
+<ul>
+    <li *ngFor="let mediaFileGroup of mediaFileGroups">
+        <div>
+            Name: {{mediaFileGroup.name}}
+            <button (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+            <button (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+        </div>
+        <div>Path: {{mediaFileGroup.path}}</div>
+        <div *ngFor="let video of mediaFileGroup.videos">
+            Video: {{video}}
+        </div>
+    </li>
+</ul>

@@ -1,3 +1,3 @@
 export const environment = {
-    production: true,
+    commanderApiUrlBase: "http://localhost:9000/api",
 };
