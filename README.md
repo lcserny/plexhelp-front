@@ -1,7 +1,4 @@
-Build with:
-`ng build`
-
-Create Docker image with:
+Create Docker image with (will also build app):
 `docker build -t plexhelp-front .`
 
 Run image with:
