@@ -9,6 +9,8 @@ import { MediaFileGroup, MediaFileType, MediaRenameRequest, RenamedMediaOptions 
 })
 export class MediaService {
 
+    private currentSearch: MediaFileGroup[] = [];
+
     private mediaBaseUrl = environment.commanderApiUrlBase;
     private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -21,11 +23,15 @@ export class MediaService {
         };
     }
 
+    getMediaFileGroup(index: number): MediaFileGroup {
+        return this.currentSearch[index];
+    }
+
     searchMedia(): Observable<MediaFileGroup[]> {
         const url = `${this.mediaBaseUrl}/v1/media-searches`;
         return this.http.get<MediaFileGroup[]>(url)
             .pipe(
-                tap(_ => console.log('fetched media')),
+                tap(mfgs => this.currentSearch = mfgs),
                 catchError(this.handleError<MediaFileGroup[]>("searchMedia", []))
             );
     }

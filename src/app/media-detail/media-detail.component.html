@@ -1,1 +1,13 @@
-<p>media-detail works!</p>
+<button mat-button (click)="goBack()">Back</button>
+
+<div *ngIf="mediaFileGroup">
+    <h1>{{mediaFileGroup.name}}</h1>
+
+    <div>Path: {{mediaFileGroup.path}}</div>
+    <div *ngFor="let video of mediaFileGroup.videos">
+        Video: {{video}}
+    </div>
+
+    <button mat-button (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+    <button mat-button (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+</div>

@@ -3,6 +3,7 @@
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
+            <a mat-list-item routerLink="/">Home</a>
             <a mat-list-item routerLink="/search">Search</a>
         </mat-nav-list>
     </mat-sidenav>
@@ -16,8 +17,10 @@
         </mat-toolbar>
 
         <!-- Add Content Here -->
-        <router-outlet></router-outlet>
-        <app-loading></app-loading>
+        <div class="container">
+            <router-outlet></router-outlet>
+            <app-loading></app-loading>
+        </div>
 
     </mat-sidenav-content>
 </mat-sidenav-container>

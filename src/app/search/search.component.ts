@@ -21,14 +21,4 @@ export class SearchComponent implements OnInit {
         this.mediaService.searchMedia()
             .subscribe(mfg => this.mediaFileGroups = mfg);
     }
-
-    // TODO: move to media detail component
-    generateTVName(name: string): void {
-        this.mediaService.generateNameOptions(name, MediaFileType.TV)
-            .subscribe(options => console.log(options));
-    }
-    generateMovieName(name: string): void {
-        this.mediaService.generateNameOptions(name, MediaFileType.MOVIE)
-            .subscribe(options => console.log(options));
-    }
 }

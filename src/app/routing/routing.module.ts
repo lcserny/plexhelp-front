@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from '../home/home.component';
 import { MediaDetailComponent } from '../media-detail/media-detail.component';
 import { SearchComponent } from '../search/search.component';
 
 const routes: Routes = [
-    { path: "", redirectTo: "/search", pathMatch: "full" },
+    { path: "", component: HomeComponent },
     { path: "search", component: SearchComponent },
     { path: "media-detail/:idx", component: MediaDetailComponent },
 ];
