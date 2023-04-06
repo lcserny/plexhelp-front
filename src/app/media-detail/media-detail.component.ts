@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ActivatedRoute } from '@angular/router';
+import { ExtendedRenamedMediaOptions } from '../extended-data';
 import { MediaFileGroup, RenamedMediaOptions } from '../generated';
 import { MediaFileType } from '../generated/models/MediaFileType';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
@@ -32,21 +33,37 @@ export class MediaDetailComponent implements OnInit {
         this.location.back();
     }
 
+    // TODO: cleanup / refactor
     generateTVName(name: string): void {
         this.mediaService.generateNameOptions(name, MediaFileType.TV)
-            // TODO: options are needed in the other component, maybe use a new shared service or reuse media service?
-            .subscribe(options => {
-                // send somewhere reachable by other comp
-                this.bottomSheet.open(MediaDetailOptionsComponent);
+            .subscribe(opts => {
+                let extOpts: ExtendedRenamedMediaOptions = { renameOptions: opts, type: MediaFileType.TV };
+                let cfg: MatBottomSheetConfig = { data: extOpts };
+                // TODO
+                let ref: MatBottomSheetRef<MediaDetailOptionsComponent, string> = 
+                    this.bottomSheet.open(MediaDetailOptionsComponent, cfg);
+                ref.afterDismissed().subscribe(data => {
+                    if (data) {
+                        console.log(data)
+                    }
+                });
             });
     }
 
+    // TODO: cleanup / refactor
     generateMovieName(name: string): void {
         this.mediaService.generateNameOptions(name, MediaFileType.MOVIE)
-            // TODO: options are needed in the other component, maybe use a new shared service or reuse media service?
-            .subscribe(options => {
-                // send somewhere reachable by other comp
-                this.bottomSheet.open(MediaDetailOptionsComponent);
+            .subscribe(opts => {
+                let extOpts: ExtendedRenamedMediaOptions = { renameOptions: opts, type: MediaFileType.MOVIE };
+                let cfg: MatBottomSheetConfig = { data: extOpts };
+                // TODO
+                let ref: MatBottomSheetRef<MediaDetailOptionsComponent, string> = 
+                    this.bottomSheet.open(MediaDetailOptionsComponent, cfg);
+                ref.afterDismissed().subscribe(data => {
+                    if (data) {
+                        console.log(data)
+                    }
+                });
             });
     }
 }
