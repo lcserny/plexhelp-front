@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MediaFileGroup, MediaFileType, MediaRenameRequest, RenamedMediaOptions } from './generated';
+import { MessageService } from './message.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,11 +15,16 @@ export class MediaService {
     private mediaBaseUrl = environment.commanderApiUrlBase;
     private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private messageService: MessageService) { }
+
+    private log(message: string) {
+        this.messageService.add(`MediaService: ${message}`);
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(error);
+            this.log(`${operation} failed: ${error.message}`);
             return of(result as T);
         };
     }
@@ -31,7 +37,10 @@ export class MediaService {
         const url = `${this.mediaBaseUrl}/v1/media-searches`;
         return this.http.get<MediaFileGroup[]>(url)
             .pipe(
-                tap(mfgs => this.currentSearch = mfgs),
+                tap(mfgs => {
+                    this.currentSearch = mfgs;
+                    this.log("searched for media files");
+                }),
                 catchError(this.handleError<MediaFileGroup[]>("searchMedia", []))
             );
     }
@@ -41,7 +50,7 @@ export class MediaService {
         let req: MediaRenameRequest = { name, type };
         return this.http.post<RenamedMediaOptions>(url, req, this.httpOptions)
             .pipe(
-                tap(_ => console.log('generated media options')),
+                tap(_ => this.log(`generated media options for ${name} with type ${type}`)),
                 catchError(this.handleError<RenamedMediaOptions>("generateNameOptions"))
             );
     }

@@ -1,4 +1,4 @@
-<h1>Media Files Found <button mat-button (click)="initSearch()">Retry</button></h1> 
+<h1>Media Files Found <button mat-raised-button id="search-btn" (click)="initSearch()">Retry</button></h1> 
 
 <div *ngFor="let mediaFileGroup of mediaFileGroups; let i = index">
     <mat-card>
@@ -6,7 +6,7 @@
             <mat-card-title>{{i+1}}. {{mediaFileGroup.name}}</mat-card-title>
         </mat-card-header>
         <mat-card-actions>
-            <button mat-button routerLink="/media-detail/{{i}}">Details</button>
+            <button mat-raised-button routerLink="/media-detail/{{i}}">Details</button>
         </mat-card-actions>
     </mat-card>
     <br />

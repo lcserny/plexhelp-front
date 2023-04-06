@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
 import { LoadingComponent } from './loading/loading.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
@@ -19,6 +20,8 @@ import { RoutingModule } from './routing/routing.module';
 import { SearchComponent } from './search/search.component';
 import { MediaDetailComponent } from './media-detail/media-detail.component';
 import { HomeComponent } from './home/home.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MediaDetailOptionsComponent } from './media-detail-options/media-detail-options.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +30,9 @@ import { HomeComponent } from './home/home.component';
         LoadingComponent,
         SearchComponent,
         MediaDetailComponent,
-        HomeComponent
+        HomeComponent,
+        MessagesComponent,
+        MediaDetailOptionsComponent
     ],
     imports: [
         BrowserModule,
@@ -41,7 +46,8 @@ import { HomeComponent } from './home/home.component';
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-        MatCardModule
+        MatCardModule,
+        MatBottomSheetModule,
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
     bootstrap: [AppComponent]

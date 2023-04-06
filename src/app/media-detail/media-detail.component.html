@@ -1,4 +1,4 @@
-<button mat-button (click)="goBack()">Back</button>
+<button mat-raised-button id="back-btn" (click)="goBack()">Back</button>
 
 <div *ngIf="mediaFileGroup">
     <h1>{{mediaFileGroup.name}}</h1>
@@ -8,6 +8,6 @@
         Video: {{video}}
     </div>
 
-    <button mat-button (click)="generateTVName(mediaFileGroup.name!)">TV</button>
-    <button mat-button (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+    <button mat-raised-button (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+    <button mat-raised-button (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
 </div>
