@@ -1,0 +1,32 @@
+.options-list a {
+    height: auto;
+}
+
+.options-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.options-item-poster {
+    float: left;
+    width: 92px;
+    border: 1px solid #ccc;
+}
+
+.options-item-details {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.options-item-title {
+    font-weight: bold;
+}
+
+.options-item-desc {
+    white-space: initial;
+    color: gray;
+}
+
+.options-item-cast {
+    color: gray;
+}

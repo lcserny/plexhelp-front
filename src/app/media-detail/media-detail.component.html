@@ -8,6 +8,14 @@
         Video: {{video}}
     </div>
 
-    <button mat-raised-button (click)="generateTVName(mediaFileGroup.name!)">TV</button>
-    <button mat-raised-button (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+    <div>
+        <input type="text" [(ngModel)]="finalName" placeholder="Name of the media"/>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+    <button mat-raised-button color="primary" (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+
+    <div *ngIf="finalName">
+        <button mat-raised-button color="accent" (click)="moveMedia()">Move Media</button>
+    </div>
 </div>

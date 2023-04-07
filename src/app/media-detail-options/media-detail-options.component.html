@@ -1,21 +1,13 @@
-<mat-nav-list>
-    <a href="https://keep.google.com/" mat-list-item (click)="selectDescription($event)">
-        <span matListItemTitle>Google Keep</span>
-        <span matLine>Add to a note</span>
+<mat-nav-list class="options-list">
+    <a *ngFor="let desc of data.mediaDescriptions" mat-list-item (click)="selectDescription(desc)">
+        <img class="options-item-poster" src="{{desc.posterUrl}}" alt="">
+        <div class="options-item-details">
+            <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
+            <div class="options-item-desc">{{desc.description}}</div>
+            <div class="options-item-cast">Cast: 
+                <span *ngFor="let actor of desc.cast">{{actor}}, </span>
+            </div>
+        </div>
     </a>
-
-    <a href="https://docs.google.com/" mat-list-item (click)="selectDescription($event)">
-        <span matListItemTitle>Google Docs</span>
-        <span matLine>Embed in a document</span>
-    </a>
-
-    <a href="https://plus.google.com/" mat-list-item (click)="selectDescription($event)">
-        <span matListItemTitle>Google Plus</span>
-        <span matLine>Share with your friends</span>
-    </a>
-
-    <a href="https://hangouts.google.com/" mat-list-item (click)="selectDescription($event)">
-        <span matListItemTitle>Google Hangouts</span>
-        <span matLine>Show to your coworkers</span>
-    </a>
+    <mat-divider class="options-divider"></mat-divider>
 </mat-nav-list>

@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ActivatedRoute } from '@angular/router';
-import { ExtendedRenamedMediaOptions } from '../extended-data';
 import { MediaFileGroup, RenamedMediaOptions } from '../generated';
 import { MediaFileType } from '../generated/models/MediaFileType';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
@@ -16,6 +15,8 @@ import { MediaService } from '../media.service';
 export class MediaDetailComponent implements OnInit {
 
     mediaFileGroup?: MediaFileGroup;
+    type?: MediaFileType;
+    finalName?: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -33,37 +34,29 @@ export class MediaDetailComponent implements OnInit {
         this.location.back();
     }
 
-    // TODO: cleanup / refactor
     generateTVName(name: string): void {
-        this.mediaService.generateNameOptions(name, MediaFileType.TV)
-            .subscribe(opts => {
-                let extOpts: ExtendedRenamedMediaOptions = { renameOptions: opts, type: MediaFileType.TV };
-                let cfg: MatBottomSheetConfig = { data: extOpts };
-                // TODO
-                let ref: MatBottomSheetRef<MediaDetailOptionsComponent, string> = 
-                    this.bottomSheet.open(MediaDetailOptionsComponent, cfg);
-                ref.afterDismissed().subscribe(data => {
-                    if (data) {
-                        console.log(data)
-                    }
-                });
+        this.type = MediaFileType.TV;
+        this.mediaService.generateNameOptions(name, this.type)
+            .subscribe(opts => this.handleOptionsSheet(opts));
+    }
+
+    generateMovieName(name: string): void {
+        this.type = MediaFileType.MOVIE;
+        this.mediaService.generateNameOptions(name, this.type)
+            .subscribe(opts => this.handleOptionsSheet(opts));
+    }
+
+    handleOptionsSheet(opts: RenamedMediaOptions): void {
+        this.bottomSheet.open(MediaDetailOptionsComponent, { data: opts })
+            .afterDismissed().subscribe(mediaName => {
+                if (mediaName) {
+                    this.finalName = mediaName;
+                }
             });
     }
 
-    // TODO: cleanup / refactor
-    generateMovieName(name: string): void {
-        this.mediaService.generateNameOptions(name, MediaFileType.MOVIE)
-            .subscribe(opts => {
-                let extOpts: ExtendedRenamedMediaOptions = { renameOptions: opts, type: MediaFileType.MOVIE };
-                let cfg: MatBottomSheetConfig = { data: extOpts };
-                // TODO
-                let ref: MatBottomSheetRef<MediaDetailOptionsComponent, string> = 
-                    this.bottomSheet.open(MediaDetailOptionsComponent, cfg);
-                ref.afterDismissed().subscribe(data => {
-                    if (data) {
-                        console.log(data)
-                    }
-                });
-            });
+    moveMedia(): void {
+        // TODO: move using service and in subscribe use goBack()
+        this.goBack();
     }
 }

@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
+import { MatDividerModule } from '@angular/material/divider';
 import { LoadingComponent } from './loading/loading.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
@@ -48,6 +49,7 @@ import { MediaDetailOptionsComponent } from './media-detail-options/media-detail
         MatListModule,
         MatCardModule,
         MatBottomSheetModule,
+        MatDividerModule,
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
     bootstrap: [AppComponent]
