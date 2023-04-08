@@ -1,13 +1,15 @@
 <mat-nav-list class="options-list">
-    <a *ngFor="let desc of data.mediaDescriptions" mat-list-item (click)="selectDescription(desc)">
-        <img class="options-item-poster" src="{{desc.posterUrl}}" alt="">
-        <div class="options-item-details">
-            <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
-            <div class="options-item-desc">{{desc.description}}</div>
-            <div class="options-item-cast">Cast: 
-                <span *ngFor="let actor of desc.cast">{{actor}}, </span>
+    <div *ngFor="let desc of data.mediaDescriptions">
+        <a mat-list-item (click)="selectDescription(desc)">
+            <img class="options-item-poster" src="{{desc.posterUrl}}" alt="">
+            <div class="options-item-details">
+                <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
+                <div class="options-item-desc">{{desc.description}}</div>
+                <div class="options-item-cast">Cast:
+                    <span *ngFor="let actor of desc.cast">{{actor}}, </span>
+                </div>
             </div>
-        </div>
-    </a>
-    <mat-divider class="options-divider"></mat-divider>
+        </a>
+        <mat-divider class="options-divider"></mat-divider>
+    </div>
 </mat-nav-list>

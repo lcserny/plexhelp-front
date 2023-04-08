@@ -3,19 +3,32 @@
 <div *ngIf="mediaFileGroup">
     <h1>{{mediaFileGroup.name}}</h1>
 
-    <div>Path: {{mediaFileGroup.path}}</div>
-    <div *ngFor="let video of mediaFileGroup.videos">
-        Video: {{video}}
+    <div>Path:</div>
+    <div class="path-text">{{mediaFileGroup.path}}</div>
+    <br/>
+
+    <div>Media files:</div>
+    <div class="files-text" *ngFor="let video of mediaFileGroup.videos; let i = index">
+        {{i+1}}. {{video}}
     </div>
+    <br/>
 
     <div>
-        <input type="text" [(ngModel)]="finalName" placeholder="Name of the media"/>
+        <button mat-raised-button color="primary" class="left-button"
+            (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+        <button mat-raised-button color="primary" class="right-button"
+            (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
     </div>
 
-    <button mat-raised-button color="primary" (click)="generateTVName(mediaFileGroup.name!)">TV</button>
-    <button mat-raised-button color="primary" (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
-
-    <div *ngIf="finalName">
-        <button mat-raised-button color="accent" (click)="moveMedia()">Move Media</button>
+    <div *ngIf="type && finalName" class="output-controls">
+        <div>
+            <mat-form-field appearance="outline" color="accent" class="dest-field">
+                <mat-label>Media destination name</mat-label>
+                <input matInput [(ngModel)]="finalName">
+            </mat-form-field>
+        </div>
+        <div>
+            <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">Move {{type}}</button>
+        </div>
     </div>
 </div>

@@ -1,3 +1,35 @@
+$btnWidth: 100px;
+$leftButtonMargin: 15px;
+
 #back-btn {
-    margin-bottom: 10px;;
+    margin-bottom: 10px;
+}
+
+.output-controls {
+    margin-top: 25px;
+}
+
+.left-button {
+    margin-right: $leftButtonMargin;
+    width: $btnWidth;
+}
+
+.right-button {
+    width: $btnWidth;
+}
+
+.move-button {
+    width: calc(2 * $btnWidth + $leftButtonMargin);
+}
+
+.path-text {
+    color: gray;
+}
+
+.files-text {
+    color: gray;
+}
+
+.dest-field {
+    width: 400px;
 }
