@@ -1,7 +1,8 @@
 <mat-nav-list class="options-list">
     <div *ngFor="let desc of data.mediaDescriptions">
         <a mat-list-item (click)="selectDescription(desc)">
-            <img class="options-item-poster" src="{{desc.posterUrl}}" alt="">
+            <img *ngIf="desc.posterUrl" class="options-item-poster" src="{{desc.posterUrl}}" alt="">
+            <img *ngIf="!desc.posterUrl" class="options-item-poster" src="{{fallbackPosterUrl}}" alt="">
             <div class="options-item-details">
                 <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
                 <div class="options-item-desc">{{desc.description}}</div>

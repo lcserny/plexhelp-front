@@ -56,7 +56,8 @@ export class MediaDetailComponent implements OnInit {
     }
 
     moveMedia(): void {
-        // TODO: move using service and in subscribe use goBack()
-        this.goBack();
+        this.mediaFileGroup!.name = this.finalName!;
+        this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
+            .subscribe(_ => this.goBack());
     }
 }

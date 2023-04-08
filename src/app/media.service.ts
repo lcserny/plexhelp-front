@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MediaFileGroup, MediaFileType, MediaRenameRequest, RenamedMediaOptions } from './generated';
+import { MediaFileGroup, MediaFileType, MediaMoveError, MediaMoveRequest, MediaRenameRequest, RenamedMediaOptions } from './generated';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -50,8 +50,26 @@ export class MediaService {
         let req: MediaRenameRequest = { name, type };
         return this.http.post<RenamedMediaOptions>(url, req, this.httpOptions)
             .pipe(
-                tap(_ => this.log(`generated media options for ${name} with type ${type}`)),
+                tap(opts => this.log(`generated media options for ${name} with type ${type} and origin ${opts.origin}`)),
                 catchError(this.handleError<RenamedMediaOptions>("generateNameOptions"))
+            );
+    }
+
+    moveMedia(fileGroup: MediaFileGroup, type: MediaFileType): Observable<MediaMoveError[]> {
+        const url = `${this.mediaBaseUrl}/v1/media-moves`;
+        let req: MediaMoveRequest = { fileGroup, type };
+        return this.http.post<MediaMoveError[]>(url, req, this.httpOptions)
+            .pipe(
+                tap(errors => {
+                    if (Array.isArray(errors) && errors.length > 0) {
+                        for (let e of errors) {
+                            this.log(`moved media failes: ${e.error} for ${e.mediaPath}`);
+                        }
+                    } else {
+                        this.log(`moved media with type ${type} to destination ${fileGroup.name}`);
+                    }
+                }),
+                catchError(this.handleError<MediaMoveError[]>("moveMedia"))
             );
     }
 }

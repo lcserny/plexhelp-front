@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { environment } from 'src/environments/environment';
 import { MediaDescription, RenamedMediaOptions } from '../generated';
 
 @Component({
@@ -8,6 +9,8 @@ import { MediaDescription, RenamedMediaOptions } from '../generated';
     styleUrls: ['./media-detail-options.component.scss']
 })
 export class MediaDetailOptionsComponent {
+
+    fallbackPosterUrl = environment.fallbackPosterUrl;
 
     constructor(
         private bottomSheetRef: MatBottomSheetRef<MediaDetailOptionsComponent>,
