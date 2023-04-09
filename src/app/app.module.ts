@@ -15,6 +15,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoadingComponent } from './loading/loading.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
@@ -54,6 +55,7 @@ import { MediaDetailOptionsComponent } from './media-detail-options/media-detail
         MatDividerModule,
         MatFormFieldModule,
         MatInputModule,
+        MatSnackBarModule,
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
     bootstrap: [AppComponent]

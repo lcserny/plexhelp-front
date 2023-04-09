@@ -61,7 +61,7 @@ export class MediaService {
         return this.http.post<MediaMoveError[]>(url, req, this.httpOptions)
             .pipe(
                 tap(errors => {
-                    if (Array.isArray(errors) && errors.length > 0) {
+                    if (MediaService.isNotEmptyArray(errors)) {
                         for (let e of errors) {
                             this.log(`moved media failes: ${e.error} for ${e.mediaPath}`);
                         }
@@ -71,5 +71,9 @@ export class MediaService {
                 }),
                 catchError(this.handleError<MediaMoveError[]>("moveMedia"))
             );
+    }
+
+    public static isNotEmptyArray(arr: any[]): boolean {
+        return Array.isArray(arr) && arr.length > 0;
     }
 }

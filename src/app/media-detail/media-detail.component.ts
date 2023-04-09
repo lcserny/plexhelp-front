@@ -6,6 +6,7 @@ import { MediaFileGroup, RenamedMediaOptions } from '../generated';
 import { MediaFileType } from '../generated/models/MediaFileType';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
 import { MediaService } from '../media.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-media-detail',
@@ -13,6 +14,10 @@ import { MediaService } from '../media.service';
     styleUrls: ['./media-detail.component.scss']
 })
 export class MediaDetailComponent implements OnInit {
+
+    private static MOVE_SUCCESS = "Successfully moved media!";
+    private static MOVE_FAILED = "Failed to move media, check messages!";
+    private static DURATION = 5000;
 
     mediaFileGroup?: MediaFileGroup;
     type?: MediaFileType;
@@ -23,6 +28,7 @@ export class MediaDetailComponent implements OnInit {
         private location: Location,
         private mediaService: MediaService,
         private bottomSheet: MatBottomSheet,
+        private snackBar: MatSnackBar,
     ) { }
 
     ngOnInit(): void {
@@ -58,6 +64,17 @@ export class MediaDetailComponent implements OnInit {
     moveMedia(): void {
         this.mediaFileGroup!.name = this.finalName!;
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
-            .subscribe(_ => this.goBack());
+            .subscribe(errors => {
+                if (MediaService.isNotEmptyArray(errors)) {
+                    this.snackBar.open(MediaDetailComponent.MOVE_FAILED, "Close", {
+                        duration: MediaDetailComponent.DURATION
+                    });
+                } else {
+                    this.snackBar.open(MediaDetailComponent.MOVE_SUCCESS, "Close", {
+                        duration: MediaDetailComponent.DURATION
+                    });
+                    this.goBack()
+                }
+            });
     }
 }

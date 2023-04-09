@@ -1,4 +1,5 @@
 <mat-nav-list class="options-list">
+    <div class="options-origin">Origin: {{data.origin}}</div>
     <div *ngFor="let desc of data.mediaDescriptions">
         <a mat-list-item (click)="selectDescription(desc)">
             <img *ngIf="desc.posterUrl" class="options-item-poster" src="{{desc.posterUrl}}" alt="">
