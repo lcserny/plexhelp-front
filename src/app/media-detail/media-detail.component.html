@@ -15,9 +15,9 @@
 
     <div>
         <button mat-raised-button color="primary" class="left-button"
-            (click)="generateTVName(mediaFileGroup.name!)">TV</button>
+            (click)="generateTVName(finalName ? finalName : mediaFileGroup.name!)">TV</button>
         <button mat-raised-button color="primary" class="right-button"
-            (click)="generateMovieName(mediaFileGroup.name!)">Movie</button>
+            (click)="generateMovieName(finalName ? finalName : mediaFileGroup.name!)">Movie</button>
     </div>
 
     <div *ngIf="type && finalName" class="output-controls">

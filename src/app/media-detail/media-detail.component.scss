@@ -1,5 +1,6 @@
 $btnWidth: 100px;
 $leftButtonMargin: 15px;
+$bigBtnWidth: $btnWidth * 2 + $leftButtonMargin;
 
 #back-btn {
     margin-bottom: 10px;
@@ -19,7 +20,7 @@ $leftButtonMargin: 15px;
 }
 
 .move-button {
-    width: calc(2 * $btnWidth + $leftButtonMargin);
+    width: $bigBtnWidth;
 }
 
 .path-text {
