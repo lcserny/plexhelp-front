@@ -26,6 +26,7 @@ import { MediaDetailComponent } from './media-detail/media-detail.component';
 import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MediaDetailOptionsComponent } from './media-detail-options/media-detail-options.component';
+import { ShutdownComponent } from './shutdown/shutdown.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { MediaDetailOptionsComponent } from './media-detail-options/media-detail
         MediaDetailComponent,
         HomeComponent,
         MessagesComponent,
-        MediaDetailOptionsComponent
+        MediaDetailOptionsComponent,
+        ShutdownComponent
     ],
     imports: [
         BrowserModule,

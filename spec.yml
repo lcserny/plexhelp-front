@@ -1,0 +1,240 @@
+---
+openapi: 3.0.3
+info:
+  title: plexhelp-commander API
+  version: 1.0.0
+paths:
+  /api/v1/commands:
+    post:
+      tags:
+      - Command Resource
+      operationId: executeCommand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+  /api/v1/media-downloads:
+    get:
+      tags:
+      - Media Download Resource
+      operationId: downloadsCompleted
+      parameters:
+      - name: day
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: month
+        in: query
+        schema:
+          format: int32
+          type: integer
+      - name: year
+        in: query
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DownloadedMedia'
+  /api/v1/media-moves:
+    post:
+      tags:
+      - Media Move Resource
+      operationId: moveMedia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaMoveRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaMoveError'
+  /api/v1/media-renames:
+    post:
+      tags:
+      - Media Rename Resource
+      operationId: produceRenames
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaRenameRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenamedMediaOptions'
+  /api/v1/media-searches:
+    get:
+      tags:
+      - Media Search Resource
+      operationId: searchMedia
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaFileGroup'
+components:
+  schemas:
+    CommandRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/Param'
+    CommandResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+    Date:
+      format: date
+      type: string
+      example: 2022-03-10
+    DownloadedMedia:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ObjectId'
+        fileName:
+          type: string
+        fileSize:
+          format: int64
+          type: integer
+        dateDownloaded:
+          $ref: '#/components/schemas/LocalDateTime'
+    LocalDate:
+      format: date
+      type: string
+      example: 2022-03-10
+    LocalDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50
+    MediaDescription:
+      type: object
+      properties:
+        posterUrl:
+          type: string
+        title:
+          type: string
+        date:
+          $ref: '#/components/schemas/LocalDate'
+        description:
+          type: string
+        cast:
+          type: array
+          items:
+            type: string
+    MediaFileGroup:
+      type: object
+      properties:
+        path:
+          type: string
+        name:
+          type: string
+        videos:
+          type: array
+          items:
+            type: string
+    MediaFileType:
+      enum:
+      - MOVIE
+      - TV
+      type: string
+    MediaMoveError:
+      type: object
+      properties:
+        mediaPath:
+          type: string
+        error:
+          type: string
+    MediaMoveRequest:
+      type: object
+      properties:
+        fileGroup:
+          $ref: '#/components/schemas/MediaFileGroup'
+        type:
+          $ref: '#/components/schemas/MediaFileType'
+    MediaRenameOrigin:
+      enum:
+      - DISK
+      - NAME
+      - CACHE
+      - TMDB
+      type: string
+    MediaRenameRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/MediaFileType'
+    ObjectId:
+      type: object
+      properties:
+        timestamp:
+          format: int32
+          type: integer
+        counter:
+          format: int32
+          type: integer
+        randomValue1:
+          format: int32
+          type: integer
+        randomValue2:
+          type: integer
+        date:
+          $ref: '#/components/schemas/Date'
+    Param:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    RenamedMediaOptions:
+      type: object
+      properties:
+        origin:
+          $ref: '#/components/schemas/MediaRenameOrigin'
+        mediaDescriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaDescription'
+    Status:
+      enum:
+      - SUCCESS
+      - NOT_FOUND
+      - FAILED
+      type: string

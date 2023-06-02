@@ -4,29 +4,20 @@ import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MediaFileGroup, MediaFileType, MediaMoveError, MediaMoveRequest, MediaRenameRequest, RenamedMediaOptions } from './generated';
 import { MessageService } from './message.service';
+import { BaseService } from './base.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MediaService {
+export class MediaService extends BaseService {
 
     private currentSearch: MediaFileGroup[] = [];
 
     private mediaBaseUrl = environment.commanderApiUrlBase;
     private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
-    constructor(private http: HttpClient, private messageService: MessageService) { }
-
-    private log(message: string) {
-        this.messageService.add(`MediaService: ${message}`);
-    }
-
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-            console.error(error);
-            this.log(`${operation} failed: ${error.message}`);
-            return of(result as T);
-        };
+    constructor(private http: HttpClient, protected override messageService: MessageService) {
+        super(messageService);
     }
 
     getMediaFileGroup(index: number): MediaFileGroup {

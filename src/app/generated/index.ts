@@ -1,6 +1,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+
+export type { CommandRequest } from './models/CommandRequest';
+export type { CommandResponse } from './models/CommandResponse';
 export type { Date } from './models/Date';
 export type { DownloadedMedia } from './models/DownloadedMedia';
 export type { LocalDate } from './models/LocalDate';
@@ -13,4 +16,6 @@ export type { MediaMoveRequest } from './models/MediaMoveRequest';
 export { MediaRenameOrigin } from './models/MediaRenameOrigin';
 export type { MediaRenameRequest } from './models/MediaRenameRequest';
 export type { ObjectId } from './models/ObjectId';
+export type { Param } from './models/Param';
 export type { RenamedMediaOptions } from './models/RenamedMediaOptions';
+export { Status } from './models/Status';
