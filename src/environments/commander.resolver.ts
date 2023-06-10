@@ -16,14 +16,17 @@ export class CommanderApiUrlResolver {
             return this.cachedApiUrl;
         }
 
-        if (environment.commanderUsesSameHost) {
+        let domain = environment.commander.hostname;
+        let port = environment.commander.port;
+        let uri = environment.commander.uri;
+
+        if (environment.commander.useFrontHost) {
             let protocol = this.document.location.protocol;
             let hostname = this.document.location.hostname;
-            this.cachedApiUrl = `${protocol}//${hostname}:${environment.commanderPort}${environment.commanderApiUri}`;
-            return this.cachedApiUrl;
-        } else {
-            this.cachedApiUrl = environment.commanderApiUrlBase;
-            return this.cachedApiUrl;
+            domain = `${protocol}//${hostname}`;
         }
+
+        this.cachedApiUrl = `${domain}:${port}${uri}`;
+        return this.cachedApiUrl;
     }
 }
