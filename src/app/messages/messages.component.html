@@ -2,7 +2,7 @@
 
 <div *ngIf="messageService.messages.length">
     <div *ngFor="let message of messageService.messages; let i = index">
-        <mat-card>
+        <mat-card class="messages-item-card">
             <mat-card-header>
                 <mat-card-subtitle>{{message}}</mat-card-subtitle>
             </mat-card-header>
