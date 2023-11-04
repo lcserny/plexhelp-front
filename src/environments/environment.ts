@@ -7,6 +7,6 @@ export const environment = {
     },
 
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
-    darkModeStartHour: 20,
-    darkModeEndHour: 7,
+    darkModeStartHour: 18,
+    darkModeEndHour: 6,
 };
