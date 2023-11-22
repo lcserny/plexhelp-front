@@ -22,7 +22,7 @@ export class ShutdownService extends BaseService {
         let seconds = 0;
         const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
         console.log(url);
-        let req: CommandRequest = { name: "shutdown", params: [{key: "seconds", value: `${seconds}`}] };
+        let req: CommandRequest = { name: "shutdown" };
         return this.http.post<CommandResponse>(url, req, this.httpOptions)
             .pipe(
                 tap(opts => this.log(`shutting down server in ${seconds} seconds`)),
