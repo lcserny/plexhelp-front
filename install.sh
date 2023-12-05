@@ -35,6 +35,13 @@ refresh_modules () {
 refresh_modules
 
 echo ""
+echo "Generating types from OpenAPI spec"
+npm run specgen
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+echo ""
 echo "Building front for release"
 ng build
 if [ $? -ne 0 ]; then
