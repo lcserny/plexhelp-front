@@ -2,9 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MediaFileGroup = {
+export type CommandReq = {
     name: string;
-    path: string;
-    videos: Array<string>;
+    params?: Array<string> | null;
 };
 

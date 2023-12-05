@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type MediaMoveError = {
-    mediaPath?: string;
-    error?: string;
+    error: string;
+    mediaPath: string;
 };
 

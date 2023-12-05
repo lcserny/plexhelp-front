@@ -5,8 +5,8 @@
 import type { MediaFileGroup } from './MediaFileGroup';
 import type { MediaFileType } from './MediaFileType';
 
-export type MediaMoveRequest = {
-    fileGroup?: MediaFileGroup;
-    type?: MediaFileType;
+export type MediaMoveReq = {
+    fileGroup: MediaFileGroup;
+    type: MediaFileType;
 };
 

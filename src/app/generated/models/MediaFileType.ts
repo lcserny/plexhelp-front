@@ -5,4 +5,5 @@
 export enum MediaFileType {
     MOVIE = 'MOVIE',
     TV = 'TV',
+    UNKNOWN = 'UNKNOWN',
 }
