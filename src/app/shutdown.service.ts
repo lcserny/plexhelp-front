@@ -29,4 +29,15 @@ export class ShutdownService extends BaseService {
                 catchError(this.handleError<CommandResp>("shutdown"))
             );
     }
+
+    reboot(): Observable<CommandResp> {
+        const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
+        console.log(url);
+        let req: CommandReq = { name: "reboot" };
+        return this.http.post<CommandResp>(url, req, this.httpOptions)
+            .pipe(
+                tap(opts => this.log(`rebooting server`)),
+                catchError(this.handleError<CommandResp>("reboot"))
+            );
+    }
 }

@@ -13,4 +13,8 @@ export class ShutdownComponent {
     shutdown(): void {
         this.shutdownService.shutdown().subscribe(cmdResp => console.log(cmdResp.status));
     }
+
+    reboot(): void {
+        this.shutdownService.reboot().subscribe(cmdResp => console.log(cmdResp.status));
+    }
 }
