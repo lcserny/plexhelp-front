@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEST_DIR="/usr/share/nginx/html/videosmover"
+DEST_DIR="/usr/share/nginx/html/front"
 REFRESH="y"
 
 choose_dest_dir () {

@@ -53,7 +53,7 @@ export class MediaService extends BaseService {
                 tap(errors => {
                     if (MediaService.isNotEmptyArray(errors)) {
                         for (let e of errors) {
-                            this.log(`moved media failes: ${e.error} for ${e.mediaPath}`);
+                            this.log(`moved media failed: ${e.error} for ${e.mediaPath}`);
                         }
                     } else {
                         this.log(`moved media with type ${type} to destination ${fileGroup.name}`);
