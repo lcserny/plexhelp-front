@@ -1,4 +1,8 @@
-<h1>Media Files Found <button mat-raised-button id="search-btn" (click)="initSearch()">Retry</button></h1> 
+<h1>Media Files Found <button mat-raised-button id="search-btn" (click)="initSearch()">Retry</button></h1>
+
+<div *ngIf="searchPerformed && mediaFileGroups.length == 0">
+    <h3>No media files found, try again later.</h3>
+</div>
 
 <div *ngFor="let mediaFileGroup of mediaFileGroups; let i = index">
     <mat-card class="search-item-card">

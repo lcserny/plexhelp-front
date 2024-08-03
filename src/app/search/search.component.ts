@@ -8,7 +8,8 @@ import { MediaService } from '../media.service';
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    
+
+    searchPerformed = false;
     mediaFileGroups: MediaFileGroup[] = [];
 
     constructor(private mediaService: MediaService) {}
@@ -18,7 +19,11 @@ export class SearchComponent implements OnInit {
     }
 
     initSearch(): void {
+        this.searchPerformed = false;
         this.mediaService.searchMedia()
-            .subscribe(mfg => this.mediaFileGroups = mfg);
+            .subscribe(mfg => {
+                this.mediaFileGroups = mfg;
+                this.searchPerformed = true;
+            });
     }
 }
