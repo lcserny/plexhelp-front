@@ -14,11 +14,14 @@ COPY . .
 #installing deps for project
 RUN npm install
 
+#run tests
+RUN npm test
+
 #generate classes from OpenAPI spec
 RUN npm run specgen
 
 #creating angular build
-RUN ./node_modules/@angular/cli/bin/ng.js build
+RUN npx ng build
 
 #STEP-2 RUN
 #Defining nginx img
