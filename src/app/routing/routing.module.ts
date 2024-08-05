@@ -6,7 +6,7 @@ import { MessagesComponent } from '../messages/messages.component';
 import { SearchComponent } from '../search/search.component';
 import { ShutdownComponent } from '../shutdown/shutdown.component';
 
-const routes: Routes = [
+export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "search", component: SearchComponent },
     { path: "shutdown", component: ShutdownComponent },

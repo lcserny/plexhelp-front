@@ -3,9 +3,9 @@ import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommandResp, Status} from "../generated";
 
-const DURATION = 3000;
-const SUCCESS_MSG = "{0} performed successfully!";
-const FAILED_MSG = "{0} failed!";
+export const DURATION = 3000;
+export const SUCCESS_MSG = "{0} performed successfully!";
+export const FAILED_MSG = "{0} failed!";
 
 @Component({
     selector: 'app-shutdown',
@@ -14,7 +14,7 @@ const FAILED_MSG = "{0} failed!";
 })
 export class ShutdownComponent {
 
-    constructor(private shutdownService: ShutdownService, private snackBar: MatSnackBar) {
+    constructor(private shutdownService: ShutdownService, public snackBar: MatSnackBar) {
     }
 
     shutdown(): void {

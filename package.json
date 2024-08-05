@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "specgen": "./node_modules/openapi-typescript-codegen/bin/index.js -i spec.yml -o src/app/generated --exportCore false --exportServices false --exportSchemas false",
-    "test": "ng test"
+    "test": "ng test --browsers=ChromeHeadless_custom --watch=false front"
   },
   "private": true,
   "dependencies": {
