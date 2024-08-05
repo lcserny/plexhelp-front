@@ -39,7 +39,7 @@ module.exports = function (config) {
         customLaunchers: {
             ChromeHeadless_custom: {
                 base: 'ChromeHeadless',
-                flags: ['--disable-search-engine-choice-screen']
+                flags: ['--disable-search-engine-choice-screen', '--no-sandbox']
             }
         },
         singleRun: true
