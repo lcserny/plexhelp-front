@@ -1,7 +1,7 @@
 # STEP-1 BUILD
 # Defining node image and giving alias as node-helper
 # It's better to define version otherwise me might face issue in future build
-FROM node:16-alpine as node-helper
+FROM node:20-bookworm as node-helper
 
 #install chrome, needed for testing
 RUN apt-get install -y wget
