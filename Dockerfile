@@ -3,6 +3,11 @@
 # It's better to define version otherwise me might face issue in future build
 FROM node:16-alpine as node-helper
 
+#install chrome, needed for testing
+RUN apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
 #Creating virtual directory inside docker image
 WORKDIR /app
 
