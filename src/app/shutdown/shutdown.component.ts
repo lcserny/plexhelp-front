@@ -14,15 +14,19 @@ export const FAILED_MSG = "{0} failed!";
 })
 export class ShutdownComponent {
 
+    minutes?: number;
+
     constructor(private shutdownService: ShutdownService, public snackBar: MatSnackBar) {
     }
 
     shutdown(): void {
-        this.shutdownService.shutdown().subscribe(cmdResp => this.showPopup("Shutdown", cmdResp));
+        this.shutdownService.shutdown(this.minutes || 0)
+            .subscribe(cmdResp => this.showPopup("Shutdown", cmdResp));
     }
 
     reboot(): void {
-        this.shutdownService.reboot().subscribe(cmdResp => this.showPopup("Restart", cmdResp));
+        this.shutdownService.reboot(this.minutes || 0)
+            .subscribe(cmdResp => this.showPopup("Restart", cmdResp));
     }
 
     private showPopup(action: string, cmdResp?: CommandResponse) {

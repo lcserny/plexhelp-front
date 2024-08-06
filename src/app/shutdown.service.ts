@@ -17,26 +17,23 @@ export class ShutdownService extends BaseService {
         super(messageService);
     }
 
-    // TODO: impl seconds
-    shutdown(): Observable<CommandResponse> {
-        let seconds = 0;
+
+    shutdown(minutes: number): Observable<CommandResponse> {
         const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
-        console.log(url);
-        let req: CommandRequest = { name: "shutdown" };
+        let req: CommandRequest = { name: "shutdown", params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions)
             .pipe(
-                tap(opts => this.log(`shutting down server in ${seconds} seconds`)),
+                tap(opts => this.log(`shutting down server in ${minutes} minutes`)),
                 catchError(this.handleError<CommandResponse>("shutdown"))
             );
     }
 
-    reboot(): Observable<CommandResponse> {
+    reboot(minutes: number): Observable<CommandResponse> {
         const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
-        console.log(url);
-        let req: CommandRequest = { name: "reboot" };
+        let req: CommandRequest = { name: "reboot", params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions)
             .pipe(
-                tap(opts => this.log(`rebooting server`)),
+                tap(opts => this.log(`rebooting server in ${minutes} minutes`)),
                 catchError(this.handleError<CommandResponse>("reboot"))
             );
     }
