@@ -2,7 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum MediaFileType {
-    MOVIE = 'MOVIE',
-    TV = 'TV',
-}
+export type LocalDate = string;

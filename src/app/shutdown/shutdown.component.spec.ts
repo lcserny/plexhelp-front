@@ -6,7 +6,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CommanderApiUrlResolver} from "../../environments/commander.resolver";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {CommandReq, CommandResp, Status} from "../generated";
+import {CommandRequest, CommandResponse, Status} from "../generated";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -44,7 +44,7 @@ describe('ShutdownComponent', () => {
 
         const url = `${commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
         let request = httpTestingController.expectOne(url);
-        let resp: CommandResp = {status: Status.SUCCESS};
+        let resp: CommandResponse = {status: Status.SUCCESS};
         request.flush(resp);
 
         expect(component.snackBar.open).toHaveBeenCalledWith(SUCCESS_MSG.replace("{0}", "Shutdown"), "Close", {duration: DURATION});

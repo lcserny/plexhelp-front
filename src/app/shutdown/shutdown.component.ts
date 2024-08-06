@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CommandResp, Status} from "../generated";
+import {CommandResponse, Status} from "../generated";
 
 export const DURATION = 3000;
 export const SUCCESS_MSG = "{0} performed successfully!";
@@ -25,7 +25,7 @@ export class ShutdownComponent {
         this.shutdownService.reboot().subscribe(cmdResp => this.showPopup("Restart", cmdResp));
     }
 
-    private showPopup(action: string, cmdResp?: CommandResp) {
+    private showPopup(action: string, cmdResp?: CommandResponse) {
         if (cmdResp?.status == Status.SUCCESS) {
             this.snackBar.open(SUCCESS_MSG.replace("{0}", action), "Close", {duration: DURATION});
         } else {

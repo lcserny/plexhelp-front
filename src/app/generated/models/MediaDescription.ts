@@ -2,11 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { LocalDate } from './LocalDate';
+
 export type MediaDescription = {
-    cast: Array<string>;
-    date: string;
-    description: string;
-    posterUrl: string;
-    title: string;
+    posterUrl?: string;
+    title?: string;
+    date?: LocalDate;
+    description?: string;
+    cast?: Array<string>;
 };
 

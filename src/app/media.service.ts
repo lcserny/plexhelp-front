@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { MediaFileGroup, MediaFileType, MediaMoveError, MediaMoveReq, MediaRenameRequest, RenamedMediaOptions } from './generated';
+import { MediaFileGroup, MediaFileType, MediaMoveError, MediaMoveRequest, MediaRenameRequest, RenamedMediaOptions } from './generated';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 import { CommanderApiUrlResolver } from 'src/environments/commander.resolver';
@@ -47,7 +47,7 @@ export class MediaService extends BaseService {
 
     moveMedia(fileGroup: MediaFileGroup, type: MediaFileType): Observable<MediaMoveError[]> {
         const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/media-moves`;
-        let req: MediaMoveReq = { fileGroup, type };
+        let req: MediaMoveRequest = { fileGroup, type };
         return this.http.post<MediaMoveError[]>(url, req, this.httpOptions)
             .pipe(
                 tap(errors => {

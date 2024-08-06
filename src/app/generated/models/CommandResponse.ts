@@ -4,7 +4,7 @@
 
 import type { Status } from './Status';
 
-export type CommandResp = {
-    status: Status;
+export type CommandResponse = {
+    status?: Status;
 };
 

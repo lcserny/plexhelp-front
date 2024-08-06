@@ -3,8 +3,8 @@
 /* eslint-disable */
 
 export type MediaFileGroup = {
-    name: string;
-    path: string;
-    videos: Array<string>;
+    path?: string;
+    name?: string;
+    videos?: Array<string>;
 };
 

@@ -5,7 +5,7 @@
 import type { MediaFileType } from './MediaFileType';
 
 export type MediaRenameRequest = {
-    name: string;
-    type: MediaFileType;
+    name?: string;
+    type?: MediaFileType;
 };
 

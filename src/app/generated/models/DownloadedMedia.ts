@@ -2,9 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { LocalDateTime } from './LocalDateTime';
+import type { ObjectId } from './ObjectId';
+
 export type DownloadedMedia = {
-    date_downloaded: number;
-    file_name: string;
-    file_size: number;
+    id?: ObjectId;
+    fileName?: string;
+    fileSize?: number;
+    dateDownloaded?: LocalDateTime;
 };
 
