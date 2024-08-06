@@ -8,6 +8,11 @@ import {CommanderApiUrlResolver} from "../../environments/commander.resolver";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {CommandRequest, CommandResponse, Status} from "../generated";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {TextFieldModule} from "@angular/cdk/text-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 
 let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -21,7 +26,7 @@ describe('ShutdownComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ShutdownComponent],
-            imports: [HttpClientTestingModule, MatSnackBarModule, NoopAnimationsModule]
+            imports: [HttpClientTestingModule, MatSnackBarModule, NoopAnimationsModule, MatFormFieldModule, TextFieldModule, MatInputModule, FormsModule],
         }).compileComponents();
 
         httpClient = TestBed.inject(HttpClient);
