@@ -6,12 +6,17 @@
 
 <div *ngFor="let mediaFileGroup of mediaFileGroups; let i = index">
     <mat-card class="search-item-card">
-        <mat-card-header>
-            <mat-card-title><span class="media-title">{{i+1}}. {{mediaFileGroup.name}}</span></mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-            <button mat-raised-button color="primary" routerLink="/media-detail/{{i}}">Details</button>
-        </mat-card-actions>
+        <div class="row">
+            <div class="column item-crt">
+                <mat-card-title><span class="media-title">{{i+1}}).</span></mat-card-title>
+            </div>
+            <div class="column">
+                <mat-card-title><span class="media-title padded-left">{{mediaFileGroup.name}}</span></mat-card-title>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{i}}">Details</button>
+                </mat-card-actions>
+            </div>
+        </div>
     </mat-card>
     <br />
 </div>
