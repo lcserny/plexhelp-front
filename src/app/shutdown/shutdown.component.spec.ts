@@ -4,15 +4,14 @@ import {DURATION, FAILED_MSG, ShutdownComponent, SUCCESS_MSG} from './shutdown.c
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 // Other imports
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {CommanderApiUrlResolver} from "../../environments/commander.resolver";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {CommandRequest, CommandResponse, Status} from "../generated";
+import {CommandResponse, Status} from "../generated";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {TextFieldModule} from "@angular/cdk/text-field";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {environment} from "../../environments/environment.test";
 
 let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -21,17 +20,24 @@ describe('ShutdownComponent', () => {
     let fixture: ComponentFixture<ShutdownComponent>;
     let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
-    let commanderResolver: CommanderApiUrlResolver;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ShutdownComponent],
-            imports: [HttpClientTestingModule, MatSnackBarModule, NoopAnimationsModule, MatFormFieldModule, TextFieldModule, MatInputModule, FormsModule],
+            imports: [
+                HttpClientTestingModule,
+                MatSnackBarModule,
+                NoopAnimationsModule,
+                MatFormFieldModule,
+                TextFieldModule,
+                MatInputModule,
+                FormsModule,
+                ReactiveFormsModule
+            ],
         }).compileComponents();
 
         httpClient = TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
-        commanderResolver = TestBed.inject(CommanderApiUrlResolver);
 
         fixture = TestBed.createComponent(ShutdownComponent);
         component = fixture.componentInstance;
@@ -47,7 +53,7 @@ describe('ShutdownComponent', () => {
 
         component.shutdown();
 
-        const url = `${commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
+        const url = `${environment.commanderApiUrl}/commands`;
         let request = httpTestingController.expectOne(url);
         let resp: CommandResponse = {status: Status.SUCCESS};
         request.flush(resp);

@@ -1,10 +1,6 @@
 export const environment = {
-    commander: {
-        useFrontHost: true,
-        hostname: "",
-        port: 8090,
-        uri: "/api"
-    },
+    commanderApiUrl: 'http://localhost:8090/api/v1',
+    securityApiUrl: 'http://localhost:8091/security',
 
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
     darkModeStartHour: 18,

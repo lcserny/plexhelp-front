@@ -4,22 +4,19 @@ import { Observable, catchError, of, tap } from 'rxjs';
 import { MessageService } from './message.service';
 import { CommandRequest, CommandResponse } from './generated';
 import { BaseService } from './base.service';
-import { CommanderApiUrlResolver } from 'src/environments/commander.resolver';
+import {environment} from "../environments/environment";
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ShutdownService extends BaseService {
 
     private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
-    constructor(private http: HttpClient, protected override messageService: MessageService, private commanderResolver: CommanderApiUrlResolver) {
+    constructor(private http: HttpClient, protected override messageService: MessageService) {
         super(messageService);
     }
 
-
     shutdown(minutes: number): Observable<CommandResponse> {
-        const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
+        const url = `${environment.commanderApiUrl}/commands`;
         let req: CommandRequest = { name: "shutdown", params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions)
             .pipe(
@@ -29,7 +26,7 @@ export class ShutdownService extends BaseService {
     }
 
     reboot(minutes: number): Observable<CommandResponse> {
-        const url = `${this.commanderResolver.produceCommanderApiUrlBase()}/v1/commands`;
+        const url = `${environment.commanderApiUrl}/commands`;
         let req: CommandRequest = { name: "reboot", params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions)
             .pipe(

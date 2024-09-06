@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommandResponse, Status} from "../generated";
+import {FormControl, FormGroup} from "@angular/forms";
 
 export const DURATION = 3000;
 export const SUCCESS_MSG = "{0} performed successfully!";
@@ -14,26 +15,28 @@ export const FAILED_MSG = "{0} failed!";
 })
 export class ShutdownComponent {
 
-    minutes?: number;
+    shutdownForm: FormGroup;
 
     constructor(private shutdownService: ShutdownService, public snackBar: MatSnackBar) {
+        this.shutdownForm = new FormGroup({
+            minutes: new FormControl(''),
+        });
     }
 
     shutdown(): void {
-        this.shutdownService.shutdown(this.minutes || 0)
+        const minutes = this.shutdownForm.get("minutes")?.value || 0;
+        this.shutdownService.shutdown(Number(minutes))
             .subscribe(cmdResp => this.showPopup("Shutdown", cmdResp));
     }
 
     reboot(): void {
-        this.shutdownService.reboot(this.minutes || 0)
+        const minutes = this.shutdownForm.get("minutes")?.value || 0;
+        this.shutdownService.reboot(Number(minutes))
             .subscribe(cmdResp => this.showPopup("Restart", cmdResp));
     }
 
     private showPopup(action: string, cmdResp?: CommandResponse) {
-        if (cmdResp?.status == Status.SUCCESS) {
-            this.snackBar.open(SUCCESS_MSG.replace("{0}", action), "Close", {duration: DURATION});
-        } else {
-            this.snackBar.open(FAILED_MSG.replace("{0}", action), "Close", {duration: DURATION});
-        }
+        const msg = cmdResp?.status == Status.SUCCESS ? SUCCESS_MSG : FAILED_MSG;
+        this.snackBar.open(msg.replace("{0}", action), "Close", {duration: DURATION});
     }
 }

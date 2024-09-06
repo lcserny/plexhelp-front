@@ -19,7 +19,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
 import {SearchComponent} from './search/search.component';
 import {MediaDetailComponent} from './media-detail/media-detail.component';
@@ -28,6 +28,7 @@ import {MessagesComponent} from './messages/messages.component';
 import {MediaDetailOptionsComponent} from './media-detail-options/media-detail-options.component';
 import {ShutdownComponent} from './shutdown/shutdown.component';
 import {TextFieldModule} from "@angular/cdk/text-field";
+import {JwtInterceptor} from "./security/jwt.interceptor";
 
 @NgModule({
     declarations: [
@@ -60,8 +61,12 @@ import {TextFieldModule} from "@angular/cdk/text-field";
         MatInputModule,
         TextFieldModule,
         MatSnackBarModule,
+        ReactiveFormsModule,
     ],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

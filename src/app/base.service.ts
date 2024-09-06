@@ -5,16 +5,25 @@ import { Observable, of } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class BaseService {
+export abstract class BaseService {
 
-    constructor(protected messageService: MessageService) { }
+    protected constructor(protected messageService: MessageService) { }
 
     log(message: string) {
         this.messageService.add(`${message}`);
     }
 
     handleError<T>(operation = 'operation', result?: T) {
+        return this.handleErrorWith(operation, () => {}, result);
+    }
+
+    // TODO improve result usage
+    handleErrorWith<T>(operation = 'operation', process?: () => void, result?: T) {
         return (error: any): Observable<T> => {
+            if (process) {
+                process();
+            }
+
             console.error(error);
             this.log(`${operation} failed: ${error.message}`);
             return of(result as T);

@@ -1,15 +1,12 @@
 <h3>Use the buttons below to shutdown or reboot this PC</h3>
 
-<div class="center-container">
+<form [formGroup]="shutdownForm" class="center-container">
     <mat-form-field>
         <mat-label>Delay in minutes</mat-label>
-        <input type="number" matInput [(ngModel)]="minutes">
+        <input type="number" matInput formControlName="minutes">
     </mat-form-field>
-</div>
 
-<div class="center-container">
     <button mat-raised-button color="primary" class="command-button" (click)="shutdown()">Shutdown</button>
-</div>
-<div class="center-container reboot-container">
+
     <button mat-raised-button color="primary" class="command-button" (click)="reboot()">Reboot</button>
-</div>
+</form>

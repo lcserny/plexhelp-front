@@ -11,6 +11,7 @@ import {NavigationComponent} from './navigation.component';
 import {RouterModule} from "@angular/router";
 import {routes} from "../routing/routing.module";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('NavigationComponent', () => {
     let component: NavigationComponent;
@@ -27,7 +28,8 @@ describe('NavigationComponent', () => {
                 MatListModule,
                 MatSidenavModule,
                 MatToolbarModule,
-                RouterModule.forRoot(routes)
+                RouterModule.forRoot(routes),
+                HttpClientTestingModule
             ],
             schemas: [
                 CUSTOM_ELEMENTS_SCHEMA
