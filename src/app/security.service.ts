@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, finalize, Observable, of, switchMap} from "rxjs";
 import {Router} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {MessageService} from "./message.service";
 import {BaseService} from "./base.service";
-import {UserAccess, UserRegistration, UserResponse} from "./security/models/users";
 import {map} from "rxjs/operators";
+import {UserAccess} from "./generated/auth/model/userAccess";
+import {UserResponse} from "./generated/auth/model/userResponse";
+import {UserRegistration} from "./generated/auth/model/userRegistration";
 
 export const USER_KEY = "vm-front-user";
 
@@ -92,8 +94,9 @@ export class SecurityService extends BaseService {
                 return user;
             }),
             catchError(this.handleError<UserResponse>("register", {
-                error: true,
-                result: `Could not register user with name ${userReg.username}`
+                error: Error.name,
+                message: `Could not register user with name ${userReg.username}`,
+                statusCode: HttpStatusCode.BadRequest,
             }))
         );
     }

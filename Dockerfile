@@ -25,6 +25,7 @@ RUN npm test
 
 #generate classes from OpenAPI spec
 RUN npm run specgen
+RUN npm run specgen:auth
 
 #creating angular build
 RUN npx ng build

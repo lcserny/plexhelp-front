@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SecurityService} from "../../security.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserRegistration} from "../models/users";
+import {UserRegistration} from "../../generated/auth/model/userRegistration";
 
 export const DURATION = 3000;
 export const FAILED_MSG = "Registration error, please try again or contact administrator.";
@@ -33,10 +33,10 @@ export class RegisterComponent {
             return;
         }
 
-        const userRegistration = new UserRegistration(
-            this.registerForm.get("username")?.value,
-            this.registerForm.get("password")?.value
-        );
+        const userRegistration: UserRegistration = {
+            username: this.registerForm.get("username")?.value,
+            password: this.registerForm.get("password")?.value,
+        };
         userRegistration.firstName = this.registerForm.get("firstName")?.value;
         userRegistration.lastName = this.registerForm.get("lastName")?.value;
 

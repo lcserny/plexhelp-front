@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MediaFileGroup, MediaFileType } from '../generated';
 import { MediaService } from '../media.service';
+import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 
 @Component({
     selector: 'app-search',

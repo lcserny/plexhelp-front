@@ -3,7 +3,7 @@ import {catchError, Observable, switchMap, throwError} from "rxjs";
 import {SecurityService} from "../security.service";
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {UserAccess} from "./models/users";
+import {UserAccess} from "../generated/auth/model/userAccess";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

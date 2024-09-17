@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CommandResponse, Status} from "../generated";
 import {FormControl, FormGroup} from "@angular/forms";
+import {CommandResponse} from "../generated/commander/model/commandResponse";
 
 export const DURATION = 3000;
 export const SUCCESS_MSG = "{0} performed successfully!";
@@ -36,7 +36,7 @@ export class ShutdownComponent {
     }
 
     private showPopup(action: string, cmdResp?: CommandResponse) {
-        const msg = cmdResp?.status == Status.SUCCESS ? SUCCESS_MSG : FAILED_MSG;
+        const msg = cmdResp?.status == "SUCCESS" ? SUCCESS_MSG : FAILED_MSG;
         this.snackBar.open(msg.replace("{0}", action), "Close", {duration: DURATION});
     }
 }

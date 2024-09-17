@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { environment } from 'src/environments/environment';
-import { MediaDescription, RenamedMediaOptions } from '../generated';
+import {MediaDescription} from "../generated/commander/model/mediaDescription";
+import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 
 @Component({
     selector: 'app-media-detail-options',

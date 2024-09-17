@@ -2,9 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { MessageService } from './message.service';
-import { CommandRequest, CommandResponse } from './generated';
 import { BaseService } from './base.service';
 import {environment} from "../environments/environment";
+import {CommandResponse} from "./generated/commander/model/commandResponse";
+import {CommandRequest} from "./generated/commander/model/commandRequest";
 
 @Injectable({ providedIn: 'root' })
 export class ShutdownService extends BaseService {

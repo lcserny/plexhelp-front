@@ -1,17 +1,15 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {DURATION, FAILED_MSG, ShutdownComponent, SUCCESS_MSG} from './shutdown.component';
-// Http testing module and mocking controller
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-// Other imports
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {CommandResponse, Status} from "../generated";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {TextFieldModule} from "@angular/cdk/text-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {environment} from "../../environments/environment.test";
+import {CommandResponse} from "../generated/commander/model/commandResponse";
 
 let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -55,7 +53,7 @@ describe('ShutdownComponent', () => {
 
         const url = `${environment.commanderApiUrl}/commands`;
         let request = httpTestingController.expectOne(url);
-        let resp: CommandResponse = {status: Status.SUCCESS};
+        let resp: CommandResponse = {status: "SUCCESS"};
         request.flush(resp);
 
         expect(component.snackBar.open).toHaveBeenCalledWith(SUCCESS_MSG.replace("{0}", "Shutdown"), "Close", {duration: DURATION});
@@ -63,7 +61,7 @@ describe('ShutdownComponent', () => {
         component.shutdown();
 
         request = httpTestingController.expectOne(url);
-        resp = {status: Status.FAILED};
+        resp = {status: "FAILED"};
         request.flush(resp);
 
         expect(component.snackBar.open).toHaveBeenCalledWith(FAILED_MSG.replace("{0}", "Shutdown"), "Close", {duration: DURATION});

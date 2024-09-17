@@ -1,10 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { MediaFileGroup, MediaFileType, MediaMoveError, MediaMoveRequest, MediaRenameRequest, RenamedMediaOptions } from './generated';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 import {environment} from "../environments/environment";
+import {MediaFileGroup} from "./generated/commander/model/mediaFileGroup";
+import {MediaFileType} from "./generated/commander/model/mediaFileType";
+import {RenamedMediaOptions} from "./generated/commander/model/renamedMediaOptions";
+import {MediaRenameRequest} from "./generated/commander/model/mediaRenameRequest";
+import {MediaMoveError} from "./generated/commander/model/mediaMoveError";
+import {MediaMoveRequest} from "./generated/commander/model/mediaMoveRequest";
 
 @Injectable({ providedIn: 'root' })
 export class MediaService extends BaseService {

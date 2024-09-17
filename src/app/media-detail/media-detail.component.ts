@@ -1,12 +1,13 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute } from '@angular/router';
-import { MediaFileGroup, RenamedMediaOptions } from '../generated';
-import { MediaFileType } from '../generated/models/MediaFileType';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
 import { MediaService } from '../media.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
+import {MediaFileType} from "../generated/commander/model/mediaFileType";
+import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 
 @Component({
     selector: 'app-media-detail',
@@ -41,13 +42,13 @@ export class MediaDetailComponent implements OnInit {
     }
 
     generateTVName(name: string): void {
-        this.type = MediaFileType.TV;
+        this.type = "TV";
         this.mediaService.generateNameOptions(name, this.type)
             .subscribe(opts => this.handleOptionsSheet(opts));
     }
 
     generateMovieName(name: string): void {
-        this.type = MediaFileType.MOVIE;
+        this.type = "MOVIE";
         this.mediaService.generateNameOptions(name, this.type)
             .subscribe(opts => this.handleOptionsSheet(opts));
     }
