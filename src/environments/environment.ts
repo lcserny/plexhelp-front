@@ -1,4 +1,4 @@
-const currentDomain = `${window.location.protocol}://${window.location.hostname}`;
+const currentDomain = `${window.location.protocol}//${window.location.hostname}`;
 
 export const environment = {
     commanderApiUrl: `${currentDomain}:8090/api/v1`,
