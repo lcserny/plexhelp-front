@@ -1,31 +1,31 @@
 <div class="center-container">
-    <h1>Register</h1>
+    <h1>{{ "register" | translate }}</h1>
 
     <form [formGroup]="registerForm" class="center-container">
         <mat-form-field>
-            <mat-label>Username:</mat-label>
+            <mat-label>{{ "username" | translate }}:</mat-label>
             <input type="text" matInput formControlName="username">
-            <mat-error *ngIf="registerForm.get('username')?.errors">Username is required</mat-error>
+            <mat-error *ngIf="registerForm.get('username')?.errors">{{ "username required" | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Password:</mat-label>
+            <mat-label>{{ "password" | translate }}:</mat-label>
             <input type="password" matInput formControlName="password">
-            <mat-error *ngIf="registerForm.get('password')?.errors">Password is required</mat-error>
+            <mat-error *ngIf="registerForm.get('password')?.errors">{{ "password required" | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>First Name:</mat-label>
+            <mat-label>{{ "first name" | translate }}</mat-label>
             <input type="text" matInput formControlName="firstName">
-            <mat-error *ngIf="registerForm.get('firstName')?.errors">First name is invalid</mat-error>
+            <mat-error *ngIf="registerForm.get('firstName')?.errors">{{ "first name invalid" | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Last Name:</mat-label>
+            <mat-label>{{ "last name" | translate }}:</mat-label>
             <input type="text" matInput formControlName="lastName">
-            <mat-error *ngIf="registerForm.get('lastName')?.errors">Last name is invalid</mat-error>
+            <mat-error *ngIf="registerForm.get('lastName')?.errors">{{ "last name invalid" | translate }}</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="register-button" (keyup.enter)="register()" (click)="register()" [disabled]="registerForm.invalid">Submit</button>
+        <button mat-flat-button color="primary" class="register-button" (keyup.enter)="register()" (click)="register()" [disabled]="registerForm.invalid">{{ "submit" | translate }}</button>
     </form>
 </div>

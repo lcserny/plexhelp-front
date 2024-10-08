@@ -1,0 +1,50 @@
+{
+    "english": "Engleza",
+    "romanian": "Romana",
+    "videosmover": "VideosMover",
+    "welcome": "Bine ai venit!",
+
+    "menu": "Meniu",
+    "home": "Acasa",
+    "search": "Cautare",
+    "shutdown": "Opreste",
+    "login": "Login",
+    "register": "Inregistrare",
+    "messages": "Mesaje",
+
+    "media files found": "Fisiere Media Gasite",
+    "retry": "Reincearca",
+    "no media found, try again": "Nu s-a gasit niciun fisier media, reincearca mai tarziu.",
+    "details": "Detali",
+
+    "use button below to shutdown or reboot": "Foloseste butoanele de mai jos pentru a executa oprirea sau repornirea PC-ului",
+    "delay in minutes": "Decalare in minute",
+    "shutdown_cmd": "Oprire",
+    "reboot_cmd": "Repornire",
+
+    "username": "Utilizator:",
+    "username required": "Utilizatorul este necesar",
+    "password": "Parola:",
+    "password required": "Parola este necesara",
+    "first name": "Prenume:",
+    "first name invalid": "Prenumele nu este corect",
+    "last name": "Nume:",
+    "last name invalid": "Numele nu este corect",
+    "submit": "Depunere",
+
+    "use links menu to action": "Foloseste link-urile din meniu pentru a executa comenzi",
+
+    "back": "Inapoi",
+    "path": "Cale:",
+    "media files": "Fisiere media:",
+    "tv": "TV",
+    "movie": "Film",
+    "media destination name": "Numele destinatiei",
+    "move": "Muta",
+
+    "origin": "Originea:",
+    "cast": "Distributie:",
+
+    "current messages": "Mesajele curente",
+    "clear all": "Sterge Tot"
+}

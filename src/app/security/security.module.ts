@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LayoutComponent} from "./layout/layout.component";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
     {
@@ -32,7 +33,8 @@ const routes: Routes = [
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        TranslateModule
     ],
     exports: [RouterModule]
 })

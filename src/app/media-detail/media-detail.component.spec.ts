@@ -7,6 +7,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {MatListModule} from "@angular/material/list";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {TranslateModule} from "@ngx-translate/core";
 
 describe('MediaDetailComponent', () => {
     let component: MediaDetailComponent;
@@ -15,7 +16,12 @@ describe('MediaDetailComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [MediaDetailComponent],
-            imports: [RouterModule.forRoot(routes), HttpClientTestingModule, MatSnackBarModule],
+            imports: [
+                RouterModule.forRoot(routes),
+                HttpClientTestingModule,
+                MatSnackBarModule,
+                TranslateModule.forRoot()
+            ],
             providers: [
                 { provide: MatBottomSheet, useValue: {} },
                 { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} }

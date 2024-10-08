@@ -1,0 +1,50 @@
+{
+    "english": "English",
+    "romanian": "Romanian",
+    "videosmover": "VideosMover",
+    "welcome": "Welcome!",
+
+    "menu": "Menu",
+    "home": "Home",
+    "search": "Search",
+    "shutdown": "Shutdown",
+    "login": "Login",
+    "register": "Register",
+    "messages": "Messages",
+
+    "media files found": "Media Files Found",
+    "retry": "Retry",
+    "no media found, try again": "No media files found, try again later.",
+    "details": "Details",
+
+    "use button below to shutdown or reboot": "Use the buttons below to shutdown or reboot this PC",
+    "delay in minutes": "Delay in minutes",
+    "shutdown_cmd": "Shutdown",
+    "reboot_cmd": "Reboot",
+
+    "username": "Username:",
+    "username required": "Username is required",
+    "password": "Password:",
+    "password required": "Password is required",
+    "first name": "First Name:",
+    "first name invalid": "First name is invalid",
+    "last name": "Last Name:",
+    "last name invalid": "Last name is invalid",
+    "submit": "Submit",
+
+    "use links menu to action": "Use the links in the menu to perform actions",
+
+    "back": "Back",
+    "path": "Path:",
+    "media files": "Media files:",
+    "tv": "TV",
+    "movie": "Movie",
+    "media destination name": "Media destination name",
+    "move": "Move",
+
+    "origin": "Origin:",
+    "cast": "Cast:",
+
+    "current messages": "Current Messages",
+    "clear all": "Clear All"
+}

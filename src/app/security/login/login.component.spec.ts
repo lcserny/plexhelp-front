@@ -8,6 +8,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {TranslateModule} from "@ngx-translate/core";
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -23,7 +24,8 @@ describe('LoginComponent', () => {
                 ReactiveFormsModule,
                 MatInputModule,
                 NoopAnimationsModule,
-                MatSnackBarModule
+                MatSnackBarModule,
+                TranslateModule.forRoot()
             ]
         }).compileComponents();
 

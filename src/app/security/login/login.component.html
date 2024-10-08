@@ -1,19 +1,19 @@
 <div class="center-container">
-    <h1>Login</h1>
+    <h1>{{ "login" | translate }}</h1>
 
     <form [formGroup]="loginForm" class="center-container">
         <mat-form-field>
-            <mat-label>Username:</mat-label>
+            <mat-label>{{ "username" | translate }}:</mat-label>
             <input type="text" matInput formControlName="username">
-            <mat-error *ngIf="loginForm.get('username')?.errors">Username is required</mat-error>
+            <mat-error *ngIf="loginForm.get('username')?.errors">{{ "username required" | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Password:</mat-label>
+            <mat-label>{{ "password" | translate }}:</mat-label>
             <input type="password" matInput formControlName="password">
-            <mat-error *ngIf="loginForm.get('password')?.errors">Password is required</mat-error>
+            <mat-error *ngIf="loginForm.get('password')?.errors">{{ "password required" | translate }}</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="login-button" (keyup.enter)="login()" (click)="login()" [disabled]="loginForm.invalid">Login</button>
+        <button mat-flat-button color="primary" class="login-button" (keyup.enter)="login()" (click)="login()" [disabled]="loginForm.invalid">{{ "login" | translate }}</button>
     </form>
 </div>

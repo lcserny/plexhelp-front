@@ -8,6 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {TranslateModule} from "@ngx-translate/core";
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -23,7 +24,8 @@ describe('RegisterComponent', () => {
                 ReactiveFormsModule,
                 MatInputModule,
                 RouterModule.forRoot(routes),
-                NoopAnimationsModule
+                NoopAnimationsModule,
+                TranslateModule.forRoot()
             ]
         }).compileComponents();
 

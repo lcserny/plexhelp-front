@@ -4,6 +4,8 @@ import {Observable, shareReplay} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SecurityService} from "../security.service";
 import {Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
+import {LANG_KEY} from "../app.component";
 
 @Component({
     selector: 'app-navigation',
@@ -20,7 +22,7 @@ export class NavigationComponent {
     );
 
     constructor(private breakpointObserver: BreakpointObserver, private securityService: SecurityService,
-                private router: Router) {
+                private router: Router, private translateService: TranslateService) {
         this.securityService.user.subscribe(user => {
             this.isLoggedIn = !!user;
         });
@@ -32,5 +34,10 @@ export class NavigationComponent {
 
     register() {
         this.router.navigate(["/security/register"]);
+    }
+
+    switchLanguage(lang: string) {
+        this.translateService.use(lang);
+        localStorage.setItem(LANG_KEY, lang);
     }
 }

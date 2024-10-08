@@ -1,5 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 describe('AppComponent', () => {
     beforeEach(async () => {
@@ -7,6 +8,9 @@ describe('AppComponent', () => {
             declarations: [
                 AppComponent
             ],
+            imports: [
+                TranslateModule.forRoot()
+            ]
         }).compileComponents();
     });
 

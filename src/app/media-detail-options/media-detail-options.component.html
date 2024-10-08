@@ -1,5 +1,5 @@
 <mat-nav-list class="options-list">
-    <div class="options-origin">Origin: {{data.origin}}</div>
+    <div class="options-origin">{{ "origin" | translate }} {{data.origin}}</div>
     <div *ngFor="let desc of data.mediaDescriptions">
         <a mat-list-item (click)="selectDescription(desc)">
             <img *ngIf="desc.posterUrl" class="options-item-poster" src="{{desc.posterUrl}}" alt="">
@@ -7,7 +7,7 @@
             <div class="options-item-details">
                 <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
                 <div class="options-item-desc">{{desc.description}}</div>
-                <div class="options-item-cast">Cast:
+                <div class="options-item-cast">{{ "cast" | translate }}
                     <span *ngFor="let actor of desc.cast">{{actor}}, </span>
                 </div>
             </div>

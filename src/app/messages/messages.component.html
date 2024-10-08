@@ -1,4 +1,4 @@
-<h1>Current Messages <button mat-raised-button id="clear-btn" (click)="messageService.clear()">Clear All</button></h1>
+<h1>{{ "current messages" | translate }} <button mat-raised-button id="clear-btn" (click)="messageService.clear()">{{ "clear all" | translate }}</button></h1>
 
 <div *ngIf="messageService.messages.length">
     <div *ngFor="let message of messageService.messages; let i = index">

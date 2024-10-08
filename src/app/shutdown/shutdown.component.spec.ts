@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {environment} from "../../environments/environment.test";
 import {CommandResponse} from "../generated/commander/model/commandResponse";
+import {TranslateModule} from "@ngx-translate/core";
 
 let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -30,7 +31,8 @@ describe('ShutdownComponent', () => {
                 TextFieldModule,
                 MatInputModule,
                 FormsModule,
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                TranslateModule.forRoot()
             ],
         }).compileComponents();
 

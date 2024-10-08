@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
@@ -29,6 +29,13 @@ import {MediaDetailOptionsComponent} from './media-detail-options/media-detail-o
 import {ShutdownComponent} from './shutdown/shutdown.component';
 import {TextFieldModule} from "@angular/cdk/text-field";
 import {JwtInterceptor} from "./security/jwt.interceptor";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {MatMenuModule} from "@angular/material/menu";
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 @NgModule({
     declarations: [
@@ -61,7 +68,15 @@ import {JwtInterceptor} from "./security/jwt.interceptor";
         MatInputModule,
         TextFieldModule,
         MatSnackBarModule,
+        MatMenuModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot(({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }))
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
