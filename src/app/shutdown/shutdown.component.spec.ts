@@ -1,8 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {
     CLOSE_KEY,
-    DURATION, FAILED_MSG_KEY, SHUTDOWN_KEY,
-    ShutdownComponent, SUCCESS_MSG_KEY,
+    DURATION, SHUTDOWN_FAILED_KEY, SHUTDOWN_SUCCESS_KEY,
+    ShutdownComponent,
 } from './shutdown.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
@@ -60,7 +60,7 @@ describe('ShutdownComponent', () => {
         let resp: CommandResponse = {status: "SUCCESS"};
         request.flush(resp);
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(`${SHUTDOWN_KEY} ${SUCCESS_MSG_KEY}`, CLOSE_KEY, {duration: DURATION});
+        expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
 
         component.shutdown();
 
@@ -68,7 +68,7 @@ describe('ShutdownComponent', () => {
         resp = {status: "FAILED"};
         request.flush(resp);
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(`${SHUTDOWN_KEY} ${FAILED_MSG_KEY}`, CLOSE_KEY, {duration: DURATION});
+        expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
     });
 
     afterEach(() => {

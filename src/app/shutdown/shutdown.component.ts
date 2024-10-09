@@ -2,17 +2,14 @@ import {Component} from '@angular/core';
 import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup} from "@angular/forms";
-import {CommandResponse} from "../generated/commander/model/commandResponse";
 import {TranslateService} from "@ngx-translate/core";
 
 export const DURATION = 3000;
 export const CLOSE_KEY = "close";
-export const SUCCESS_MSG = "{0} {1}";
-export const SUCCESS_MSG_KEY = "performed successfully";
-export const FAILED_MSG = "{0} {1}";
-export const FAILED_MSG_KEY = "failed";
-export const SHUTDOWN_KEY = "the shutdown_cmd";
-export const RESTART_KEY = "the reboot_cmd";
+export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
+export const SHUTDOWN_FAILED_KEY = "shutdown failed";
+export const RESTART_SUCCESS_KEY = "restart successful";
+export const RESTART_FAILED_KEY = "restart failed";
 
 @Component({
     selector: 'app-shutdown',
@@ -34,22 +31,23 @@ export class ShutdownComponent {
 
     shutdown(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        const action = this.translateService.instant(SHUTDOWN_KEY);
         this.shutdownService.shutdown(Number(minutes))
-            .subscribe(cmdResp => this.showPopup(action, cmdResp));
+            .subscribe(cmdResp => this.showPopup(cmdResp?.status === "SUCCESS"
+                ? this.translateService.instant(SHUTDOWN_SUCCESS_KEY)
+                : this.translateService.instant(SHUTDOWN_FAILED_KEY)
+            ));
     }
 
     reboot(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        const action = this.translateService.instant(RESTART_KEY);
         this.shutdownService.reboot(Number(minutes))
-            .subscribe(cmdResp => this.showPopup(action, cmdResp));
+            .subscribe(cmdResp => this.showPopup(cmdResp?.status === "SUCCESS"
+                ? this.translateService.instant(RESTART_SUCCESS_KEY)
+                : this.translateService.instant(RESTART_FAILED_KEY)
+            ));
     }
 
-    private showPopup(action: string, cmdResp?: CommandResponse) {
-        const msg = cmdResp?.status == "SUCCESS"
-            ? SUCCESS_MSG.replace("{1}", this.translateService.instant(SUCCESS_MSG_KEY))
-            : FAILED_MSG.replace("{1}", this.translateService.instant(FAILED_MSG_KEY));
-        this.snackBar.open(msg.replace("{0}", action), this.translateService.instant(CLOSE_KEY), {duration: DURATION});
+    private showPopup(message: string) {
+        this.snackBar.open(message, this.translateService.instant(CLOSE_KEY), {duration: DURATION});
     }
 }

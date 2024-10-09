@@ -22,9 +22,7 @@
     "use button below to shutdown or reboot": "Foloseste butoanele de mai jos pentru a executa oprirea sau repornirea PC-ului",
     "delay in minutes": "Decalare in minute",
     "shutdown_cmd": "Oprire",
-    "the shutdown_cmd": "Oprirea",
     "reboot_cmd": "Repornire",
-    "the reboot_cmd": "Repornirea",
 
     "username": "Utilizator:",
     "username required": "Utilizatorul este necesar",
@@ -53,8 +51,10 @@
     "clear all": "Sterge Tot",
 
     "close": "Inchide",
-    "performed successfully": "s-a executat cu succes!",
-    "failed": "a esuat!",
+    "shutdown successful": "Oprirea s-a executat cu succes!",
+    "shutdown failed": "Oprirea a esuat!",
+    "restart successful": "Repornirea s-a executat cu succes!",
+    "restart failed": "Repornirea a esuat!",
     "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
     "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!"
 }

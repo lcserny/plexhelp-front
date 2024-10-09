@@ -22,9 +22,7 @@
     "use button below to shutdown or reboot": "Use the buttons below to shutdown or reboot this PC",
     "delay in minutes": "Delay in minutes",
     "shutdown_cmd": "Shutdown",
-    "the shutdown_cmd": "Shutdown",
     "reboot_cmd": "Reboot",
-    "the reboot_cmd": "Reboot",
 
     "username": "Username:",
     "username required": "Username is required",
@@ -53,8 +51,10 @@
     "clear all": "Clear All",
 
     "close": "Close",
-    "performed successfully": "performed successfully!",
-    "failed": "failed!",
+    "shutdown successful": "Shutdown performed successfully!",
+    "shutdown failed": "Shutdown failed!",
+    "restart successful": "Restart performed successfully!",
+    "restart failed": "Restart failed!",
     "successfully moved media": "Successfully moved media!",
     "failed move media": "Failed to move media, check messages!"
 }
