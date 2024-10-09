@@ -17,6 +17,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class MediaDetailComponent implements OnInit {
 
+    private static CLOSE_KEY = "close";
     private static MOVE_SUCCESS_KEY = "successfully moved media";
     private static MOVE_FAILED_KEY = "failed move media";
     private static DURATION = 5000;
@@ -68,14 +69,15 @@ export class MediaDetailComponent implements OnInit {
         this.mediaFileGroup!.name = this.finalName!;
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
             .subscribe(errors => {
+                const closeMsg = this.translateService.instant(MediaDetailComponent.CLOSE_KEY);
                 if (MediaService.isNotEmptyArray(errors)) {
                     const msg = this.translateService.instant(MediaDetailComponent.MOVE_FAILED_KEY);
-                    this.snackBar.open(msg, "Close", {
+                    this.snackBar.open(msg, closeMsg, {
                         duration: MediaDetailComponent.DURATION
                     });
                 } else {
                     const msg = this.translateService.instant(MediaDetailComponent.MOVE_SUCCESS_KEY);
-                    this.snackBar.open(msg, "Close", {
+                    this.snackBar.open(msg, closeMsg, {
                         duration: MediaDetailComponent.DURATION
                     });
                     this.goBack()

@@ -22,7 +22,9 @@
     "use button below to shutdown or reboot": "Use the buttons below to shutdown or reboot this PC",
     "delay in minutes": "Delay in minutes",
     "shutdown_cmd": "Shutdown",
+    "the shutdown_cmd": "Shutdown",
     "reboot_cmd": "Reboot",
+    "the reboot_cmd": "Reboot",
 
     "username": "Username:",
     "username required": "Username is required",
@@ -50,6 +52,7 @@
     "current messages": "Current Messages",
     "clear all": "Clear All",
 
+    "close": "Close",
     "performed successfully": "performed successfully!",
     "failed": "failed!",
     "successfully moved media": "Successfully moved media!",
