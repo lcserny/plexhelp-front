@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {MediaFileType} from "../generated/commander/model/mediaFileType";
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-media-detail',
@@ -16,8 +17,8 @@ import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOpti
 })
 export class MediaDetailComponent implements OnInit {
 
-    private static MOVE_SUCCESS = "Successfully moved media!";
-    private static MOVE_FAILED = "Failed to move media, check messages!";
+    private static MOVE_SUCCESS_KEY = "successfully moved media";
+    private static MOVE_FAILED_KEY = "failed move media";
     private static DURATION = 5000;
 
     mediaFileGroup?: MediaFileGroup;
@@ -30,6 +31,7 @@ export class MediaDetailComponent implements OnInit {
         private mediaService: MediaService,
         private bottomSheet: MatBottomSheet,
         private snackBar: MatSnackBar,
+        private translateService: TranslateService
     ) { }
 
     ngOnInit(): void {
@@ -67,11 +69,13 @@ export class MediaDetailComponent implements OnInit {
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
             .subscribe(errors => {
                 if (MediaService.isNotEmptyArray(errors)) {
-                    this.snackBar.open(MediaDetailComponent.MOVE_FAILED, "Close", {
+                    const msg = this.translateService.instant(MediaDetailComponent.MOVE_FAILED_KEY);
+                    this.snackBar.open(msg, "Close", {
                         duration: MediaDetailComponent.DURATION
                     });
                 } else {
-                    this.snackBar.open(MediaDetailComponent.MOVE_SUCCESS, "Close", {
+                    const msg = this.translateService.instant(MediaDetailComponent.MOVE_SUCCESS_KEY);
+                    this.snackBar.open(msg, "Close", {
                         duration: MediaDetailComponent.DURATION
                     });
                     this.goBack()

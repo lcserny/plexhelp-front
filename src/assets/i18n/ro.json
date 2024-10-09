@@ -48,5 +48,10 @@
     "cast": "Distributie:",
 
     "current messages": "Mesajele curente",
-    "clear all": "Sterge Tot"
+    "clear all": "Sterge Tot",
+
+    "performed successfully": "s-a executat cu succes!",
+    "failed": "a esuat!",
+    "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
+    "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!"
 }

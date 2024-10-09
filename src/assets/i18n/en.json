@@ -48,5 +48,10 @@
     "cast": "Cast:",
 
     "current messages": "Current Messages",
-    "clear all": "Clear All"
+    "clear all": "Clear All",
+
+    "performed successfully": "performed successfully!",
+    "failed": "failed!",
+    "successfully moved media": "Successfully moved media!",
+    "failed move media": "Failed to move media, check messages!"
 }
