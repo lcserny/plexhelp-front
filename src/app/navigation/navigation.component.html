@@ -20,26 +20,30 @@
             <span>{{ "videosmover" | translate }}</span>
 
             <div class="logout-container">
-                <button mat-icon-button *ngIf="isLoggedIn" (click)="logout()">
-                    <mat-icon>logout</mat-icon>
-                </button>
-
-                <button mat-icon-button [matMenuTriggerFor]="langMenu">
-                    <mat-icon>language</mat-icon>
-                </button>
-                <mat-menu #langMenu="matMenu">
-                    <button mat-menu-item (click)="switchLanguage('en')">
-                        <mat-icon>flag</mat-icon>
-                        <span>{{ "english" | translate }}</span>
+                <button mat-icon-button [matMenuTriggerFor]="sideMenu"><mat-icon>more_vert</mat-icon></button>
+                <mat-menu #sideMenu="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="langMenu">
+                        <mat-icon>language</mat-icon>
+                        <span>{{ "language" | translate }}</span>
                     </button>
-                    <button mat-menu-item (click)="switchLanguage('ro')">
-                        <mat-icon>flag</mat-icon>
-                        <span>{{ "romanian" | translate }}</span>
+                    <button mat-menu-item (click)="register()">
+                        <mat-icon>app_registration</mat-icon>
+                        <span>{{ "register" | translate }}</span>
+                    </button>
+                    <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>{{ "logout" | translate }}</span>
                     </button>
                 </mat-menu>
 
-                <button *ngIf="!(isHandset | async)" mat-stroked-button (click)="register()">{{ "register" | translate }}</button>
-                <button *ngIf="isHandset | async" mat-icon-button (click)="register()"><mat-icon>app_registration</mat-icon></button>
+                <mat-menu #langMenu="matMenu">
+                    <button mat-menu-item (click)="switchLanguage('en')">
+                        <span>{{ "english" | translate }}</span>
+                    </button>
+                    <button mat-menu-item (click)="switchLanguage('ro')">
+                        <span>{{ "romanian" | translate }}</span>
+                    </button>
+                </mat-menu>
             </div>
         </mat-toolbar>
 

@@ -9,8 +9,10 @@
     "search": "Search",
     "shutdown": "Shutdown",
     "login": "Login",
+    "logout": "Logout",
     "register": "Register",
     "messages": "Messages",
+    "language": "Language",
 
     "media files found": "Media Files Found",
     "retry": "Retry",
