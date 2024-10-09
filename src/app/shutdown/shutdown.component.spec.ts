@@ -1,7 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {DURATION, FAILED_MSG, ShutdownComponent, SUCCESS_MSG} from './shutdown.component';
+import {
+    CLOSE_KEY,
+    DURATION, FAILED_MSG_KEY, SHUTDOWN_KEY,
+    ShutdownComponent, SUCCESS_MSG_KEY,
+} from './shutdown.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -11,8 +15,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {environment} from "../../environments/environment.test";
 import {CommandResponse} from "../generated/commander/model/commandResponse";
 import {TranslateModule} from "@ngx-translate/core";
-
-let httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 describe('ShutdownComponent', () => {
     let component: ShutdownComponent;
@@ -58,7 +60,7 @@ describe('ShutdownComponent', () => {
         let resp: CommandResponse = {status: "SUCCESS"};
         request.flush(resp);
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(SUCCESS_MSG.replace("{0}", "Shutdown"), "Close", {duration: DURATION});
+        expect(component.snackBar.open).toHaveBeenCalledWith(`${SHUTDOWN_KEY} ${SUCCESS_MSG_KEY}`, CLOSE_KEY, {duration: DURATION});
 
         component.shutdown();
 
@@ -66,7 +68,7 @@ describe('ShutdownComponent', () => {
         resp = {status: "FAILED"};
         request.flush(resp);
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(FAILED_MSG.replace("{0}", "Shutdown"), "Close", {duration: DURATION});
+        expect(component.snackBar.open).toHaveBeenCalledWith(`${SHUTDOWN_KEY} ${FAILED_MSG_KEY}`, CLOSE_KEY, {duration: DURATION});
     });
 
     afterEach(() => {
