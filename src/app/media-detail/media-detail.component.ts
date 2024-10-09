@@ -69,19 +69,19 @@ export class MediaDetailComponent implements OnInit {
         this.mediaFileGroup!.name = this.finalName!;
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
             .subscribe(errors => {
-                const closeMsg = this.translateService.instant(MediaDetailComponent.CLOSE_KEY);
                 if (MediaService.isNotEmptyArray(errors)) {
-                    const msg = this.translateService.instant(MediaDetailComponent.MOVE_FAILED_KEY);
-                    this.snackBar.open(msg, closeMsg, {
-                        duration: MediaDetailComponent.DURATION
-                    });
+                    this.showPopup(this.translateService.instant(MediaDetailComponent.MOVE_FAILED_KEY));
                 } else {
-                    const msg = this.translateService.instant(MediaDetailComponent.MOVE_SUCCESS_KEY);
-                    this.snackBar.open(msg, closeMsg, {
-                        duration: MediaDetailComponent.DURATION
-                    });
+                    this.showPopup(this.translateService.instant(MediaDetailComponent.MOVE_SUCCESS_KEY));
                     this.goBack()
                 }
             });
+    }
+
+    private showPopup(message: string) {
+        const closeMsg = this.translateService.instant(MediaDetailComponent.CLOSE_KEY);
+        this.snackBar.open(message, closeMsg, {
+            duration: MediaDetailComponent.DURATION
+        });
     }
 }
