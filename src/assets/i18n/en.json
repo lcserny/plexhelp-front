@@ -13,6 +13,7 @@
     "register": "Register",
     "messages": "Messages",
     "language": "Language",
+    "users": "Users",
 
     "media files found": "Media Files Found",
     "retry": "Retry",
@@ -24,6 +25,7 @@
     "shutdown_cmd": "Shutdown",
     "reboot_cmd": "Reboot",
 
+    "id": "ID",
     "username": "Username:",
     "username required": "Username is required",
     "password": "Password:",
@@ -56,5 +58,32 @@
     "restart successful": "Restart performed successfully!",
     "restart failed": "Restart failed!",
     "successfully moved media": "Successfully moved media!",
-    "failed move media": "Failed to move media, check messages!"
+    "failed move media": "Failed to move media, check messages!",
+
+    "fetch user failed": "Fetching user details failed!",
+    "registration failed": "Registration error, please try again or contact administrator.",
+
+    "user details": "User Details",
+    "roles": "Roles",
+    "perms": "Permissions",
+    "leave blank to not change": "Leave blank to not update",
+    "role invalid": "Role is not valid",
+    "perm invalid": "Permission is not valid",
+    "status": "Status",
+    "status required": "Status is required",
+    "created_at": "Created At",
+    "created required": "Created At is required",
+    "update": "Update",
+    "view_edit": "View/Edit",
+
+    "login error": "Login error, please try again or contact administrator.",
+
+    "items per page": "Items per page",
+    "next page": "Next page",
+    "prev page": "Previous page",
+    "first page": "First page",
+    "last page": "Last page",
+    "page one of one": "Page 1 of 1",
+    "page": "Page",
+    "of": "of"
 }

@@ -4,6 +4,8 @@ import {TranslateService} from "@ngx-translate/core";
 
 export const LANG_KEY = "vm-front-lang";
 export const DEFAULT_LANG = "en";
+export const DURATION = 3000;
+export const CLOSE_KEY = "close";
 
 @Component({
     selector: 'app-root',

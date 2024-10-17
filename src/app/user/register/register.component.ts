@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {SecurityService} from "../../security.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserRegistration} from "../../generated/auth/model/userRegistration";
+import {UserService} from "../user.service";
+import {CLOSE_KEY, DURATION} from "../../app.component";
+import {TranslateService} from "@ngx-translate/core";
 
-export const DURATION = 3000;
-export const FAILED_MSG = "Registration error, please try again or contact administrator.";
+export const FAILED_MSG = "registration failed";
 
 @Component({
   selector: 'app-register',
@@ -17,8 +18,8 @@ export class RegisterComponent {
 
     registerForm: FormGroup;
 
-    constructor(private securityService: SecurityService, private route: ActivatedRoute,
-                private router: Router, public snackBar: MatSnackBar) {
+    constructor(private userService: UserService, private route: ActivatedRoute,
+                private router: Router, public snackBar: MatSnackBar, private translateService: TranslateService) {
         this.registerForm = new FormGroup({
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
@@ -29,7 +30,7 @@ export class RegisterComponent {
 
     register() {
         if (!this.registerForm.valid) {
-            this.snackBar.open(FAILED_MSG, "Close", {duration: DURATION});
+            this.showError();
             return;
         }
 
@@ -40,14 +41,22 @@ export class RegisterComponent {
         userRegistration.firstName = this.registerForm.get("firstName")?.value;
         userRegistration.lastName = this.registerForm.get("lastName")?.value;
 
-        this.securityService.register(userRegistration)
+        this.userService.register(userRegistration)
             .subscribe(response => {
                 if (response.error) {
-                    this.snackBar.open(FAILED_MSG, "Close", {duration: DURATION});
+                    this.showError();
                     return;
                 }
 
                 this.router.navigate(["/security/login"]);
             });
+    }
+
+    private showError() {
+        this.snackBar.open(
+            this.translateService.instant(FAILED_MSG),
+            this.translateService.instant(CLOSE_KEY),
+            {duration: DURATION}
+        );
     }
 }

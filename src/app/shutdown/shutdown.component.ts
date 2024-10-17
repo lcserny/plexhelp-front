@@ -3,9 +3,8 @@ import {ShutdownService} from '../shutdown.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
+import {CLOSE_KEY, DURATION} from "../app.component";
 
-export const DURATION = 3000;
-export const CLOSE_KEY = "close";
 export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
 export const SHUTDOWN_FAILED_KEY = "shutdown failed";
 export const RESTART_SUCCESS_KEY = "restart successful";

@@ -2,13 +2,11 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, finalize, Observable, of, switchMap} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
-import {environment} from "../environments/environment";
-import {MessageService} from "./message.service";
-import {BaseService} from "./base.service";
-import {map} from "rxjs/operators";
-import {UserAccess} from "./generated/auth/model/userAccess";
-import {UserResponse} from "./generated/auth/model/userResponse";
-import {UserRegistration} from "./generated/auth/model/userRegistration";
+import {environment} from "../../environments/environment";
+import {MessageService} from "../message.service";
+import {BaseService} from "../base.service";
+import {UserAccess} from "../generated/auth/model/userAccess";
+import {UserResponse} from "../generated/auth/model/userResponse";
 
 export const USER_KEY = "vm-front-user";
 
@@ -25,7 +23,8 @@ export class SecurityService extends BaseService {
 
     private refreshInProgress = false;
 
-    constructor(private router: Router, private http: HttpClient, protected override messageService: MessageService) {
+    constructor(private router: Router, private http: HttpClient,
+                protected override messageService: MessageService) {
         super(messageService);
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem(USER_KEY)!));
         this.user = this.userSubject.asObservable();
@@ -35,7 +34,7 @@ export class SecurityService extends BaseService {
         return this.userSubject.value;
     }
 
-    login(username: string, password: string): Observable<UserAccess> {
+    login(username: string, password: string): Observable<UserAccess | UserResponse> {
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate`, { username, password }, this.httpOptions).pipe(
             switchMap((user) => {
                 this.log("user logged in");
@@ -44,7 +43,11 @@ export class SecurityService extends BaseService {
                 this.userSubject.next(user);
                 return of(user);
             }),
-            catchError(this.handleErrorWith<UserAccess>("login", () => this.handleClearToken()))
+            catchError(this.handleErrorWith<UserResponse>("login", () => this.handleClearToken(), {
+                error: Error.name,
+                message: `Could not login`,
+                statusCode: HttpStatusCode.BadRequest,
+            }))
         );
     }
 
@@ -85,19 +88,5 @@ export class SecurityService extends BaseService {
         localStorage.removeItem(USER_KEY);
         this.userSubject.next(null);
         this.router.navigate(["/security/login"]);
-    }
-
-    register(userReg: UserRegistration): Observable<UserResponse> {
-        return this.http.post<UserResponse>(`${environment.securityApiUrl}/users`, userReg, this.httpOptions).pipe(
-            map((user) => {
-                this.log("user registered");
-                return user;
-            }),
-            catchError(this.handleError<UserResponse>("register", {
-                error: Error.name,
-                message: `Could not register user with name ${userReg.username}`,
-                statusCode: HttpStatusCode.BadRequest,
-            }))
-        );
     }
 }

@@ -2,10 +2,11 @@ import {Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable, shareReplay} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SecurityService} from "../security.service";
 import {Router} from "@angular/router";
 import {TranslateService} from "@ngx-translate/core";
 import {LANG_KEY} from "../app.component";
+import {SecurityService} from "../security/security.service";
+import {UserService} from "../user/user.service";
 
 @Component({
     selector: 'app-navigation',
@@ -15,6 +16,8 @@ import {LANG_KEY} from "../app.component";
 export class NavigationComponent {
 
     isLoggedIn = false;
+    isLoggedInAdmin = false;
+    currentUserId?: string;
 
     isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
         map(result => result.matches),
@@ -22,9 +25,12 @@ export class NavigationComponent {
     );
 
     constructor(private breakpointObserver: BreakpointObserver, private securityService: SecurityService,
+                private userService: UserService,
                 private router: Router, private translateService: TranslateService) {
         this.securityService.user.subscribe(user => {
             this.isLoggedIn = !!user;
+            this.isLoggedInAdmin = !!user?.roles.includes("ADMIN");
+            this.currentUserId = user?.userId;
         });
     }
 
@@ -33,7 +39,11 @@ export class NavigationComponent {
     }
 
     register() {
-        this.router.navigate(["/security/register"]);
+        this.router.navigate(["/user/register"]);
+    }
+
+    details() {
+        this.router.navigate([`/user/details/${this.currentUserId}`]);
     }
 
     switchLanguage(lang: string) {

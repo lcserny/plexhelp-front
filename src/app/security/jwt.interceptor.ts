@@ -1,9 +1,8 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {catchError, Observable, switchMap, throwError} from "rxjs";
-import {SecurityService} from "../security.service";
 import {Injectable} from "@angular/core";
-import {environment} from "../../environments/environment";
 import {UserAccess} from "../generated/auth/model/userAccess";
+import {SecurityService} from "./security.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -28,9 +27,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private addTokenHeader(request: HttpRequest<any>, user: UserAccess | null) {
         const accessToken = user?.accessToken;
-        const isApiUrl = request.url.startsWith(environment.commanderApiUrl);
-
-        if (accessToken && isApiUrl) {
+        if (accessToken) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${accessToken}`

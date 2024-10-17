@@ -5,7 +5,8 @@
         <mat-nav-list>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/">{{ "home" | translate }}</a>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/search">{{ "search" | translate }}</a>
-            <a *ngIf="isLoggedIn" mat-list-item routerLink="/shutdown">{{ "shutdown" | translate }}</a>
+            <a *ngIf="isLoggedInAdmin" mat-list-item routerLink="/shutdown">{{ "shutdown" | translate }}</a>
+            <a *ngIf="isLoggedInAdmin" mat-list-item routerLink="/user/list">{{ "users" | translate }}</a>
             <a *ngIf="!isLoggedIn" mat-list-item routerLink="/security/login">{{ "login" | translate }}</a>
             <a mat-list-item routerLink="/messages">{{ "messages" | translate }}</a>
         </mat-nav-list>
@@ -29,6 +30,10 @@
                     <button mat-menu-item (click)="register()">
                         <mat-icon>app_registration</mat-icon>
                         <span>{{ "register" | translate }}</span>
+                    </button>
+                    <button mat-menu-item *ngIf="isLoggedIn" (click)="details()">
+                        <mat-icon>manage_accounts</mat-icon>
+                        <span>{{ "details" | translate }}</span>
                     </button>
                     <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
                         <mat-icon>logout</mat-icon>

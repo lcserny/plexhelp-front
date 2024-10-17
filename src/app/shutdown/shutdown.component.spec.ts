@@ -1,7 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {
-    CLOSE_KEY,
-    DURATION, SHUTDOWN_FAILED_KEY, SHUTDOWN_SUCCESS_KEY,
+    SHUTDOWN_FAILED_KEY, SHUTDOWN_SUCCESS_KEY,
     ShutdownComponent,
 } from './shutdown.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -15,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {environment} from "../../environments/environment.test";
 import {CommandResponse} from "../generated/commander/model/commandResponse";
 import {TranslateModule} from "@ngx-translate/core";
+import {CLOSE_KEY, DURATION} from "../app.component";
 
 describe('ShutdownComponent', () => {
     let component: ShutdownComponent;

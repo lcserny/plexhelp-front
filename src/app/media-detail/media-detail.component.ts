@@ -9,6 +9,7 @@ import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {MediaFileType} from "../generated/commander/model/mediaFileType";
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 import {TranslateService} from "@ngx-translate/core";
+import {CLOSE_KEY, DURATION} from "../app.component";
 
 @Component({
     selector: 'app-media-detail',
@@ -17,10 +18,8 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class MediaDetailComponent implements OnInit {
 
-    private static CLOSE_KEY = "close";
     private static MOVE_SUCCESS_KEY = "successfully moved media";
     private static MOVE_FAILED_KEY = "failed move media";
-    private static DURATION = 5000;
 
     mediaFileGroup?: MediaFileGroup;
     type?: MediaFileType;
@@ -79,9 +78,7 @@ export class MediaDetailComponent implements OnInit {
     }
 
     private showPopup(message: string) {
-        const closeMsg = this.translateService.instant(MediaDetailComponent.CLOSE_KEY);
-        this.snackBar.open(message, closeMsg, {
-            duration: MediaDetailComponent.DURATION
-        });
+        const closeMsg = this.translateService.instant(CLOSE_KEY);
+        this.snackBar.open(message, closeMsg, { duration: DURATION });
     }
 }

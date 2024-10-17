@@ -13,6 +13,7 @@
     "register": "Inregistrare",
     "messages": "Mesaje",
     "language": "Limba",
+    "users": "Utilizatori",
 
     "media files found": "Fisiere Media Gasite",
     "retry": "Reincearca",
@@ -24,6 +25,7 @@
     "shutdown_cmd": "Oprire",
     "reboot_cmd": "Repornire",
 
+    "id": "ID",
     "username": "Utilizator:",
     "username required": "Utilizatorul este necesar",
     "password": "Parola:",
@@ -56,5 +58,32 @@
     "restart successful": "Repornirea s-a executat cu succes!",
     "restart failed": "Repornirea a esuat!",
     "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
-    "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!"
+    "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!",
+
+    "fetch user failed": "Aducerea informatiilor utlizatorului a esuat!",
+    "registration failed": "Inregistrarea a esuat, va rugam reincercati sau contactati administratorul.",
+
+    "user details": "Detalii Utilizator",
+    "roles": "Roluri",
+    "perms": "Permisiuni",
+    "leave blank to not change": "Lasa gol pentru a nu modifica",
+    "role invalid": "Rolul nu este valid",
+    "perm invalid": "Permisiunea nu este valida",
+    "status": "Status",
+    "status required": "Statusul este necesar",
+    "created_at": "Creat La",
+    "created required": "Creat La este necesar",
+    "update": "Actualizare",
+    "view_edit": "Vizualizare/Editare",
+
+    "login error": "Eroare de logare, va rugam reincercati sau contactati administratorul.",
+
+    "items per page": "Elemente pe pagina",
+    "next page": "Pagina urmatoare",
+    "prev page": "Pagina anterioara",
+    "first page": "Prima pagina",
+    "last page": "Ultima pagina",
+    "page one of one": "Pagina 1 din 1",
+    "page": "Pagina",
+    "of": "din"
 }

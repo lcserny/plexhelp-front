@@ -1,0 +1,76 @@
+<button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+
+<div *ngIf="detailsForm" class="center-container">
+    <h1>{{ "user details" | translate }}</h1>
+
+    <form [formGroup]="detailsForm" class="center-container">
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "username" | translate }}:</mat-label>
+            <input type="text" matInput formControlName="username">
+            <mat-error *ngIf="detailsForm.get('username')?.errors">{{ "username required" | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "password" | translate }}:</mat-label>
+            <mat-hint align="end">{{ "leave blank to not change" | translate }}</mat-hint>
+            <input type="password" matInput formControlName="password">
+        </mat-form-field>
+
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "first name" | translate }}</mat-label>
+            <input type="text" matInput formControlName="firstName">
+            <mat-error *ngIf="detailsForm.get('firstName')?.errors">{{ "first name invalid" | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "last name" | translate }}:</mat-label>
+            <input type="text" matInput formControlName="lastName">
+            <mat-error *ngIf="detailsForm.get('lastName')?.errors">{{ "last name invalid" | translate }}</mat-error>
+        </mat-form-field>
+
+        <div *ngIf="isAdmin">
+            <mat-card class="list-card">
+                <mat-card-header><span>{{ "roles" | translate }}</span></mat-card-header>
+                <div formArrayName="roles">
+                    <div *ngFor="let item of roles.controls; let i = index">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <input type="text" matInput [value]="item.value" [formControlName]="i" />
+                            <button mat-icon-button matIconSuffix color="warn" (click)="remove(roles, i)"><mat-icon>remove</mat-icon></button>
+                            <mat-error *ngIf="item?.errors">{{ "role invalid" | translate }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <button mat-icon-button color="primary" (click)="add(roles)"><mat-icon>add</mat-icon></button>
+                </div>
+            </mat-card>
+
+            <mat-card class="list-card">
+                <mat-card-header><span>{{ "perms" | translate }}</span></mat-card-header>
+                <div formArrayName="perms">
+                    <div *ngFor="let item of perms.controls; let i = index">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <input type="text" matInput [value]="item.value" [formControlName]="i" />
+                            <button mat-icon-button matIconSuffix color="warn" (click)="remove(perms, i)"><mat-icon>remove</mat-icon></button>
+                            <mat-error *ngIf="item?.errors">{{ "perm invalid" | translate }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <button mat-icon-button color="primary" (click)="add(perms)"><mat-icon>add</mat-icon></button>
+                </div>
+            </mat-card>
+        </div>
+
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "status" | translate }}:</mat-label>
+            <input type="text" matInput formControlName="status">
+            <mat-error *ngIf="detailsForm.get('status')?.errors">{{ "status required" | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="wide-input">
+            <mat-label>{{ "created_at" | translate }}:</mat-label>
+            <input type="datetime-local" matInput formControlName="created">
+            <mat-error *ngIf="detailsForm.get('created')?.errors">{{ "created required" | translate }}</mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="update-button" (keyup.enter)="update()" (click)="update()" [disabled]="detailsForm.invalid || !canUpdate">{{ "update" | translate }}</button>
+    </form>
+</div>
+

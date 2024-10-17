@@ -32,6 +32,8 @@ import {JwtInterceptor} from "./security/jwt.interceptor";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
+import {TranslatedPaginator} from "./custom.paginator";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -47,7 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         HomeComponent,
         MessagesComponent,
         MediaDetailOptionsComponent,
-        ShutdownComponent
+        ShutdownComponent,
     ],
     imports: [
         BrowserModule,
@@ -76,11 +78,12 @@ export function HttpLoaderFactory(http: HttpClient) {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        }))
+        })),
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+        {provide: MatPaginatorIntl, useClass: TranslatedPaginator}
     ],
     bootstrap: [AppComponent]
 })

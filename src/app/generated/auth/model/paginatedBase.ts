@@ -10,10 +10,8 @@
  */
 
 
-export interface UserAccess { 
-    accessToken: string;
-    userId: string;
-    roles: Array<string>;
-    perms: Array<string>;
+export interface PaginatedBase { 
+    hasMore: boolean;
+    total: number;
 }
 

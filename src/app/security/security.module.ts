@@ -7,7 +7,6 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LayoutComponent} from "./layout/layout.component";
 import {LoginComponent} from "./login/login.component";
-import {RegisterComponent} from "./register/register.component";
 import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
@@ -15,7 +14,6 @@ const routes: Routes = [
         path: "", component: LayoutComponent,
         children: [
             {path: 'login', component: LoginComponent},
-            {path: 'register', component: RegisterComponent},
         ]
     }
 ];
@@ -24,7 +22,6 @@ const routes: Routes = [
     declarations: [
         LayoutComponent,
         LoginComponent,
-        RegisterComponent,
     ],
     imports: [
         CommonModule,
