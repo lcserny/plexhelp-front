@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
         <div>
-            <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{type}}</button>
+            <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
         </div>
     </div>
 </div>
