@@ -1,22 +1,31 @@
-<h1>{{ "media files found" | translate }} <button mat-raised-button id="search-btn" (click)="initSearch()">{{ "retry" | translate }}</button></h1>
+<h1>{{ "media files found" | translate }} <button mat-raised-button id="search-btn" (click)="initSearch()">{{ "refresh" | translate }}</button></h1>
 
-<div *ngIf="searchPerformed && mediaFileGroups.length == 0">
+<div *ngIf="searchPerformed && currentPageMediaFileGroups.length == 0">
     <h3>{{ "no media found, try again" | translate }}</h3>
 </div>
 
-<div *ngFor="let mediaFileGroup of mediaFileGroups; let i = index">
-    <mat-card class="search-item-card">
-        <div class="row">
-            <div class="column item-crt">
-                <mat-card-title><span class="media-title">{{i+1}}).</span></mat-card-title>
+<div *ngIf="searchPerformed && currentPageMediaFileGroups.length > 0">
+    <mat-paginator
+        [length]="totalItems"
+        [pageSize]="defaultPageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+
+    <div *ngFor="let mediaFileGroup of currentPageMediaFileGroups; let i = index">
+        <mat-card class="search-item-card">
+            <div class="row">
+                <div class="column item-crt">
+                    <mat-card-title><span class="media-title">{{this.currentPageStartIndex + i + 1}}.</span></mat-card-title>
+                </div>
+                <div class="column">
+                    <mat-card-title><span class="media-title padded-left">{{mediaFileGroup.name}}</span></mat-card-title>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{this.currentPageStartIndex + i}}">{{ "details" | translate }}</button>
+                    </mat-card-actions>
+                </div>
             </div>
-            <div class="column">
-                <mat-card-title><span class="media-title padded-left">{{mediaFileGroup.name}}</span></mat-card-title>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{i}}">{{ "details" | translate }}</button>
-                </mat-card-actions>
-            </div>
-        </div>
-    </mat-card>
-    <br />
+        </mat-card>
+        <br />
+    </div>
 </div>

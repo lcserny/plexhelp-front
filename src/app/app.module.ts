@@ -79,6 +79,7 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         })),
+        MatPaginatorModule,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {SearchComponent} from './search.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 describe('SearchComponent', () => {
     let component: SearchComponent;
@@ -13,7 +14,8 @@ describe('SearchComponent', () => {
             declarations: [SearchComponent],
             imports: [
                 HttpClientTestingModule,
-                TranslateModule.forRoot()
+                TranslateModule.forRoot(),
+                MatPaginatorModule
             ]
         }).compileComponents();
 

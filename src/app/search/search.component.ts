@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
     selector: 'app-search',
@@ -9,8 +10,14 @@ import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 })
 export class SearchComponent implements OnInit {
 
+    private mediaFileGroups: MediaFileGroup[] = [];
+
+    pageSizeOptions = [10, 20, 50];
+    defaultPageSize = this.pageSizeOptions[0];
     searchPerformed = false;
-    mediaFileGroups: MediaFileGroup[] = [];
+    currentPageStartIndex = 0;
+    currentPageMediaFileGroups: MediaFileGroup[] = [];
+    totalItems = 0;
 
     constructor(private mediaService: MediaService) {}
 
@@ -20,10 +27,24 @@ export class SearchComponent implements OnInit {
 
     initSearch(): void {
         this.searchPerformed = false;
-        this.mediaService.searchMedia()
-            .subscribe(mfg => {
-                this.mediaFileGroups = mfg;
-                this.searchPerformed = true;
-            });
+        this.mediaService.searchMedia().subscribe(mfg => {
+            this.mediaFileGroups = mfg;
+            this.searchPerformed = true;
+            this.totalItems = mfg.length;
+
+            this.adjustView(0, this.defaultPageSize);
+        });
+    }
+
+    onPageChange(event: PageEvent) {
+        this.adjustView(event.pageIndex, event.pageSize);
+    }
+
+    private adjustView(page: number, perPage: number) {
+        const startIndex = page === 0 ? 0 : page * perPage;
+        const endIndex = Math.min(startIndex + perPage, this.totalItems);
+
+        this.currentPageStartIndex = startIndex;
+        this.currentPageMediaFileGroups = this.mediaFileGroups.slice(startIndex, endIndex);
     }
 }
