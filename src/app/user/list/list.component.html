@@ -1,3 +1,30 @@
+<h1>{{ "users" | translate }}</h1>
+
+<form [formGroup]="searchForm" class="form-container" (ngSubmit)="search()">
+    <mat-form-field>
+        <mat-label>{{ "username" | translate }}:</mat-label>
+        <input type="text" matInput formControlName="username" autofocus>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>{{ "first name" | translate }}</mat-label>
+        <input type="text" matInput formControlName="firstName">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>{{ "last name" | translate }}:</mat-label>
+        <input type="text" matInput formControlName="lastName">
+    </mat-form-field>
+
+    <div class="button-container">
+        <button mat-raised-button type="submit" color="accent">{{ "search" | translate }}</button>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button type="reset" color="primary" (click)="reset()">{{ "reset" | translate }}</button>
+    </div>
+</form>
+
 <div class="responsive-table">
     <table mat-table [dataSource]="dataSource" class="mat-table">
 
@@ -42,7 +69,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator
+    <mat-paginator *ngIf="showPaginator"
         [length]="totalItems"
         [pageSize]="defaultPageSize"
         [pageSizeOptions]="pageSizeOptions"

@@ -51,10 +51,10 @@ export class DetailsComponent {
 
             const userData = user as UserData;
             this.detailsForm = this.formBuilder.group({
-                username: this.formBuilder.control({value: userData.username, disabled: true}, Validators.required),
+                username: this.formBuilder.control({value: userData.username, disabled: true}, [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]),
                 password: this.formBuilder.control({value: userData.password, disabled: !this.canUpdate}),
-                firstName: this.formBuilder.control({value: userData.firstName, disabled: !this.canUpdate}, [Validators.required, Validators.pattern('[a-zA-Z]+')]),
-                lastName: this.formBuilder.control({value: userData.lastName, disabled: !this.canUpdate}, [Validators.required, Validators.pattern('[a-zA-Z]+')]),
+                firstName: this.formBuilder.control({value: userData.firstName, disabled: !this.canUpdate}, [Validators.required, Validators.pattern('[a-zA-Z\-\']+')]),
+                lastName: this.formBuilder.control({value: userData.lastName, disabled: !this.canUpdate}, [Validators.required, Validators.pattern('[a-zA-Z\-\']+')]),
                 roles: this.buildArray(userData.roles!),
                 perms: this.buildArray(userData.perms!),
                 status: this.formBuilder.control({value: userData.status, disabled: !this.canUpdate && !this.isAdmin}, Validators.required),

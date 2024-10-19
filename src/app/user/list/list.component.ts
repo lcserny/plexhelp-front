@@ -12,6 +12,7 @@ import {CLOSE_KEY, DURATION} from "../../app.component";
 import {FETCH_FAILED_KEY} from "../details/details.component";
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../../../environments/environment";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
 
@@ -28,7 +29,10 @@ export class ListComponent {
     dataSource = new MatTableDataSource<UserData>([]);
     totalItems = 0;
 
+    searchForm: FormGroup;
+
     canUpdate = false;
+    showPaginator = true;
 
     constructor(private userService: UserService,
                 private securityService: SecurityService,
@@ -40,6 +44,17 @@ export class ListComponent {
             this.canUpdate = userValue.perms.includes("WRITE");
         }
 
+        this.reset();
+
+        this.searchForm = new FormGroup({
+            username: new FormControl("", [Validators.pattern('[a-zA-Z0-9]+')]),
+            firstName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
+            lastName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
+        });
+    }
+
+    reset() {
+        this.showPaginator = true;
         this.loadData(0, this.defaultPageSize);
     }
 
@@ -71,5 +86,22 @@ export class ListComponent {
             this.translateService.instant(CLOSE_KEY),
             {duration: DURATION}
         );
+    }
+
+    search() {
+        if (!this.searchForm.valid) {
+            this.showError();
+            return;
+        }
+
+        this.showPaginator = false;
+        this.userService.search([
+            { name: "username", value: this.searchForm.get("username")?.value },
+            { name: "firstName", value: this.searchForm.get("firstName")?.value },
+            { name: "lastName", value: this.searchForm.get("lastName")?.value },
+        ]).subscribe(users => {
+            this.dataSource.data = users;
+            this.totalItems = users.length;
+        });
     }
 }

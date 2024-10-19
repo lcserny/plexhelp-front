@@ -21,10 +21,10 @@ export class RegisterComponent {
     constructor(private userService: UserService, private route: ActivatedRoute,
                 private router: Router, public snackBar: MatSnackBar, private translateService: TranslateService) {
         this.registerForm = new FormGroup({
-            username: new FormControl('', [Validators.required]),
+            username: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]),
             password: new FormControl('', [Validators.required]),
-            firstName: new FormControl('', [Validators.pattern('[a-zA-Z]+')]),
-            lastName: new FormControl('', [Validators.pattern('[a-zA-Z]+')]),
+            firstName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
+            lastName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
         });
     }
 

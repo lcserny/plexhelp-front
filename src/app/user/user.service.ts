@@ -9,6 +9,7 @@ import {BaseService} from "../base.service";
 import {MessageService} from "../message.service";
 import {UserData} from "../generated/auth/model/userData";
 import {PaginatedUsers} from "../generated/auth/model/paginatedUsers";
+import {NameValuePair} from "../generated/auth/model/nameValuePair";
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
@@ -75,6 +76,16 @@ export class UserService extends BaseService {
                 message: `Could not get all users for page ${page} and perPage ${perPage}`,
                 statusCode: HttpStatusCode.BadRequest,
             }))
+        );
+    }
+
+    search(searchFields: NameValuePair[]): Observable<UserData[]> {
+        return this.http.post<UserData[]>(`${environment.securityApiUrl}/users/search`, searchFields, this.httpOptions).pipe(
+            map((users) => {
+                this.log("users searched");
+                return users;
+            }),
+            catchError(this.handleError<UserData[]>("search", []))
         );
     }
 }
