@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {PageEvent} from "@angular/material/paginator";
+import {environment} from "../../environments/environment";
 
 const SEARCH_PER_PAGE_KEY = "vm-front-search-perPage";
 
@@ -14,7 +15,7 @@ export class SearchComponent implements OnInit {
 
     private mediaFileGroups: MediaFileGroup[] = [];
 
-    pageSizeOptions = [10, 20, 50];
+    pageSizeOptions = environment.mediaSearchPageSizeOptions;
     defaultPageSize = Number(localStorage.getItem(SEARCH_PER_PAGE_KEY) || this.pageSizeOptions[0]);
     searchPerformed = false;
     currentPageStartIndex = 0;

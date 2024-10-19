@@ -11,6 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {CLOSE_KEY, DURATION} from "../../app.component";
 import {FETCH_FAILED_KEY} from "../details/details.component";
 import {TranslateService} from "@ngx-translate/core";
+import {environment} from "../../../environments/environment";
 
 const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
 
@@ -21,7 +22,7 @@ const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
 })
 export class ListComponent {
 
-    pageSizeOptions = [5, 10, 25, 100];
+    pageSizeOptions = environment.usersListPageSizeOptions;
     defaultPageSize = Number(localStorage.getItem(USERS_PER_PAGE_KEY) || this.pageSizeOptions[1]);
     displayedColumns = ["id", "username", "firstName", "lastName", "status", "created", "edit"];
     dataSource = new MatTableDataSource<UserData>([]);

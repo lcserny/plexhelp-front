@@ -1,3 +1,4 @@
+// deprecated: used only for autocomplete in code, in prod use front-config repo
 const currentDomain = `${window.location.protocol}//${window.location.hostname}`;
 
 export const environment = {
@@ -7,4 +8,7 @@ export const environment = {
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
     darkModeStartHour: 18,
     darkModeEndHour: 6,
+
+    usersListPageSizeOptions: [5, 10, 25, 100],
+    mediaSearchPageSizeOptions: [10, 20, 50],
 };
