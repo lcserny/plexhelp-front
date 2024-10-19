@@ -3,8 +3,6 @@ export const environment = {
     securityApiUrl: 'http://localhost:8081/security',
 
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
-    darkModeStartHour: 20,
-    darkModeEndHour: 7,
 
     usersListPageSizeOptions: [5, 10, 25, 100],
     mediaSearchPageSizeOptions: [10, 20, 50],

@@ -1,29 +1,34 @@
-import { OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import {BehaviorSubject} from "rxjs";
 
-@Injectable({
-    providedIn: 'root'
-})
+export const DARK_MODE_KEY = "vm-front-darkMode";
+
+@Injectable({ providedIn: 'root' })
 export class DarkModeService {
 
     public static darkModeClass = "darkMode";
 
-    private darkModeStartHour = environment.darkModeStartHour;
-    private darkModeEndHour = environment.darkModeEndHour;
+    private darkModeSubject = new BehaviorSubject<boolean>(false);
+    darkMode = this.darkModeSubject.asObservable();
 
-    constructor(private overlay: OverlayContainer) { }
-
-    public isDarkMode(): boolean {
-        let currentHour = new Date().getHours();
-        return currentHour >= this.darkModeStartHour || currentHour < this.darkModeEndHour;
+    constructor() {
+        const savedTheme = localStorage.getItem(DARK_MODE_KEY);
+        if (savedTheme) {
+            this.setDarkMode(savedTheme === 'true');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            this.setDarkMode(prefersDark);
+        }
     }
 
-    toggleDarkMode(): void {
-        if (this.isDarkMode()) {
-            this.overlay.getContainerElement().classList.add(DarkModeService.darkModeClass);
+    setDarkMode(isDarkMode: boolean) {
+        this.darkModeSubject.next(isDarkMode);
+        localStorage.setItem(DARK_MODE_KEY, isDarkMode.toString());
+
+        if (isDarkMode) {
+            document.body.classList.add(DarkModeService.darkModeClass);
         } else {
-            this.overlay.getContainerElement().classList.remove(DarkModeService.darkModeClass);
+            document.body.classList.remove(DarkModeService.darkModeClass);
         }
     }
 }

@@ -21,6 +21,11 @@
             <span>{{ "videosmover" | translate }}</span>
 
             <div class="logout-container">
+                <div class="darkMode-container">
+                    <mat-slide-toggle color="accent" [checked]="darkModeEnabled | async" (change)="onToggleDarkMode($event)"></mat-slide-toggle>
+                    <mat-icon class="darkMode-icon">dark_mode</mat-icon>
+                </div>
+
                 <button mat-icon-button [matMenuTriggerFor]="sideMenu"><mat-icon>more_vert</mat-icon></button>
                 <mat-menu #sideMenu="matMenu">
                     <button mat-menu-item [matMenuTriggerFor]="langMenu">

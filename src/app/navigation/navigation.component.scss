@@ -31,3 +31,12 @@
     display: flex;
     align-items: center;
 }
+
+.darkMode-container {
+    display: flex;
+    align-items: center;
+
+    .darkMode-icon {
+        margin-top: 2px;
+    }
+}

@@ -14,6 +14,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 describe('NavigationComponent', () => {
     let component: NavigationComponent;
@@ -33,7 +34,8 @@ describe('NavigationComponent', () => {
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
                 TranslateModule.forRoot(),
-                MatMenuModule
+                MatMenuModule,
+                MatSlideToggleModule
             ],
             schemas: [
                 CUSTOM_ELEMENTS_SCHEMA

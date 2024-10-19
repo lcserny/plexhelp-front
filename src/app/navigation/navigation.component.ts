@@ -7,6 +7,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {LANG_KEY} from "../app.component";
 import {SecurityService} from "../security/security.service";
 import {UserService} from "../user/user.service";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {DarkModeService} from "../dark-mode.service";
 
 @Component({
     selector: 'app-navigation',
@@ -19,14 +21,19 @@ export class NavigationComponent {
     isLoggedInAdmin = false;
     currentUserId?: string;
 
+    darkModeEnabled = this.darkModeService.darkMode;
+
     isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
         map(result => result.matches),
         shareReplay()
     );
 
-    constructor(private breakpointObserver: BreakpointObserver, private securityService: SecurityService,
+    constructor(private breakpointObserver: BreakpointObserver,
+                private securityService: SecurityService,
                 private userService: UserService,
-                private router: Router, private translateService: TranslateService) {
+                private router: Router,
+                private translateService: TranslateService,
+                private darkModeService: DarkModeService) {
         this.securityService.user.subscribe(user => {
             this.isLoggedIn = !!user;
             this.isLoggedInAdmin = !!user?.roles.includes("ADMIN");
@@ -49,5 +56,9 @@ export class NavigationComponent {
     switchLanguage(lang: string) {
         this.translateService.use(lang);
         localStorage.setItem(LANG_KEY, lang);
+    }
+
+    onToggleDarkMode(event: MatSlideToggleChange) {
+        this.darkModeService.setDarkMode(event.checked);
     }
 }

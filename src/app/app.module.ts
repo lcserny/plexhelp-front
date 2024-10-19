@@ -34,6 +34,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {TranslatedPaginator} from "./custom.paginator";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         })),
         MatPaginatorModule,
+        MatSlideToggleModule,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
