@@ -9,6 +9,9 @@ import {routes} from "../../routing/routing.module";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 describe('ListComponent', () => {
     let component: ListComponent;
@@ -26,7 +29,10 @@ describe('ListComponent', () => {
                 RouterModule.forRoot(routes),
                 NoopAnimationsModule,
                 MatPaginatorModule,
-                MatTableModule
+                MatTableModule,
+                ReactiveFormsModule,
+                MatInputModule,
+                MatButtonModule
             ]
         }).compileComponents();
 
