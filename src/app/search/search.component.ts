@@ -3,6 +3,8 @@ import { MediaService } from '../media.service';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {PageEvent} from "@angular/material/paginator";
 
+const SEARCH_PER_PAGE_KEY = "vm-front-search-perPage";
+
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -13,7 +15,7 @@ export class SearchComponent implements OnInit {
     private mediaFileGroups: MediaFileGroup[] = [];
 
     pageSizeOptions = [10, 20, 50];
-    defaultPageSize = this.pageSizeOptions[0];
+    defaultPageSize = Number(localStorage.getItem(SEARCH_PER_PAGE_KEY) || this.pageSizeOptions[0]);
     searchPerformed = false;
     currentPageStartIndex = 0;
     currentPageMediaFileGroups: MediaFileGroup[] = [];
@@ -37,6 +39,7 @@ export class SearchComponent implements OnInit {
     }
 
     onPageChange(event: PageEvent) {
+        localStorage.setItem(SEARCH_PER_PAGE_KEY, String(event.pageSize));
         this.adjustView(event.pageIndex, event.pageSize);
     }
 

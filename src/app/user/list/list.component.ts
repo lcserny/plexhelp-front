@@ -12,6 +12,8 @@ import {CLOSE_KEY, DURATION} from "../../app.component";
 import {FETCH_FAILED_KEY} from "../details/details.component";
 import {TranslateService} from "@ngx-translate/core";
 
+const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
+
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -19,6 +21,8 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class ListComponent {
 
+    pageSizeOptions = [5, 10, 25, 100];
+    defaultPageSize = Number(localStorage.getItem(USERS_PER_PAGE_KEY) || this.pageSizeOptions[1]);
     displayedColumns = ["id", "username", "firstName", "lastName", "status", "created", "edit"];
     dataSource = new MatTableDataSource<UserData>([]);
     totalItems = 0;
@@ -35,7 +39,7 @@ export class ListComponent {
             this.canUpdate = userValue.perms.includes("WRITE");
         }
 
-        this.loadData(0, 10);
+        this.loadData(0, this.defaultPageSize);
     }
 
     loadData(page: number, perPage: number) {
@@ -52,6 +56,7 @@ export class ListComponent {
     }
 
     onPageChange(event: PageEvent) {
+        localStorage.setItem(USERS_PER_PAGE_KEY, String(event.pageSize));
         this.loadData(event.pageIndex, event.pageSize);
     }
 
