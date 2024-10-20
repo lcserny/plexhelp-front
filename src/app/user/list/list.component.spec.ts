@@ -12,6 +12,7 @@ import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {DatePipe} from "@angular/common";
 
 describe('ListComponent', () => {
     let component: ListComponent;
@@ -33,7 +34,8 @@ describe('ListComponent', () => {
                 ReactiveFormsModule,
                 MatInputModule,
                 MatButtonModule
-            ]
+            ],
+            providers: [DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ListComponent);

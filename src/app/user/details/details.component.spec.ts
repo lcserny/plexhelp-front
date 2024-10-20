@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
+import {DatePipe} from "@angular/common";
 
 describe('DetailsComponent', () => {
     let component: DetailsComponent;
@@ -27,7 +28,8 @@ describe('DetailsComponent', () => {
                 ReactiveFormsModule,
                 MatInputModule,
                 MatButtonModule
-            ]
+            ],
+            providers: [DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(DetailsComponent);
