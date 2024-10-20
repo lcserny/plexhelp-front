@@ -66,7 +66,14 @@
 
         <mat-form-field class="wide-input">
             <mat-label>{{ "created_at" | translate }}:</mat-label>
-            <input type="datetime-local" matInput formControlName="created">
+            <input matInput [matDatepicker]="datepicker" formControlName="created" />
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>{{ "cancel" | translate }}</button>
+                    <button mat-raised-button matDatepickerApply>{{ "apply" | translate }}</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
             <mat-error *ngIf="detailsForm.get('created')?.errors">{{ "created required" | translate }}</mat-error>
         </mat-form-field>
 

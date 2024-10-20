@@ -13,8 +13,10 @@ import {FETCH_FAILED_KEY} from "../details/details.component";
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../../../environments/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {DatePipe} from "@angular/common";
 
 const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
+const NO_DATE_KEY = "no date available";
 
 @Component({
     selector: 'app-list',
@@ -34,11 +36,14 @@ export class ListComponent {
     canUpdate = false;
     showPaginator = true;
 
+    noDateText = this.translateService.instant(NO_DATE_KEY);
+
     constructor(private userService: UserService,
                 private securityService: SecurityService,
                 private router: Router,
                 private snackBar: MatSnackBar,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private datePipe: DatePipe) {
         const userValue = this.securityService.userValue;
         if (userValue) {
             this.canUpdate = userValue.perms.includes("WRITE");
@@ -103,5 +108,9 @@ export class ListComponent {
             this.dataSource.data = users;
             this.totalItems = users.length;
         });
+    }
+
+    formatDate(date?: string): string {
+        return this.datePipe.transform(date, "yyyy-MM-dd") || this.noDateText;
     }
 }

@@ -20,6 +20,9 @@
                         "outputPath": "dist/front",
                         "index": "src/index.html",
                         "main": "src/main.ts",
+                        "allowedCommonJsDependencies": [
+                            "moment"
+                        ],
                         "polyfills": [
                             "zone.js"
                         ],

@@ -35,10 +35,26 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {TranslatedPaginator} from "./custom.paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MAT_DATE_FORMATS} from "@angular/material/core";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
+
+export const MY_DATE_FORMATS = {
+    parse: {
+        dateInput: 'YYYY-MM-DD', // The format used when parsing input
+    },
+    display: {
+        dateInput: 'YYYY-MM-DD', // The format used for displaying the date
+        monthYearLabel: 'MMM YYYY', // The format for the month-year label on the calendar
+        dateA11yLabel: 'LL', // Accessibility format
+        monthYearA11yLabel: 'MMMM YYYY', // Accessibility month-year format
+    }
+};
+
+export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
 
 @NgModule({
     declarations: [
@@ -82,11 +98,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         })),
         MatPaginatorModule,
         MatSlideToggleModule,
+        MatMomentDateModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-        {provide: MatPaginatorIntl, useClass: TranslatedPaginator}
+        {provide: MatPaginatorIntl, useClass: TranslatedPaginator},
+        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
     ],
     bootstrap: [AppComponent]
 })

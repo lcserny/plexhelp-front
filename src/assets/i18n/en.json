@@ -47,6 +47,9 @@
     "media destination name": "Media destination name",
     "move": "Move",
     "reset": "Reset",
+    "no date  available": "No date available",
+    "cancel": "Cancel",
+    "apply": "Apply",
 
     "origin": "Origin:",
     "cast": "Cast:",

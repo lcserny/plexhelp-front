@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {RegisterComponent} from "./register/register.component";
 import {TranslateModule} from "@ngx-translate/core";
@@ -16,6 +16,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 const routes: Routes = [
     {
@@ -47,9 +50,11 @@ const routes: Routes = [
         MatIconModule,
         MatCardModule,
         MatTableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatDatepickerModule,
     ],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [DatePipe]
 })
 export class UserModule {
 }

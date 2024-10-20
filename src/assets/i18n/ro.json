@@ -47,6 +47,9 @@
     "media destination name": "Numele destinatiei",
     "move": "Muta",
     "reset": "Reseteaza",
+    "no date  available": "Nu exista data",
+    "cancel": "Anulare",
+    "apply": "Aplica",
 
     "origin": "Originea:",
     "cast": "Distributie:",
