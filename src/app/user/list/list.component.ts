@@ -27,7 +27,7 @@ export class ListComponent {
 
     pageSizeOptions = environment.usersListPageSizeOptions;
     defaultPageSize = Number(localStorage.getItem(USERS_PER_PAGE_KEY) || this.pageSizeOptions[1]);
-    displayedColumns = ["id", "username", "firstName", "lastName", "status", "created", "edit"];
+    displayedColumns = ["edit", "id", "username", "firstName", "lastName", "status", "created"];
     dataSource = new MatTableDataSource<UserData>([]);
     totalItems = 0;
 
