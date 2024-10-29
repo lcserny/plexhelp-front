@@ -29,7 +29,10 @@ export class MagnetService extends BaseService {
                 this.log("all magnets retrieved");
                 return magnets;
             }),
-            catchError(this.handleError<PaginatedMagnets>("getAllMagnets"))
+            catchError(this.handleErrorWith<PaginatedMagnets>("getAllMagnets"), () => {}, {
+                content: [],
+                page: { totalElements: 0 }
+            })
         );
     }
 
