@@ -37,6 +37,11 @@ import {TranslatedPaginator} from "./custom.paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_FORMATS} from "@angular/material/core";
+import { ListComponent } from './magnets/list/list.component';
+import {MatTableModule} from "@angular/material/table";
+import {DatePipe} from "@angular/common";
+import { AddDialogComponent } from './magnets/add-dialog/add-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -67,6 +72,8 @@ export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
         MessagesComponent,
         MediaDetailOptionsComponent,
         ShutdownComponent,
+        ListComponent,
+        AddDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -98,13 +105,16 @@ export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
         })),
         MatPaginatorModule,
         MatSlideToggleModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatTableModule,
+        MatDialogModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: MatPaginatorIntl, useClass: TranslatedPaginator},
-        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
+        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+        DatePipe
     ],
     bootstrap: [AppComponent]
 })

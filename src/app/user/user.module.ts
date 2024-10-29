@@ -53,8 +53,7 @@ const routes: Routes = [
         MatPaginatorModule,
         MatDatepickerModule,
     ],
-    exports: [RouterModule],
-    providers: [DatePipe]
+    exports: [RouterModule]
 })
 export class UserModule {
 }

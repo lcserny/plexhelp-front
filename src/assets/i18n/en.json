@@ -14,6 +14,7 @@
     "messages": "Messages",
     "language": "Language",
     "users": "Users",
+    "magnets": "Magnets",
 
     "media files found": "Media Files Found",
     "retry": "Retry",
@@ -90,5 +91,13 @@
     "last page": "Last page",
     "page one of one": "Page 1 of 1",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+
+    "no date available": "No date available",
+    "name": "Name",
+    "hash": "Hash",
+    "downloaded": "Downloaded",
+    "dateDownloaded": "Date Downloaded",
+    "magnet link": "Magnet link:",
+    "fetch magnets failed": "Fetching magnet details failed!"
 }

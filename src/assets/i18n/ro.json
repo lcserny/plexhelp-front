@@ -14,6 +14,7 @@
     "messages": "Mesaje",
     "language": "Limba",
     "users": "Utilizatori",
+    "magnets": "Magnete",
 
     "media files found": "Fisiere Media Gasite",
     "retry": "Reincearca",
@@ -90,5 +91,13 @@
     "last page": "Ultima pagina",
     "page one of one": "Pagina 1 din 1",
     "page": "Pagina",
-    "of": "din"
+    "of": "din",
+
+    "no date available": "Nu exista data",
+    "name": "Nume",
+    "hash": "Hasurare",
+    "downloaded": "Descarcat",
+    "dateDownloaded": "Data Descarcare",
+    "magnet link": "Link-ul magnetului:",
+    "fetch magnets failed": "Aducerea informatiilor magnetelor a esuat!"
 }

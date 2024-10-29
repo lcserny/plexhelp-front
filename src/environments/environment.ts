@@ -9,4 +9,5 @@ export const environment = {
 
     usersListPageSizeOptions: [5, 10, 25, 100],
     mediaSearchPageSizeOptions: [10, 20, 50],
+    magnetViewPageSizeOptions: [10, 20, 50],
 };

@@ -1,0 +1,12 @@
+<mat-dialog-content class="dialog-container">
+    <mat-form-field>
+        <mat-label>{{ "magnet link" | translate }}</mat-label>
+        <!-- FIXME: on enter press doesn't work -->
+        <input matInput [(ngModel)]="magnetLink" cdkFocusInitial />
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">{{ "cancel" | translate }}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="onClose()">{{ "apply" | translate }}</button>
+</mat-dialog-actions>

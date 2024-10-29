@@ -34,7 +34,6 @@ export class ListComponent {
     searchForm: FormGroup;
 
     canUpdate = false;
-    showPaginator = true;
 
     noDateText = this.translateService.instant(NO_DATE_KEY);
 
@@ -49,22 +48,45 @@ export class ListComponent {
             this.canUpdate = userValue.perms.includes("WRITE");
         }
 
-        this.reset();
-
         this.searchForm = new FormGroup({
-            username: new FormControl("", [Validators.pattern('[a-zA-Z0-9]+')]),
-            firstName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
-            lastName: new FormControl('', [Validators.pattern('[a-zA-Z\-\']+')]),
+            username: this.produceDefaultUsernameControl(),
+            firstName: this.produceDefaultFirstNameControl(),
+            lastName: this.produceDefaultLastNameControl(),
         });
+
+        this.reset();
+    }
+
+    produceDefaultUsernameControl(): FormControl {
+        return new FormControl("", [Validators.pattern('[a-zA-Z0-9]+')]);
+    }
+
+    produceDefaultFirstNameControl(): FormControl {
+        return new FormControl("", [Validators.pattern('[a-zA-Z\-\']+')]);
+    }
+
+    produceDefaultLastNameControl(): FormControl {
+        return new FormControl("", [Validators.pattern('[a-zA-Z\-\']+')]);
     }
 
     reset() {
-        this.showPaginator = true;
+        this.searchForm.setControl("username", this.produceDefaultUsernameControl());
+        this.searchForm.setControl("firstName", this.produceDefaultFirstNameControl());
+        this.searchForm.setControl("lastName", this.produceDefaultLastNameControl());
         this.loadData(0, this.defaultPageSize);
     }
 
     loadData(page: number, perPage: number) {
-        this.userService.getAllUsers(page, perPage).subscribe(resp => {
+        let username;
+        let firstName;
+        let lastName;
+        if (this.searchForm.valid) {
+            username = this.searchForm.get("username")?.value;
+            firstName = this.searchForm.get("firstName")?.value;
+            lastName = this.searchForm.get("lastName")?.value;
+        }
+
+        this.userService.getAllUsers(page, perPage, username, firstName, lastName).subscribe(resp => {
             if ((resp as UserResponse).error) {
                 this.showError();
                 return;
@@ -98,16 +120,7 @@ export class ListComponent {
             this.showError();
             return;
         }
-
-        this.showPaginator = false;
-        this.userService.search([
-            { name: "username", value: this.searchForm.get("username")?.value },
-            { name: "firstName", value: this.searchForm.get("firstName")?.value },
-            { name: "lastName", value: this.searchForm.get("lastName")?.value },
-        ]).subscribe(users => {
-            this.dataSource.data = users;
-            this.totalItems = users.length;
-        });
+        this.loadData(0, this.defaultPageSize);
     }
 
     formatDate(date?: string): string {

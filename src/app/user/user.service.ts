@@ -9,7 +9,6 @@ import {BaseService} from "../base.service";
 import {MessageService} from "../message.service";
 import {UserData} from "../generated/auth/model/userData";
 import {PaginatedUsers} from "../generated/auth/model/paginatedUsers";
-import {NameValuePair} from "../generated/auth/model/nameValuePair";
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
@@ -65,8 +64,12 @@ export class UserService extends BaseService {
         );
     }
 
-    getAllUsers(page: number, perPage: number): Observable<PaginatedUsers | UserResponse> {
-        return this.http.get<PaginatedUsers>(`${environment.securityApiUrl}/users?page=${page}&perPage=${perPage}`, this.httpOptions).pipe(
+    getAllUsers(page: number, perPage: number, username?: string, firstName?: string, lastName?: string): Observable<PaginatedUsers | UserResponse> {
+        const usernameFilter = username ? `&username=${username}` : "";
+        const firstNameFilter = firstName ? `&firstName=${firstName}` : "";
+        const lastNameFilter = lastName ? `&lastName=${lastName}` : "";
+
+        return this.http.get<PaginatedUsers>(`${environment.securityApiUrl}/users?page=${page}&perPage=${perPage}${usernameFilter}${firstNameFilter}${lastNameFilter}`, this.httpOptions).pipe(
             map((users) => {
                 this.log("all users retrieved");
                 return users;
@@ -76,16 +79,6 @@ export class UserService extends BaseService {
                 message: `Could not get all users for page ${page} and perPage ${perPage}`,
                 statusCode: HttpStatusCode.BadRequest,
             }))
-        );
-    }
-
-    search(searchFields: NameValuePair[]): Observable<UserData[]> {
-        return this.http.post<UserData[]>(`${environment.securityApiUrl}/users/search`, searchFields, this.httpOptions).pipe(
-            map((users) => {
-                this.log("users searched");
-                return users;
-            }),
-            catchError(this.handleError<UserData[]>("search", []))
         );
     }
 }

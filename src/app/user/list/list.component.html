@@ -3,7 +3,7 @@
 <form [formGroup]="searchForm" class="form-container" (ngSubmit)="search()">
     <mat-form-field>
         <mat-label>{{ "username" | translate }}:</mat-label>
-        <input type="text" matInput formControlName="username" autofocus>
+        <input type="text" matInput formControlName="username" cdkFocusInitial>
     </mat-form-field>
 
     <mat-form-field>
@@ -70,7 +70,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator *ngIf="showPaginator"
+    <mat-paginator
         [length]="totalItems"
         [pageSize]="defaultPageSize"
         [pageSizeOptions]="pageSizeOptions"

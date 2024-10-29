@@ -1,0 +1,63 @@
+<h1>{{ "magnets" | translate }}</h1>
+
+<div class="add-container">
+    <button mat-icon-button (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<form [formGroup]="searchForm" class="form-container" (ngSubmit)="search()">
+    <mat-form-field>
+        <mat-label>{{ "name" | translate }}:</mat-label>
+        <input type="text" matInput formControlName="name" cdkFocusInitial>
+    </mat-form-field>
+
+    <div class="button-container">
+        <button mat-raised-button type="submit" color="accent">{{ "search" | translate }}</button>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button type="reset" color="primary" (click)="reset()">{{ "reset" | translate }}</button>
+    </div>
+</form>
+
+<div class="responsive-table">
+    <table mat-table [dataSource]="dataSource" class="mat-table">
+        <ng-container matColumnDef="downloaded">
+            <th mat-header-cell *matHeaderCellDef> {{ "downloaded" | translate }}</th>
+            <td mat-cell *matCellDef="let magnet">
+                <mat-icon *ngIf="magnet.downloaded">check</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> {{ "name" | translate }}</th>
+            <td mat-cell *matCellDef="let magnet"> {{ magnet.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="hash">
+            <th mat-header-cell *matHeaderCellDef> {{ "hash" | translate }}</th>
+            <td mat-cell *matCellDef="let magnet"> {{ magnet.hash }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateAdded">
+            <th mat-header-cell *matHeaderCellDef> {{ "created_at" | translate }}</th>
+            <td mat-cell *matCellDef="let magnet"> {{ formatDate(magnet.dateAdded) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateDownloaded">
+            <th mat-header-cell *matHeaderCellDef> {{ "dateDownloaded" | translate }}</th>
+            <td mat-cell *matCellDef="let magnet"> {{ formatDate(magnet.dateDownloaded) }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+        [length]="totalItems"
+        [pageSize]="defaultPageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+</div>
