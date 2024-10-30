@@ -39,7 +39,7 @@ export class MediaDetailComponent implements OnInit {
     ngOnInit(): void {
         const idx = Number(this.route.snapshot.paramMap.get("idx"));
         this.mediaFileGroup = this.mediaService.getMediaFileGroup(idx);
-        this.season = String(this.mediaFileGroup.season || 1);
+        this.season = String(this.mediaFileGroup?.season || 1);
     }
 
     goBack(): void {
