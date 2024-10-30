@@ -99,5 +99,7 @@
     "downloaded": "Downloaded",
     "dateDownloaded": "Date Downloaded",
     "magnet link": "Magnet link:",
-    "fetch magnets failed": "Fetching magnet details failed!"
+    "fetch magnets failed": "Fetching magnet details failed!",
+
+    "season": "Season"
 }

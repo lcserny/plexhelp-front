@@ -27,6 +27,18 @@
                 <input matInput [(ngModel)]="finalName">
             </mat-form-field>
         </div>
+        <div *ngIf="type === 'TV'"></div>
+            <p>{{ "season" | translate }}</p>
+            <mat-button-toggle-group name="fontStyle" [ngModel]="season" aria-label="Font Style" class="season-toggle-group">
+                <mat-button-toggle value="1" class="season-toggle">1</mat-button-toggle>
+                <mat-button-toggle value="2" class="season-toggle">2</mat-button-toggle>
+                <mat-button-toggle value="3" class="season-toggle">3</mat-button-toggle>
+                <mat-button-toggle value="4" class="season-toggle">4</mat-button-toggle>
+                <mat-button-toggle value="5" class="season-toggle">5</mat-button-toggle>
+                <mat-button-toggle value="6" class="season-toggle">6</mat-button-toggle>
+                <mat-button-toggle value="7" class="season-toggle">7</mat-button-toggle>
+                <mat-button-toggle value="8" class="season-toggle">8</mat-button-toggle>
+            </mat-button-toggle-group>
         <div>
             <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
         </div>

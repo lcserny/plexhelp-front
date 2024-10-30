@@ -42,6 +42,7 @@ import {MatTableModule} from "@angular/material/table";
 import {DatePipe} from "@angular/common";
 import { AddDialogComponent } from './magnets/add-dialog/add-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -107,7 +108,8 @@ export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
         MatSlideToggleModule,
         MatMomentDateModule,
         MatTableModule,
-        MatDialogModule
+        MatDialogModule,
+        MatButtonToggleModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

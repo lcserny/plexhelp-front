@@ -25,6 +25,8 @@ export class MediaDetailComponent implements OnInit {
     type?: MediaFileType;
     finalName?: string;
 
+    season: string = "1";
+
     constructor(
         private route: ActivatedRoute,
         private location: Location,
@@ -37,6 +39,7 @@ export class MediaDetailComponent implements OnInit {
     ngOnInit(): void {
         const idx = Number(this.route.snapshot.paramMap.get("idx"));
         this.mediaFileGroup = this.mediaService.getMediaFileGroup(idx);
+        this.season = String(this.mediaFileGroup.season || 1);
     }
 
     goBack(): void {
@@ -66,6 +69,8 @@ export class MediaDetailComponent implements OnInit {
 
     moveMedia(): void {
         this.mediaFileGroup!.name = this.finalName!;
+        this.mediaFileGroup!.season = parseInt(this.season!);
+
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
             .subscribe(errors => {
                 if (MediaService.isNotEmptyArray(errors)) {
