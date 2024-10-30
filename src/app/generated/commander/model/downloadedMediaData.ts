@@ -8,15 +8,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MediaDescriptionData } from './mediaDescriptionData';
-import { MediaRenameOrigin } from './mediaRenameOrigin';
 
 
-export interface RenamedMediaOptions { 
-    origin?: MediaRenameOrigin;
-    mediaDescriptions?: Array<MediaDescriptionData>;
+export interface DownloadedMediaData { 
+    id?: string;
+    fileName?: string;
+    fileSize?: number;
+    dateDownloaded?: string;
 }
-export namespace RenamedMediaOptions {
-}
-
 

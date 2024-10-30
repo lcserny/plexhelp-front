@@ -13,8 +13,8 @@ import { MediaFileType } from './mediaFileType';
 
 
 export interface MediaMoveRequest { 
-    fileGroup?: MediaFileGroup;
-    type?: MediaFileType;
+    fileGroup: MediaFileGroup;
+    type: MediaFileType;
 }
 export namespace MediaMoveRequest {
 }

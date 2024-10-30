@@ -11,8 +11,21 @@
 
 
 export interface MediaFileGroup { 
-    path?: string;
-    name?: string;
-    videos?: Array<string>;
+    /**
+     * The absolute parent source path of the videos list
+     */
+    path: string;
+    /**
+     * The name of the target subfolder that will be created in the media destination dir
+     */
+    name: string;
+    /**
+     * The videos names list (gets merged with path above), can contain subpaths as well
+     */
+    videos: Array<string>;
+    /**
+     * Optional season to use for the subfolder in case of TV series.
+     */
+    season?: number;
 }
 
