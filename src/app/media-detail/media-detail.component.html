@@ -13,34 +13,40 @@
     </div>
     <br/>
 
-    <div>
-        <button mat-raised-button color="primary" class="left-button"
-            (click)="generateTVName(finalName ? finalName : mediaFileGroup.name!)">{{ "tv" | translate }}</button>
-        <button mat-raised-button color="primary" class="right-button"
-            (click)="generateMovieName(finalName ? finalName : mediaFileGroup.name!)">{{ "movie" | translate }}</button>
+    <div class="form-container">
+        <div class="button-container">
+            <button mat-raised-button color="primary"
+                    (click)="generateTVName(finalName ? finalName : mediaFileGroup.name!)">{{ "tv" | translate }}</button>
+        </div>
+        <div class="button-container">
+            <button mat-raised-button color="primary"
+                    (click)="generateMovieName(finalName ? finalName : mediaFileGroup.name!)">{{ "movie" | translate }}</button>
+        </div>
     </div>
 
-    <div *ngIf="type && finalName" class="output-controls">
-        <div>
+    <div *ngIf="type && finalName">
+        <div class="form-container input-container">
             <mat-form-field appearance="outline" color="accent" class="dest-field">
                 <mat-label>{{ "media destination name" | translate }}</mat-label>
                 <input matInput [(ngModel)]="finalName">
             </mat-form-field>
         </div>
-        <div *ngIf="type === 'TV'"></div>
-            <p>{{ "season" | translate }}</p>
-            <mat-button-toggle-group name="fontStyle" [ngModel]="season" aria-label="Font Style" class="season-toggle-group">
+        <p>{{ "season" | translate }}</p>
+        <div *ngIf="type === 'TV'" class="form-container">
+            <mat-button-toggle-group [ngModel]="season" (change)="setSeason($event.value)" class="season-toggle-group">
+                <mat-button-toggle value="" class="season-toggle">-</mat-button-toggle>
                 <mat-button-toggle value="1" class="season-toggle">1</mat-button-toggle>
                 <mat-button-toggle value="2" class="season-toggle">2</mat-button-toggle>
                 <mat-button-toggle value="3" class="season-toggle">3</mat-button-toggle>
                 <mat-button-toggle value="4" class="season-toggle">4</mat-button-toggle>
                 <mat-button-toggle value="5" class="season-toggle">5</mat-button-toggle>
                 <mat-button-toggle value="6" class="season-toggle">6</mat-button-toggle>
-                <mat-button-toggle value="7" class="season-toggle">7</mat-button-toggle>
-                <mat-button-toggle value="8" class="season-toggle">8</mat-button-toggle>
             </mat-button-toggle-group>
-        <div>
-            <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
+        </div>
+        <div class="form-container">
+            <div class="button-container">
+                <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
+            </div>
         </div>
     </div>
 </div>

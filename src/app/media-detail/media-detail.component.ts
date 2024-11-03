@@ -25,7 +25,7 @@ export class MediaDetailComponent implements OnInit {
     type?: MediaFileType;
     finalName?: string;
 
-    season: string = "1";
+    season: string = "";
 
     constructor(
         private route: ActivatedRoute,
@@ -39,7 +39,7 @@ export class MediaDetailComponent implements OnInit {
     ngOnInit(): void {
         const idx = Number(this.route.snapshot.paramMap.get("idx"));
         this.mediaFileGroup = this.mediaService.getMediaFileGroup(idx);
-        this.season = String(this.mediaFileGroup?.season || 1);
+        this.season = String(this.mediaFileGroup?.season || "");
     }
 
     goBack(): void {
@@ -69,7 +69,9 @@ export class MediaDetailComponent implements OnInit {
 
     moveMedia(): void {
         this.mediaFileGroup!.name = this.finalName!;
-        this.mediaFileGroup!.season = parseInt(this.season!);
+        if (this.season) {
+            this.mediaFileGroup!.season = parseInt(this.season);
+        }
 
         this.mediaService.moveMedia(this.mediaFileGroup!, this.type!)
             .subscribe(errors => {
@@ -85,5 +87,9 @@ export class MediaDetailComponent implements OnInit {
     private showPopup(message: string) {
         const closeMsg = this.translateService.instant(CLOSE_KEY);
         this.snackBar.open(message, closeMsg, { duration: DURATION });
+    }
+
+    setSeason(season: string) {
+        this.season = season;
     }
 }

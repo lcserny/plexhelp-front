@@ -1,4 +1,4 @@
-h1 {
+h1, h3 {
     font-family: "LatoLight";
 }
 
@@ -7,16 +7,12 @@ h1 {
 }
 
 .media-title {
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .search-item-card {
     padding: 15px;
-}
-
-h3 {
-    //text-align: center;
-    font-family: "LatoLight";
+    border: 1px solid black;
 }
 
 .row {
@@ -28,16 +24,15 @@ h3 {
     float: left;
 }
 
-.item-crt {
-    width: 35px;
-}
-
-.padded-left {
-    padding-left: 8px;
+.title-container {
+    padding-left: 10px;
 }
 
 .details-button {
     width: 150px;
     height: 40px;
-}
 
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+}

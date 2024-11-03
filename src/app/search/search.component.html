@@ -5,26 +5,23 @@
 </div>
 
 <div *ngIf="searchPerformed && currentPageMediaFileGroups.length > 0">
-    <mat-paginator
-        [length]="totalItems"
-        [pageSize]="defaultPageSize"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event)">
-    </mat-paginator>
+    <div class="pagination-container">
+        <mat-paginator
+            [length]="totalItems"
+            [pageSize]="defaultPageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
 
     <div *ngFor="let mediaFileGroup of currentPageMediaFileGroups; let i = index">
         <mat-card class="search-item-card">
-            <div class="row">
-                <div class="column item-crt">
-                    <mat-card-title><span class="media-title">{{this.currentPageStartIndex + i + 1}}.</span></mat-card-title>
-                </div>
-                <div class="column">
-                    <mat-card-title><span class="media-title padded-left">{{mediaFileGroup.name}}</span></mat-card-title>
-                    <mat-card-actions>
-                        <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{this.currentPageStartIndex + i}}">{{ "details" | translate }}</button>
-                    </mat-card-actions>
-                </div>
+            <div class="title-container">
+                <mat-card-title><span class="media-title">{{this.currentPageStartIndex + i + 1}}. {{mediaFileGroup.name}}</span></mat-card-title>
             </div>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{this.currentPageStartIndex + i}}">{{ "details" | translate }}</button>
+            </mat-card-actions>
         </mat-card>
         <br />
     </div>
