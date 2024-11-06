@@ -41,12 +41,8 @@ export class ListComponent {
                 private datePipe: DatePipe,
                 private translateService: TranslateService,
                 private snackBar: MatSnackBar) {
-        this.searchForm = new FormGroup({
-            name: this.produceDefaultNameControl()
-        });
-
+        this.searchForm = new FormGroup({name: this.produceDefaultNameControl()});
         this.reset();
-        this.loadMagnets(0, this.defaultPageSize, this.defaultSort);
     }
 
     private produceDefaultNameControl(): FormControl {
