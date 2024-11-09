@@ -1,10 +1,13 @@
-<h1>{{ "media files found" | translate }} <button mat-raised-button id="search-btn" (click)="initSearch()">{{ "refresh" | translate }}</button></h1>
+<h1>{{ "media files found" | translate }}</h1>
+<div class="button-container">
+    <button mat-raised-button id="search-btn" (click)="initSearch()">{{ "refresh" | translate }}</button>
+</div>
 
-<div *ngIf="searchPerformed && currentPageMediaFileGroups.length == 0">
+<div *ngIf="searchPerformed && currentPage.length == 0">
     <h3>{{ "no media found, try again" | translate }}</h3>
 </div>
 
-<div *ngIf="searchPerformed && currentPageMediaFileGroups.length > 0">
+<div *ngIf="searchPerformed && currentPage.length > 0">
     <div class="pagination-container">
         <mat-paginator
             [length]="totalItems"
@@ -14,14 +17,23 @@
         </mat-paginator>
     </div>
 
-    <div *ngFor="let mediaFileGroup of currentPageMediaFileGroups; let i = index">
+    <div *ngFor="let searchItem of currentPage; let i = index">
         <mat-card class="search-item-card">
-            <div class="title-container">
-                <mat-card-title><span class="media-title">{{this.currentPageStartIndex + i + 1}}. {{mediaFileGroup.name}}</span></mat-card-title>
+            <div style="display: flex">
+                <div class="toggle-container">
+                    <mat-slide-toggle color="accent" [checked]="searchItem.checked" (change)="toggleMedia($event.checked, this.currentIndex + i)"></mat-slide-toggle>
+                </div>
+                <div class="media-container">
+                    <div class="title-container">
+                        <mat-card-title><span class="media-title">{{this.currentIndex + i + 1}}. {{searchItem.group.name}}</span></mat-card-title>
+                    </div>
+                    <div class="actions-container">
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" class="details-button" (click)="goToMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>
+                        </mat-card-actions>
+                    </div>
+                </div>
             </div>
-            <mat-card-actions>
-                <button mat-raised-button color="primary" class="details-button" routerLink="/media-detail/{{this.currentPageStartIndex + i}}">{{ "details" | translate }}</button>
-            </mat-card-actions>
         </mat-card>
         <br />
     </div>

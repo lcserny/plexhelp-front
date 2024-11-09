@@ -4,6 +4,7 @@ import {SearchComponent} from './search.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 
 describe('SearchComponent', () => {
     let component: SearchComponent;
@@ -15,7 +16,8 @@ describe('SearchComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 TranslateModule.forRoot(),
-                MatPaginatorModule
+                MatPaginatorModule,
+                MatBottomSheetModule
             ]
         }).compileComponents();
 

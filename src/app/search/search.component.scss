@@ -2,17 +2,13 @@ h1, h3 {
     font-family: "LatoLight";
 }
 
-#search-btn {
-    margin-left: 10px;
-}
-
 .media-title {
     word-break: break-word;
 }
 
 .search-item-card {
     padding: 15px;
-    border: 1px solid black;
+    border-top: 1px solid black;
 }
 
 .row {
@@ -34,5 +30,22 @@ h1, h3 {
 
     @media (max-width: 600px) {
         width: 100%;
+    }
+}
+
+.toggle-container {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.media-container {
+    width: 100%;
+}
+
+.button-container {
+    margin-bottom: 10px;
+
+    button {
+        margin-right: 5px;
     }
 }

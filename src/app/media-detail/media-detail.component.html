@@ -1,26 +1,28 @@
 <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
 
-<div *ngIf="mediaFileGroup">
-    <h1>{{mediaFileGroup.name}}</h1>
-
-    <div>{{ "path" | translate }}</div>
-    <div class="path-text">{{mediaFileGroup.path}}</div>
-    <br/>
-
-    <div>{{ "media files" | translate }}</div>
-    <div class="files-text" *ngFor="let video of mediaFileGroup.videos; let i = index">
-        {{i+1}}. {{video}}
+<div *ngIf="mainMediaFileGroup">
+    <div class="header-container">
+        <h1>{{mainMediaFileGroup.name}}</h1><h3>{{groupText}}</h3>
     </div>
-    <br/>
+
+    <div *ngFor="let group of allMediaFileGroups">
+        <div>{{ "path" | translate }}</div>
+        <div class="path-text">{{group.path}}</div>
+        <div>{{ "media files" | translate }}:</div>
+        <div class="files-text" *ngFor="let video of group.videos; let i = index">
+            {{i+1}}. {{video}}
+        </div>
+        <br/>
+    </div>
 
     <div class="form-container">
         <div class="button-container">
             <button mat-raised-button color="primary"
-                    (click)="generateTVName(finalName ? finalName : mediaFileGroup.name!)">{{ "tv" | translate }}</button>
+                    (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'TV')">{{ "tv" | translate }}</button>
         </div>
         <div class="button-container">
             <button mat-raised-button color="primary"
-                    (click)="generateMovieName(finalName ? finalName : mediaFileGroup.name!)">{{ "movie" | translate }}</button>
+                    (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'MOVIE')">{{ "movie" | translate }}</button>
         </div>
     </div>
 

@@ -16,7 +16,7 @@ export const routes: Routes = [
     { path: "shutdown", component: ShutdownComponent, canActivate: [AdminAuthGuard] },
     { path: "magnets", component: ListComponent, canActivate: [AuthGuard] },
     { path: "messages", component: MessagesComponent },
-    { path: "media-detail/:idx", component: MediaDetailComponent, canActivate: [AuthGuard] },
+    { path: "media-detail", component: MediaDetailComponent, canActivate: [AuthGuard] },
     { path: "security", loadChildren: securityModule },
     { path: "user", loadChildren: userModule },
     { path: "", component: HomeComponent, canActivate: [AuthGuard] },

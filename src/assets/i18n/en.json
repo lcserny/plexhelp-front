@@ -42,7 +42,7 @@
 
     "back": "Back",
     "path": "Path:",
-    "media files": "Media files:",
+    "media files": "Media files",
     "tv": "TV",
     "movie": "Movie",
     "media destination name": "Media destination name",
@@ -101,5 +101,6 @@
     "magnet link": "Magnet link:",
     "fetch magnets failed": "Fetching magnet details failed!",
 
-    "season": "Season"
+    "season": "Season",
+    "other media": "other media"
 }

@@ -42,7 +42,7 @@
 
     "back": "Inapoi",
     "path": "Cale:",
-    "media files": "Fisiere media:",
+    "media files": "Fisiere media",
     "tv": "Serial",
     "movie": "Film",
     "media destination name": "Numele destinatiei",
@@ -101,5 +101,6 @@
     "magnet link": "Link-ul magnetului:",
     "fetch magnets failed": "Aducerea informatiilor magnetelor a esuat!",
 
-    "season": "Sezon"
+    "season": "Sezon",
+    "other media": "alte fisiere media"
 }
