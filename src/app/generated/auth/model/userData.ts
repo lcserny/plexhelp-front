@@ -8,6 +8,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
+import { UserPerm } from './userPerm';
+import { UserStatus } from './userStatus';
 
 
 export interface UserData { 
@@ -16,9 +19,12 @@ export interface UserData {
     password?: string;
     firstName?: string;
     lastName?: string;
-    roles?: Array<string>;
-    perms?: Array<string>;
-    status?: string;
+    roles?: Array<UserRole>;
+    perms?: Array<UserPerm>;
+    status?: UserStatus;
     created?: string;
 }
+export namespace UserData {
+}
+
 

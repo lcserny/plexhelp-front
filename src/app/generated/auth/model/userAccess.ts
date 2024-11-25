@@ -8,12 +8,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
+import { UserPerm } from './userPerm';
 
 
 export interface UserAccess { 
     accessToken: string;
     userId: string;
-    roles: Array<string>;
-    perms: Array<string>;
+    roles: Array<UserRole>;
+    perms: Array<UserPerm>;
 }
 

@@ -12,7 +12,7 @@ import { Status } from './status';
 
 
 export interface CommandResponse { 
-    status?: Status;
+    status: Status;
 }
 export namespace CommandResponse {
 }
