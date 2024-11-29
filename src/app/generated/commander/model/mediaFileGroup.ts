@@ -27,5 +27,9 @@ export interface MediaFileGroup {
      * Optional season to use for the subfolder in case of TV series.
      */
     season?: number;
+    /**
+     * If the media found has a parent directory in the downloads root
+     */
+    noParent?: boolean;
 }
 

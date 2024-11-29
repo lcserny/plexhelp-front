@@ -8,13 +8,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ObjectId } from './objectId';
+import { SearchDownloadedMediaDate } from './searchDownloadedMediaDate';
 
 
-export interface DownloadedMedia { 
-    id?: ObjectId;
-    fileName?: string;
-    fileSize?: number;
-    dateDownloaded?: string;
+export interface SearchDownloadedMedia { 
+    date?: SearchDownloadedMediaDate;
+    /**
+     * Search only for the downloaded media
+     */
+    downloaded?: boolean;
+    /**
+     * The media names to search for
+     */
+    names?: Array<string>;
 }
 

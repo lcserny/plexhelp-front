@@ -21,6 +21,7 @@
     "refresh": "Refresh",
     "no media found, try again": "No media files found, try again later.",
     "details": "Details",
+    "media not downloaded": "Media file is not downloaded completely yet",
 
     "use button below to shutdown or reboot": "Use the buttons below to shutdown or reboot this PC",
     "delay in minutes": "Delay in minutes",

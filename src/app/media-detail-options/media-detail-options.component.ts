@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { environment } from 'src/environments/environment';
-import {MediaDescription} from "../generated/commander/model/mediaDescription";
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
+import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptionData";
 
 @Component({
     selector: 'app-media-detail-options',
@@ -18,7 +18,7 @@ export class MediaDetailOptionsComponent {
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: RenamedMediaOptions,
     ) { }
 
-    selectDescription(desc: MediaDescription): void {
+    selectDescription(desc: MediaDescriptionData): void {
         let mediaName = desc.title + (desc.date ? ` (${desc.date})` : "");
         this.bottomSheetRef.dismiss(mediaName);
     }

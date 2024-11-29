@@ -15,5 +15,6 @@ export interface DownloadedMediaData {
     fileName?: string;
     fileSize?: number;
     dateDownloaded?: string;
+    downloadComplete?: boolean;
 }
 

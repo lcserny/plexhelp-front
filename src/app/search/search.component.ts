@@ -4,13 +4,12 @@ import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {PageEvent} from "@angular/material/paginator";
 import {environment} from "../../environments/environment";
 import {NavigationStart, Router} from "@angular/router";
-import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {MatButtonModule} from "@angular/material/button";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from "rxjs";
-import {group} from "@angular/animations";
 import {OTHER_MEDIA_KEY} from "../media-detail/media-detail.component";
+import {DownloadedMediaData} from "../generated/commander/model/downloadedMediaData";
 
 const SEARCH_PER_PAGE_KEY = "vm-front-search-perPage";
 
@@ -39,6 +38,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private readonly otherMediaText: string;
     private readonly clearText: string;
 
+    readonly detailsDisabledText: string;
+
     constructor(private mediaService: MediaService,
                 private router: Router,
                 private buttonsSheet: MatBottomSheet,
@@ -46,6 +47,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.detailsText = this.translateService.instant("details");
         this.otherMediaText = this.translateService.instant(OTHER_MEDIA_KEY);
         this.clearText = this.translateService.instant("reset");
+        this.detailsDisabledText = this.translateService.instant("media not downloaded");
 
         this.routerSubscription = this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
@@ -68,12 +70,32 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchPerformed = false;
         this.mediaService.searchMedia().subscribe(groups => {
             this.searchPerformed = true;
-            this.searchItems = groups.map((group, index) => {
-                return {index, group, checked: false};
+            const nameGroups = this.produceGroupWithNames(groups);
+            const allNames = nameGroups.map(ng => ng.names).flat();
+
+            this.mediaService.searchDownloadedMedia(undefined, undefined, allNames).subscribe(medias => {
+                this.searchItems = nameGroups.map((nameGroup, index) => this.createSearchItem(nameGroup, index, medias));
+                this.totalItems = groups.length;
+                this.adjustView(0, this.defaultPageSize);
             });
-            this.totalItems = groups.length;
-            this.adjustView(0, this.defaultPageSize);
         });
+    }
+
+    private createSearchItem(namesGroup: GroupWithNames, index: number, medias: DownloadedMediaData[]): SearchItem {
+        const foundMedia = medias.find(m => namesGroup.names.includes(m.fileName!))
+        return {index, group: namesGroup.group, checked: false, downloaded: !!foundMedia};
+    }
+
+    private produceGroupWithNames(groups: MediaFileGroup[]): GroupWithNames[] {
+        return groups.map((group) => ({ group, names: this.getVideoNames(group) }));
+    }
+
+    private getVideoNames(group: MediaFileGroup): string[] {
+        if (group.noParent) {
+            return group.videos;
+        }
+        // FIXME: could be improved with path-browserify
+        return group.videos.map(v => group.name + "/" + v)
     }
 
     onPageChange(event: PageEvent) {
@@ -156,10 +178,16 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 }
 
+interface GroupWithNames {
+    group: MediaFileGroup;
+    names: string[];
+}
+
 export interface SearchItem {
     index: number;
     checked: boolean;
     group: MediaFileGroup;
+    downloaded: boolean;
 }
 
 @Component({

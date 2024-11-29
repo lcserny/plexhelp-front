@@ -11,6 +11,8 @@ import {MediaRenameRequest} from "./generated/commander/model/mediaRenameRequest
 import {MediaMoveError} from "./generated/commander/model/mediaMoveError";
 import {MediaMoveRequest} from "./generated/commander/model/mediaMoveRequest";
 import {map} from "rxjs/operators";
+import {DownloadedMediaData} from "./generated/commander/model/downloadedMediaData";
+import {SearchDownloadedMedia} from "./generated/commander/model/searchDownloadedMedia";
 
 @Injectable({ providedIn: 'root' })
 export class MediaService extends BaseService {
@@ -32,6 +34,20 @@ export class MediaService extends BaseService {
                 return groups;
             }),
             catchError(this.handleError<MediaFileGroup[]>("searchMedia", []))
+        );
+    }
+
+    searchDownloadedMedia(date?: Date, downloaded?: boolean, names?: string[]): Observable<DownloadedMediaData[]> {
+        const url = `${environment.commanderApiUrl}/media-downloads`;
+
+        let req: SearchDownloadedMedia = { downloaded, names};
+        if (date) {
+            req.date = { year: date.getFullYear(), month: date.getMonth(), day: date.getDate() };
+        }
+
+        return this.http.post<DownloadedMediaData[]>(url, req, this.httpOptions).pipe(
+            tap(medias => this.log(`retrieved ${medias.length} downloaded media for: ${date?.toISOString()}, ${downloaded}, ${names?.join(', ')}`)),
+            catchError(this.handleError<DownloadedMediaData[]>("searchDownloadedMedia"))
         );
     }
 

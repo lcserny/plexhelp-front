@@ -10,11 +10,12 @@
  */
 
 
-export interface MediaDescription { 
-    posterUrl?: string;
-    title?: string;
-    date?: string;
-    description?: string;
-    cast?: Array<string>;
+/**
+ * Date of the downloaded media to search for
+ */
+export interface SearchDownloadedMediaDate { 
+    year: number;
+    month: number;
+    day: number;
 }
 

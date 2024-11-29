@@ -21,7 +21,7 @@
         <mat-card class="search-item-card">
             <div style="display: flex">
                 <div class="toggle-container">
-                    <mat-slide-toggle color="accent" [checked]="searchItem.checked" (change)="toggleMedia($event.checked, this.currentIndex + i)"></mat-slide-toggle>
+                    <mat-slide-toggle color="accent" [disabled]="!searchItem.downloaded" [checked]="searchItem.checked" (change)="toggleMedia($event.checked, this.currentIndex + i)"></mat-slide-toggle>
                 </div>
                 <div class="media-container">
                     <div class="title-container">
@@ -29,7 +29,9 @@
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" class="details-button" (click)="goToMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>
+                            <div [matTooltip]="!searchItem.downloaded ? detailsDisabledText : ''">
+                                <button mat-raised-button color="primary" class="details-button" [disabled]="!searchItem.downloaded" (click)="goToMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>
+                            </div>
                         </mat-card-actions>
                     </div>
                 </div>
