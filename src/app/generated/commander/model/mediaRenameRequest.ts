@@ -12,8 +12,8 @@ import { MediaFileType } from './mediaFileType';
 
 
 export interface MediaRenameRequest { 
-    name?: string;
-    type?: MediaFileType;
+    name: string;
+    type: MediaFileType;
 }
 export namespace MediaRenameRequest {
 }
