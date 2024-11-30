@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {UserService} from "../user.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserData} from "../../generated/auth/model/userData";
-import {UserResponse} from "../../generated/auth/model/userResponse";
 import {PaginatedUsers} from "../../generated/auth/model/paginatedUsers";
 import {PageEvent} from "@angular/material/paginator";
 import {SecurityService} from "../../security/security.service";
@@ -87,7 +86,7 @@ export class ListComponent {
         }
 
         this.userService.getAllUsers(page, perPage, username, firstName, lastName).subscribe(resp => {
-            if ((resp as UserResponse).error) {
+            if (!resp) {
                 this.showError();
                 return;
             }

@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, finalize, Observable, of, switchMap} from "rxjs";
 import {Router} from "@angular/router";
-import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {MessageService} from "../message.service";
 import {BaseService} from "../base.service";
 import {UserAccess} from "../generated/auth/model/userAccess";
-import {UserResponse} from "../generated/auth/model/userResponse";
 
 export const USER_KEY = "vm-front-user";
 
@@ -34,7 +33,7 @@ export class SecurityService extends BaseService {
         return this.userSubject.value;
     }
 
-    login(username: string, password: string): Observable<UserAccess | UserResponse> {
+    login(username: string, password: string): Observable<UserAccess> {
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate`, { username, password }, this.httpOptions).pipe(
             switchMap((user) => {
                 this.log("user logged in");
@@ -43,11 +42,7 @@ export class SecurityService extends BaseService {
                 this.userSubject.next(user);
                 return of(user);
             }),
-            catchError(this.handleErrorWith<UserResponse>("login", () => this.handleClearToken(), {
-                error: Error.name,
-                message: `Could not login`,
-                statusCode: HttpStatusCode.BadRequest,
-            }))
+            catchError(this.handleErrorWith<UserAccess>("login", () => this.handleClearToken()))
         );
     }
 
@@ -74,9 +69,9 @@ export class SecurityService extends BaseService {
         );
     }
 
-    logout(): Observable<UserResponse> {
-        return this.http.post<UserResponse>(`${environment.securityApiUrl}/authenticate/logout`, null, this.httpOptions).pipe(
-            catchError(this.handleError<UserResponse>("logout")),
+    logout(): Observable<string> {
+        return this.http.post<string>(`${environment.securityApiUrl}/authenticate/logout`, null, this.httpOptions).pipe(
+            catchError(this.handleError<string>("logout")),
             finalize(() => {
                 this.log("user logged out");
                 this.handleClearToken();

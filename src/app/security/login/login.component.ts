@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CLOSE_KEY, DURATION} from "../../app.component";
-import {UserResponse} from "../../generated/auth/model/userResponse";
 import {TranslateService} from "@ngx-translate/core";
 
 export const FAILED_KEY = "login error";
@@ -37,7 +36,7 @@ export class LoginComponent {
 
         this.securityService.login(username, password)
             .subscribe(user => {
-                if ((user as UserResponse).error) {
+                if (!user) {
                     this.showError();
                     return;
                 }

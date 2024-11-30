@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {UserService} from "../user.service";
 import {SecurityService} from "../../security/security.service";
-import {UserResponse} from "../../generated/auth/model/userResponse";
 import {UserData} from "../../generated/auth/model/userData";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
@@ -45,7 +44,7 @@ export class DetailsComponent {
         this.isAdmin = !!this.securityService.userValue?.roles.includes("ADMIN");
 
         this.userService.getUser(this.userId).subscribe(user => {
-            if (!user || (user as UserResponse).error) {
+            if (!user) {
                 this.showError();
                 return;
             }
@@ -124,8 +123,8 @@ export class DetailsComponent {
             created: parsedDate,
         };
 
-        this.userService.updateUser(this.userId, userData).subscribe(response => {
-            if ((response as UserResponse).error) {
+        this.userService.updateUser(this.userId, userData).subscribe(user => {
+            if (!user) {
                 this.showError();
                 return;
             }

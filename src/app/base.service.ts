@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
+import {ApplicationErrorResponse} from "./generated/auth/model/applicationErrorResponse";
 
 @Injectable({
     providedIn: 'root'
@@ -17,9 +18,8 @@ export abstract class BaseService {
         return this.handleErrorWith(operation, () => {}, result);
     }
 
-    // TODO improve result usage
     handleErrorWith<T>(operation = 'operation', process?: () => void, result?: T) {
-        return (error: any): Observable<T> => {
+        return (error: ApplicationErrorResponse): Observable<T> => {
             if (process) {
                 process();
             }

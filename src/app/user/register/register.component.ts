@@ -42,8 +42,8 @@ export class RegisterComponent {
         userRegistration.lastName = this.registerForm.get("lastName")?.value;
 
         this.userService.register(userRegistration)
-            .subscribe(response => {
-                if (response.error) {
+            .subscribe(message => {
+                if (!message) {
                     this.showError();
                     return;
                 }
