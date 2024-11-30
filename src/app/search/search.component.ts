@@ -70,6 +70,13 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchPerformed = false;
         this.mediaService.searchMedia().subscribe(groups => {
             this.searchPerformed = true;
+            if (!groups || groups.length < 1) {
+                this.searchItems = [];
+                this.totalItems = 0;
+                this.adjustView(0, this.defaultPageSize);
+                return;
+            }
+
             const nameGroups = this.produceGroupWithNames(groups);
             const allNames = nameGroups.map(ng => ng.names).flat();
 
