@@ -7,15 +7,15 @@ import {PageEvent} from "@angular/material/paginator";
 import {SecurityService} from "../../security/security.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CLOSE_KEY, DURATION} from "../../app.component";
+import {CLOSE_KEY, DURATION, NO_DATE_KEY} from "../../app.component";
 import {FETCH_FAILED_KEY} from "../details/details.component";
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../../../environments/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
+import {Pageable} from "../../base.service";
 
 const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
-const NO_DATE_KEY = "no date available";
 
 @Component({
     selector: 'app-list',
@@ -24,7 +24,7 @@ const NO_DATE_KEY = "no date available";
 })
 export class ListComponent {
 
-    pageSizeOptions = environment.usersListPageSizeOptions;
+    pageSizeOptions = environment.pageSizeOptions.usersList;
     defaultPageSize = Number(localStorage.getItem(USERS_PER_PAGE_KEY) || this.pageSizeOptions[1]);
     displayedColumns = ["edit", "id", "username", "firstName", "lastName", "status", "created"];
     dataSource = new MatTableDataSource<UserData>([]);
@@ -48,30 +48,26 @@ export class ListComponent {
         }
 
         this.searchForm = new FormGroup({
-            username: this.produceDefaultUsernameControl(),
-            firstName: this.produceDefaultFirstNameControl(),
-            lastName: this.produceDefaultLastNameControl(),
+            username: this.produceNumbersControl(),
+            firstName: this.produceTextControl(),
+            lastName: this.produceTextControl(),
         });
 
         this.reset();
     }
 
-    produceDefaultUsernameControl(): FormControl {
+    produceNumbersControl(): FormControl {
         return new FormControl("", [Validators.pattern('[a-zA-Z0-9]+')]);
     }
 
-    produceDefaultFirstNameControl(): FormControl {
-        return new FormControl("", [Validators.pattern('[a-zA-Z\-\']+')]);
-    }
-
-    produceDefaultLastNameControl(): FormControl {
+    produceTextControl(): FormControl {
         return new FormControl("", [Validators.pattern('[a-zA-Z\-\']+')]);
     }
 
     reset() {
-        this.searchForm.setControl("username", this.produceDefaultUsernameControl());
-        this.searchForm.setControl("firstName", this.produceDefaultFirstNameControl());
-        this.searchForm.setControl("lastName", this.produceDefaultLastNameControl());
+        this.searchForm.setControl("username", this.produceNumbersControl());
+        this.searchForm.setControl("firstName", this.produceTextControl());
+        this.searchForm.setControl("lastName", this.produceTextControl());
         this.loadData(0, this.defaultPageSize);
     }
 
@@ -85,7 +81,8 @@ export class ListComponent {
             lastName = this.searchForm.get("lastName")?.value;
         }
 
-        this.userService.getAllUsers(page, perPage, username, firstName, lastName).subscribe(resp => {
+        const pageable = new Pageable(page, perPage);
+        this.userService.getAllUsers(pageable, username, firstName, lastName).subscribe(resp => {
             if (!resp) {
                 this.showError();
                 return;

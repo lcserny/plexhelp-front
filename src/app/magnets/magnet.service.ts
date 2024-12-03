@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
-import {catchError, Observable} from "rxjs";
+import {catchError, Observable, tap} from "rxjs";
 import {PaginatedMagnets} from "../generated/commander/model/paginatedMagnets";
-import {BaseService} from "../base.service";
+import {BaseService, Pageable} from "../base.service";
 import {MessageService} from "../message.service";
 import {MagnetData} from "../generated/commander/model/magnetData";
 
@@ -20,15 +20,12 @@ export class MagnetService extends BaseService {
         super(messageService);
     }
 
-    getAllMagnets(page: number, perPage: number, sort: string[], name?: string): Observable<PaginatedMagnets> {
-        const sortJoined = sort.map(s => `&sort=${s}`).join();
+    getAllMagnets(pageable: Pageable, name?: string): Observable<PaginatedMagnets> {
+        const sortJoined = pageable.sortJoined();
         const nameFilter = name ? `&name=${name}` : "";
 
-        return this.http.get<PaginatedMagnets>(`${environment.commanderApiUrl}/magnets?page=${page}&size=${perPage}${sortJoined}${nameFilter}`, this.httpOptions).pipe(
-            map((magnets) => {
-                this.log("all magnets retrieved");
-                return magnets;
-            }),
+        return this.http.get<PaginatedMagnets>(`${environment.commanderApiUrl}/magnets?page=${pageable.page}&size=${pageable.perPage}${sortJoined}${nameFilter}`, this.httpOptions).pipe(
+            tap(page => this.log(`${page.content.length} magnets retrieved`)),
             catchError(this.handleErrorWith<PaginatedMagnets>("getAllMagnets", () => {}, {
                 content: [],
                 page: {

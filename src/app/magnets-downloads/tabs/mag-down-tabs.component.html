@@ -1,0 +1,12 @@
+<mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
+    <mat-tab label="{{ 'magnets' | translate }}">
+        <div class="tab-contents">
+            <app-magnets-list></app-magnets-list>
+        </div>
+    </mat-tab>
+    <mat-tab label="{{ 'downloads' | translate }}">
+        <div class="tab-contents">
+            <app-downloads-list></app-downloads-list>
+        </div>
+    </mat-tab>
+</mat-tab-group>

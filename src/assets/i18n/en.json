@@ -15,13 +15,14 @@
     "language": "Language",
     "users": "Users",
     "magnets": "Magnets",
+    "downloads": "Downloads",
 
     "media files found": "Media Files Found",
     "retry": "Retry",
     "refresh": "Refresh",
     "no media found, try again": "No media files found, try again later.",
     "details": "Details",
-    "media not downloaded": "Media file is not downloaded completely yet",
+    "media not downloaded": "Media files are not downloaded completely yet",
 
     "use button below to shutdown or reboot": "Use the buttons below to shutdown or reboot this PC",
     "delay in minutes": "Delay in minutes",
@@ -101,6 +102,7 @@
     "dateDownloaded": "Date Downloaded",
     "magnet link": "Magnet link:",
     "fetch magnets failed": "Fetching magnet details failed!",
+    "fetch downloads failed": "Fetching downloaded media failed!",
 
     "season": "Season",
     "other media": "other media"

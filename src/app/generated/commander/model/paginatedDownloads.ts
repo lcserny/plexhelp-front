@@ -8,12 +8,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DownloadedMediaData } from './downloadedMediaData';
 import { PaginatedBasePage } from './paginatedBasePage';
-import { MagnetData } from './magnetData';
 
 
-export interface PaginatedMagnets { 
+export interface PaginatedDownloads { 
     page: PaginatedBasePage;
-    content: Array<MagnetData>;
+    content: Array<DownloadedMediaData>;
 }
 

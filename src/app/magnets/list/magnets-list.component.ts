@@ -12,22 +12,23 @@ import {AddDialogComponent} from "../add-dialog/add-dialog.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CLOSE_KEY, DURATION} from "../../app.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Pageable} from "../../base.service";
 
 const MAGNETS_PER_PAGE_KEY = "vm-front-magnets-perPage";
 const NO_DATE_KEY = "no date available";
 const FETCH_FAILED_KEY = "fetch magnets failed";
 
 @Component({
-    selector: 'app-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss']
+    selector: 'app-magnets-list',
+    templateUrl: './magnets-list.component.html',
+    styleUrls: ['./magnets-list.component.scss']
 })
-export class ListComponent {
+export class MagnetsListComponent {
 
     noDateText = this.translateService.instant(NO_DATE_KEY);
 
     defaultSort = ["downloaded,ASC", "dateAdded,ASC"];
-    pageSizeOptions = environment.magnetViewPageSizeOptions;
+    pageSizeOptions = environment.pageSizeOptions.magnets;
     defaultPageSize = Number(localStorage.getItem(MAGNETS_PER_PAGE_KEY) || this.pageSizeOptions[0]);
     displayedColumns = ["downloaded", "name", "hash", "dateAdded", "dateDownloaded"];
     dataSource = new MatTableDataSource<MagnetData>([]);
@@ -60,7 +61,8 @@ export class ListComponent {
             name = this.searchForm.get("name")?.value;
         }
 
-        this.magnetService.getAllMagnets(page, size, sort, name).subscribe(paginatedMagnets => {
+        const pageable = new Pageable(page, size, sort);
+        this.magnetService.getAllMagnets(pageable, name).subscribe(paginatedMagnets => {
             this.dataSource.data = paginatedMagnets.content;
             this.totalItems = paginatedMagnets.page.totalElements;
         });

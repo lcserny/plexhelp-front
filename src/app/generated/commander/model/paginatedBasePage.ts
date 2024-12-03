@@ -8,12 +8,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PaginatedBasePage } from './paginatedBasePage';
-import { MagnetData } from './magnetData';
 
 
-export interface PaginatedMagnets { 
-    page: PaginatedBasePage;
-    content: Array<MagnetData>;
+export interface PaginatedBasePage { 
+    size: number;
+    number: number;
+    totalElements: number;
+    totalPages: number;
 }
 

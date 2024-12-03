@@ -7,7 +7,10 @@ export const environment = {
 
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
 
-    usersListPageSizeOptions: [5, 10, 25, 100],
-    mediaSearchPageSizeOptions: [10, 20, 50],
-    magnetViewPageSizeOptions: [10, 20, 50],
+    pageSizeOptions: {
+        usersList: [5, 10, 25, 100],
+        mediaSearch: [10, 20, 50],
+        magnets: [10, 20, 50],
+        downloads: [10, 20, 50, 100]
+    },
 };

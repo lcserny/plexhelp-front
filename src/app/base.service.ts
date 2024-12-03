@@ -30,3 +30,12 @@ export abstract class BaseService {
         };
     }
 }
+
+export class Pageable {
+
+    constructor(public page: number, public perPage: number, public sort: string[] = []) {}
+
+    sortJoined(): string {
+        return this.sort.map(s => `&sort=${s}`).join();
+    }
+}

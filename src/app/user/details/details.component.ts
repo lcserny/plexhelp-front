@@ -4,12 +4,11 @@ import {SecurityService} from "../../security/security.service";
 import {UserData} from "../../generated/auth/model/userData";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
-import {CLOSE_KEY, DURATION} from "../../app.component";
+import {CLOSE_KEY, DURATION, OPENAPI_DATE_FORMAT} from "../../app.component";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DatePipe, Location} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as moment from 'moment';
-import {OPENAPI_DATE_FORMAT} from "../../app.module";
 
 export const FETCH_FAILED_KEY = "fetch user failed";
 

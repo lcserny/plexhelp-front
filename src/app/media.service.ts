@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { MessageService } from './message.service';
-import { BaseService } from './base.service';
+import {BaseService, Pageable} from './base.service';
 import {environment} from "../environments/environment";
 import {MediaFileGroup} from "./generated/commander/model/mediaFileGroup";
 import {MediaFileType} from "./generated/commander/model/mediaFileType";
@@ -13,6 +13,7 @@ import {MediaMoveRequest} from "./generated/commander/model/mediaMoveRequest";
 import {map} from "rxjs/operators";
 import {DownloadedMediaData} from "./generated/commander/model/downloadedMediaData";
 import {SearchDownloadedMedia} from "./generated/commander/model/searchDownloadedMedia";
+import {PaginatedDownloads} from "./generated/commander/model/paginatedDownloads";
 
 @Injectable({ providedIn: 'root' })
 export class MediaService extends BaseService {
@@ -48,6 +49,34 @@ export class MediaService extends BaseService {
         return this.http.post<DownloadedMediaData[]>(url, req, this.httpOptions).pipe(
             tap(medias => this.log(`retrieved ${medias.length} downloaded media for: ${date?.toISOString()}, ${downloaded}, ${names?.join(', ')}`)),
             catchError(this.handleError<DownloadedMediaData[]>("searchDownloadedMedia"))
+        );
+    }
+
+    searchPaginatedDownloadedMedia(pageable: Pageable, date?: Date, downloaded?: boolean, name?: string): Observable<PaginatedDownloads> {
+        const sortJoined = pageable.sortJoined();
+        const url = `${environment.commanderApiUrl}/media-downloads/paginated?page=${pageable.page}&size=${pageable.perPage}${sortJoined}`;
+
+        let names: string[] = [];
+        if (name) {
+            names.push(name);
+        }
+
+        let req: SearchDownloadedMedia = { downloaded, names };
+        if (date) {
+            req.date = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        }
+
+        return this.http.post<PaginatedDownloads>(url, req, this.httpOptions).pipe(
+            tap(page => this.log(`retrieved ${page.content.length} downloaded media for: ${date}, ${downloaded}, ${name}`)),
+            catchError(this.handleErrorWith<PaginatedDownloads>("searchPaginatedDownloadedMedia", () => {}, {
+                content: [],
+                page: {
+                    size: 0,
+                    number: 0,
+                    totalElements: 0,
+                    totalPages: 0
+                }
+            }))
         );
     }
 

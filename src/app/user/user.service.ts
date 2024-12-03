@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {UserRegistration} from "../generated/auth/model/userRegistration";
-import {catchError, Observable} from "rxjs";
+import {catchError, Observable, tap} from "rxjs";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
 import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
-import {BaseService} from "../base.service";
+import {BaseService, Pageable} from "../base.service";
 import {MessageService} from "../message.service";
 import {UserData} from "../generated/auth/model/userData";
 import {PaginatedUsers} from "../generated/auth/model/paginatedUsers";
+import {PaginatedMagnets} from "../generated/commander/model/paginatedMagnets";
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
@@ -51,17 +52,14 @@ export class UserService extends BaseService {
         );
     }
 
-    getAllUsers(page: number, perPage: number, username?: string, firstName?: string, lastName?: string): Observable<PaginatedUsers> {
+    getAllUsers(pageable: Pageable, username?: string, firstName?: string, lastName?: string): Observable<PaginatedUsers> {
         const usernameFilter = username ? `&username=${username}` : "";
         const firstNameFilter = firstName ? `&firstName=${firstName}` : "";
         const lastNameFilter = lastName ? `&lastName=${lastName}` : "";
 
-        return this.http.get<PaginatedUsers>(`${environment.securityApiUrl}/users?page=${page}&perPage=${perPage}${usernameFilter}${firstNameFilter}${lastNameFilter}`, this.httpOptions).pipe(
-            map((users) => {
-                this.log("all users retrieved");
-                return users;
-            }),
-            catchError(this.handleError<PaginatedUsers>("getAllUsers"))
+        return this.http.get<PaginatedUsers>(`${environment.securityApiUrl}/users?page=${pageable.page}&perPage=${pageable.perPage}${usernameFilter}${firstNameFilter}${lastNameFilter}`, this.httpOptions).pipe(
+            tap(page => this.log(`${page.data.length} users retrieved`)),
+            catchError(this.handleErrorWith<PaginatedUsers>("getAllUsers"))
         );
     }
 }

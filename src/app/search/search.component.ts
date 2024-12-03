@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     searchItems: SearchItem[] = [];
 
-    pageSizeOptions = environment.mediaSearchPageSizeOptions;
+    pageSizeOptions = environment.pageSizeOptions.mediaSearch;
     defaultPageSize = Number(localStorage.getItem(SEARCH_PER_PAGE_KEY) || this.pageSizeOptions[0]);
     searchPerformed = false;
     currentIndex = 0;
@@ -70,22 +70,24 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchPerformed = false;
         this.mediaService.searchMedia().subscribe(groups => {
             this.searchPerformed = true;
-            if (!groups || groups.length < 1) {
-                this.searchItems = [];
-                this.totalItems = 0;
-                this.adjustView(0, this.defaultPageSize);
+
+            const nameGroups = this.produceGroupWithNames(groups);
+            if (!nameGroups || nameGroups.length < 1) {
+                this.setItems([], []);
                 return;
             }
 
-            const nameGroups = this.produceGroupWithNames(groups);
             const allNames = nameGroups.map(ng => ng.names).flat();
-
             this.mediaService.searchDownloadedMedia(undefined, true, allNames).subscribe(medias => {
-                this.searchItems = nameGroups.map((nameGroup, index) => this.createSearchItem(nameGroup, index, medias));
-                this.totalItems = groups.length;
-                this.adjustView(0, this.defaultPageSize);
+                this.setItems(nameGroups, medias);
             });
         });
+    }
+
+    private setItems(nameGroups: GroupWithNames[], medias: DownloadedMediaData[]) {
+        this.searchItems = nameGroups.map((nameGroup, index) => this.createSearchItem(nameGroup, index, medias));
+        this.totalItems = nameGroups.length;
+        this.adjustView(0, this.defaultPageSize);
     }
 
     private createSearchItem(namesGroup: GroupWithNames, index: number, medias: DownloadedMediaData[]): SearchItem {

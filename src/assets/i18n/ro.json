@@ -15,13 +15,14 @@
     "language": "Limba",
     "users": "Utilizatori",
     "magnets": "Magnete",
+    "downloads": "Descarcari",
 
     "media files found": "Fisiere Media Gasite",
     "retry": "Reincearca",
     "refresh": "Reinprospateaza",
     "no media found, try again": "Nu s-a gasit niciun fisier media, reincearca mai tarziu.",
     "details": "Detali",
-    "item not downloaded": "Fisierul media nu este complet descarcat",
+    "item not downloaded": "Fisierele media nu sunt descarcate complet",
 
     "use button below to shutdown or reboot": "Foloseste butoanele de mai jos pentru a executa oprirea sau repornirea PC-ului",
     "delay in minutes": "Decalare in minute",
@@ -101,6 +102,7 @@
     "dateDownloaded": "Data Descarcare",
     "magnet link": "Link-ul magnetului:",
     "fetch magnets failed": "Aducerea informatiilor magnetelor a esuat!",
+    "fetch downloads failed": "Aducerea fisierelor media descarcate a esuat!",
 
     "season": "Sezon",
     "other media": "alte fisiere media"

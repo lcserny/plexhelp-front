@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AppComponent} from './app.component';
+import {AppComponent, MY_DATE_FORMATS} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavigationComponent} from './navigation/navigation.component';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
-import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
@@ -37,32 +37,23 @@ import {TranslatedPaginator} from "./custom.paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_FORMATS} from "@angular/material/core";
-import { ListComponent } from './magnets/list/list.component';
+import {MagnetsListComponent} from './magnets/list/magnets-list.component';
 import {MatTableModule} from "@angular/material/table";
 import {DatePipe} from "@angular/common";
-import { AddDialogComponent } from './magnets/add-dialog/add-dialog.component';
+import {AddDialogComponent} from './magnets/add-dialog/add-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {DownloadsListComponent} from './downloads/list/downloads-list.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MagDownTabsComponent} from "./magnets-downloads/tabs/mag-down-tabs.component";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
-
-export const MY_DATE_FORMATS = {
-    parse: {
-        dateInput: 'YYYY-MM-DD', // The format used when parsing input
-    },
-    display: {
-        dateInput: 'YYYY-MM-DD', // The format used for displaying the date
-        monthYearLabel: 'MMM YYYY', // The format for the month-year label on the calendar
-        dateA11yLabel: 'LL', // Accessibility format
-        monthYearA11yLabel: 'MMMM YYYY', // Accessibility month-year format
-    }
-};
-
-export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
 
 @NgModule({
     declarations: [
@@ -75,8 +66,10 @@ export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
         MessagesComponent,
         MediaDetailOptionsComponent,
         ShutdownComponent,
-        ListComponent,
+        MagnetsListComponent,
         AddDialogComponent,
+        DownloadsListComponent,
+        MagDownTabsComponent
     ],
     imports: [
         BrowserModule,
@@ -113,7 +106,10 @@ export const OPENAPI_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
         MatDialogModule,
         MatButtonToggleModule,
         MatGridListModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatTabsModule,
+        MatDatepickerModule,
+        MatCheckboxModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
