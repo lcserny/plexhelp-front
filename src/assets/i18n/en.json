@@ -98,6 +98,7 @@
     "no date available": "No date available",
     "name": "Name",
     "hash": "Hash",
+    "size": "Size",
     "downloaded": "Downloaded",
     "dateDownloaded": "Date Downloaded",
     "magnet link": "Magnet link:",

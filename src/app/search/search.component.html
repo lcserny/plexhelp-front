@@ -8,16 +8,8 @@
 </div>
 
 <div *ngIf="searchPerformed && currentPage.length > 0">
-    <div class="pagination-container">
-        <mat-paginator
-            [length]="totalItems"
-            [pageSize]="defaultPageSize"
-            [pageSizeOptions]="pageSizeOptions"
-            (page)="onPageChange($event)">
-        </mat-paginator>
-    </div>
-
     <div *ngFor="let searchItem of currentPage; let i = index">
+        <br />
         <mat-card class="search-item-card">
             <div style="display: flex">
                 <div class="toggle-container">
@@ -37,6 +29,14 @@
                 </div>
             </div>
         </mat-card>
-        <br />
+    </div>
+
+    <div class="pagination-container">
+        <mat-paginator
+            [length]="totalItems"
+            [pageSize]="defaultPageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
 </div>

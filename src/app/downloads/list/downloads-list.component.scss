@@ -3,6 +3,11 @@
     align-items: center;
 }
 
+.responsive-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
 .downloaded-checkbox {
     margin-bottom: 18px;
 }
