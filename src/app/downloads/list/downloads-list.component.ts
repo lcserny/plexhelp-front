@@ -70,7 +70,6 @@ export class DownloadsListComponent {
 
         const pageable = new Pageable(page, perPage, sort);
         this.mediaService.searchPaginatedDownloadedMedia(pageable, date, downloaded, fileName).subscribe(paginatedResults => {
-            console.log(paginatedResults);
             this.dataSource.data = paginatedResults.content;
             this.totalItems = paginatedResults.page.totalElements;
         });
