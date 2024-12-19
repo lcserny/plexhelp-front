@@ -16,12 +16,9 @@ export class JwtInterceptor implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError((err: HttpErrorResponse) => {
-                console.log("Error, deciding what to do:", err);
                 if ([401, 403].includes(err.status)) {
-                    console.log("Error is Perm Denied, trying refresh.");
                     return this.handle401Error(req, next);
                 } else {
-                    console.log("Another error occurred, throwing.");
                     return throwError(() => err);
                 }
             })
@@ -44,13 +41,10 @@ export class JwtInterceptor implements HttpInterceptor {
     private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return this.securityService.refresh().pipe(
             switchMap((user) => {
-                console.log("Refresh resp received, adding new token header and retrying req.", user);
                 let clonedRequest = this.addTokenHeader(request, user);
-                console.log("New req with updated header is:", clonedRequest);
                 return next.handle(clonedRequest);
             }),
             catchError((err: HttpErrorResponse) => {
-                console.log("Error occurred during refresh req, logging out: ", err);
                 this.securityService.logout().subscribe();
                 return throwError(() => err);
             })
