@@ -50,7 +50,7 @@ body {
     display: none;
 }
 
-.mat-mdc-raised-button .mdc-button__label {
+.mat-mdc-raised-button .mdc-button__label, .mat-mdc-tab-header, .mat-mdc-tab-body-wrapper {
     z-index: 0 !important;
 }
 
