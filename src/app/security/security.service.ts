@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, finalize, Observable} from "rxjs";
-import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {MessageService} from "../message.service";
@@ -23,7 +22,7 @@ export class SecurityService extends BaseService {
 
     private refreshInProgress = false;
 
-    constructor(private router: Router, private http: HttpClient,
+    constructor(private http: HttpClient,
                 protected override messageService: MessageService) {
         super(messageService);
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem(USER_KEY)!));
@@ -53,18 +52,18 @@ export class SecurityService extends BaseService {
         }
 
         this.refreshInProgress = true;
+        this.userSubject.next(null);
 
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate/refresh`, null, this.httpOptions).pipe(
             map(user => {
                 this.log("refreshed access token");
 
                 this.refreshInProgress = false;
-                localStorage.setItem(USER_KEY, JSON.stringify(user));
                 this.userSubject.next(user);
+                localStorage.setItem(USER_KEY, JSON.stringify(user));
                 return user;
             }),
             catchError(this.handleErrorWith<UserAccess>("refresh", () => {
-                this.refreshInProgress = false;
                 this.handleClearToken();
             }))
         );
@@ -82,7 +81,7 @@ export class SecurityService extends BaseService {
 
     private handleClearToken() {
         localStorage.removeItem(USER_KEY);
+        this.refreshInProgress = false;
         this.userSubject.next(null);
-        this.router.navigate(["/security/login"]);
     }
 }
