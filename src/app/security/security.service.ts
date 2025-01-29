@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {MessageService} from "../message.service";
 import {BaseService} from "../base.service";
 import {UserAccess} from "../generated/auth/model/userAccess";
+import {map} from "rxjs/operators";
 
 export const USER_KEY = "vm-front-user";
 
@@ -34,12 +35,12 @@ export class SecurityService extends BaseService {
 
     login(username: string, password: string): Observable<UserAccess> {
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate`, { username, password }, this.httpOptions).pipe(
-            switchMap(user => {
+            map(user => {
                 this.log("user logged in");
 
                 localStorage.setItem(USER_KEY, JSON.stringify(user));
                 this.userSubject.next(user);
-                return of(user);
+                return user;
             }),
             catchError(this.handleErrorWith<UserAccess>("login", () => this.handleClearToken()))
         );
@@ -54,13 +55,13 @@ export class SecurityService extends BaseService {
         this.userSubject.next(null);
 
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate/refresh`, null, this.httpOptions).pipe(
-            switchMap(user => {
+            map(user => {
                 this.log("refreshed access token");
 
                 this.refreshInProgress = false;
                 this.userSubject.next(user);
                 localStorage.setItem(USER_KEY, JSON.stringify(user));
-                return of(user);
+                return user;
             }),
             catchError(this.handleErrorWith<UserAccess>("refresh", () => {
                 this.handleClearToken();
