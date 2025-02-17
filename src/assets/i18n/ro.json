@@ -22,7 +22,7 @@
     "refresh": "Reinprospateaza",
     "no media found, try again": "Nu s-a gasit niciun fisier media, reincearca mai tarziu.",
     "details": "Detali",
-    "item not downloaded": "Fisierele media nu sunt descarcate complet",
+    "media not downloaded": "Fisierele media nu sunt descarcate complet",
 
     "use button below to shutdown or reboot": "Foloseste butoanele de mai jos pentru a executa oprirea sau repornirea PC-ului",
     "delay in minutes": "Decalare in minute",
