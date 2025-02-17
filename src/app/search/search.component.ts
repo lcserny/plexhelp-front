@@ -99,6 +99,12 @@ export class SearchComponent implements OnInit, OnDestroy {
         return groups.map((group) => ({ group, names: this.getVideoNames(group) }));
     }
 
+    adminForceToggle(event: MouseEvent, searchItem: SearchItem): void {
+        if (event.shiftKey && event.altKey && event.ctrlKey) {
+            searchItem.downloaded = !searchItem.downloaded
+        }
+    }
+
     private getVideoNames(group: MediaFileGroup): string[] {
         if (group.noParent) {
             return group.videos;
