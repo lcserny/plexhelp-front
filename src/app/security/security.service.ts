@@ -6,6 +6,7 @@ import {MessageService} from "../message.service";
 import {BaseService} from "../base.service";
 import {UserAccess} from "../generated/auth/model/userAccess";
 import {map} from "rxjs/operators";
+import {ResponseMessage} from "../generated/auth/model/responseMessage";
 
 export const USER_KEY = "vm-front-user";
 
@@ -69,9 +70,9 @@ export class SecurityService extends BaseService {
         );
     }
 
-    logout(): Observable<string> {
-        return this.http.post<string>(`${environment.securityApiUrl}/authenticate/logout`, null, this.httpOptions).pipe(
-            catchError(this.handleError<string>("logout")),
+    logout(): Observable<ResponseMessage> {
+        return this.http.post<ResponseMessage>(`${environment.securityApiUrl}/authenticate/logout`, null, this.httpOptions).pipe(
+            catchError(this.handleError<ResponseMessage>("logout")),
             finalize(() => {
                 this.log("user logged out");
                 this.handleClearToken();
