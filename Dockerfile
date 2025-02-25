@@ -34,7 +34,9 @@ FROM nginx:1.20 as ngx
 COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
 
 #copying nginx config from local to image
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 #exposing internal port
 EXPOSE 80
+
+CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
