@@ -40,7 +40,7 @@ COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY src/environments/vars.sh /vars.sh
 
 #load env vars into nginx conf
-RUN . /vars.sh && envsubst "\$API_URL \$SECURITY_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf
+CMD . /vars.sh && envsubst "\$API_URL \$SECURITY_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf
 
 #exposing internal port
 EXPOSE 80
