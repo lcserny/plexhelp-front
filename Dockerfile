@@ -37,4 +37,4 @@ COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 #exposing internal port
-EXPOSE 81
+EXPOSE 80
