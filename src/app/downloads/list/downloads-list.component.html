@@ -46,7 +46,7 @@
 
             <ng-container matColumnDef="fileSize">
                 <th mat-header-cell *matHeaderCellDef> {{ "size" | translate }} </th>
-                <td mat-cell *matCellDef="let downMedia"> {{downMedia.fileSize}} </td>
+                <td mat-cell *matCellDef="let downMedia"> {{formatSize(downMedia.fileSize)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="dateDownloaded">

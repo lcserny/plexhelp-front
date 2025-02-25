@@ -111,4 +111,8 @@ export class DownloadsListComponent {
     formatDate(date?: number): string {
         return this.datePipe.transform(date ? date * 1000 : date, "yyyy-MM-dd") || this.noDateText;
     }
+
+    formatSize(size?: number): string {
+        return size ? (size / 1024 / 1024).toFixed(2) + " MB" : "";
+    }
 }
