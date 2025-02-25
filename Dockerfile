@@ -36,13 +36,7 @@ COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
 #copying nginx config from local to image
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
-#copying env vars
-COPY src/environments/vars.sh /vars.sh
-
-#load env vars into nginx conf
-RUN bash -c "source /vars.sh && envsubst \"\$API_URL \$SECURITY_URL\" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf"
-
 #exposing internal port
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD envsubst "\$API_URL \$SECURITY_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
