@@ -39,4 +39,4 @@ COPY nginx.conf /etc/nginx/templates/default.conf.template
 #exposing internal port
 EXPOSE 80
 
-CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '\$API_HOST \$SECURITY_HOST' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
