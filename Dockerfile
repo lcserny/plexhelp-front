@@ -1,7 +1,7 @@
 # STEP-1 BUILD
 # Defining node image and giving alias as node-helper
 # It's better to define version otherwise me might face issue in future build
-FROM node:20-bookworm as node-helper
+FROM docker.io/library/node:20-bookworm as node-helper
 
 #install chrome, needed for testing
 RUN apt update
@@ -28,7 +28,7 @@ RUN npx ng build
 
 #STEP-2 RUN
 #Defining nginx img
-FROM nginx:1.20 as ngx
+FROM docker.io/library/nginx:1.20 as ngx
 
 #copying compiled code from dist to nginx folder for serving
 COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
