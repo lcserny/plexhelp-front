@@ -10,7 +10,10 @@ import {CommandRequest} from "./generated/commander/model/commandRequest";
 @Injectable({ providedIn: 'root' })
 export class ShutdownService extends BaseService {
 
-    private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    private httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        withCredentials: true
+    };
 
     constructor(private http: HttpClient, protected override messageService: MessageService) {
         super(messageService);
