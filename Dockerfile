@@ -28,7 +28,9 @@ RUN npx ng build
 
 #STEP-2 RUN
 #Defining nginx img
-FROM docker.io/library/nginx:1.20 as ngx
+FROM docker.io/library/nginx:alpine as ngx
+
+RUN apk add --no-cache gettext-envsubst
 
 #copying compiled code from dist to nginx folder for serving
 COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
