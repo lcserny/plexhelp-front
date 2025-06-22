@@ -30,9 +30,7 @@ RUN npx ng build
 #Defining nginx img
 FROM docker.io/library/nginx:alpine as ngx
 
-RUN apk add --no-cache gettext-envsubst nmap
-
-RUN setcap cap_net_raw+eip $(which nmap)
+RUN apk add --no-cache gettext-envsubst
 
 #copying compiled code from dist to nginx folder for serving
 COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
