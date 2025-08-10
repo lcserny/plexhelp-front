@@ -66,6 +66,7 @@ export class SecurityService extends BaseService {
             }),
             catchError(this.handleErrorWith<UserAccess>("refresh", () => {
                 this.handleClearToken();
+                return null;
             }))
         );
     }

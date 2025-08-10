@@ -14,6 +14,10 @@ import { UserPerm } from './userPerm';
 
 export interface UserAccess { 
     accessToken: string;
+    /**
+     * RFC 3339 timestamp in UTC for when the access token expires
+     */
+    expires?: string;
     userId: string;
     roles: Array<UserRole>;
     perms: Array<UserPerm>;

@@ -44,10 +44,12 @@ export class JwtInterceptor implements HttpInterceptor {
                 return next.handle(clonedRequest);
             }),
             catchError((err: HttpErrorResponse) => {
-                this.securityService.logout().subscribe(_ => {
-                    this.router.navigate(["/security/login"]);
-                });
-                return throwError(() => err);
+                return this.securityService.logout().pipe(
+                    switchMap(() => {
+                        this.router.navigate(["/security/login"]);
+                        return throwError(() => err);
+                    })
+                );
             })
         );
     }
