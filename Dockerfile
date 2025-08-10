@@ -41,4 +41,4 @@ COPY nginx.conf /etc/nginx/templates/default.conf.template
 #exposing internal port
 EXPOSE 80
 
-CMD envsubst "\$API_URL \$SECURITY_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+CMD envsubst "\$API_URL \$AUTH_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'

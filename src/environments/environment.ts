@@ -2,7 +2,7 @@
 
 export const environment = {
     commanderApiUrl: `/api`,
-    securityApiUrl: `/security`,
+    securityApiUrl: `/auth`,
 
     fallbackPosterUrl: "/assets/img/no-poster.jpg",
 
