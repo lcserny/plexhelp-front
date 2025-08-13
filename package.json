@@ -5,6 +5,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build:dev": "ng build --configuration development --source-map",
         "watch": "ng build --watch --configuration development",
         "specgen": "openapi-generator-cli generate -i spec.yml -g typescript-angular -o src/app/generated/commander --global-property models",
         "specgen:auth": "openapi-generator-cli generate -i auth-spec.yml -g typescript-angular -o src/app/generated/auth --global-property models",

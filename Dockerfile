@@ -39,6 +39,6 @@ COPY --from=node-helper /app/dist/front /usr/share/nginx/html/front
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 #exposing internal port
-EXPOSE 80
+EXPOSE 443
 
-CMD envsubst "\$API_URL \$AUTH_URL" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+CMD envsubst "\$API_URL \$AUTH_URL \$SSL_CERT_PATH \$SSL_KEY_PATH \$SSL_CA_CERT_PATH" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
