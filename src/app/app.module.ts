@@ -39,7 +39,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_FORMATS} from "@angular/material/core";
 import {MagnetsListComponent} from './magnets/list/magnets-list.component';
 import {MatTableModule} from "@angular/material/table";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 import {AddDialogComponent} from './magnets/add-dialog/add-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -109,7 +109,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatTooltipModule,
         MatTabsModule,
         MatDatepickerModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgOptimizedImage
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
