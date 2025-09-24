@@ -26,15 +26,16 @@
         </div>
     </div>
 
+    <div class="form-container input-container">
+        <mat-form-field appearance="outline" color="accent" class="dest-field">
+            <mat-label>{{ "media destination name" | translate }}</mat-label>
+            <input matInput [(ngModel)]="finalName">
+        </mat-form-field>
+    </div>
+
     <div *ngIf="type && finalName">
-        <div class="form-container input-container">
-            <mat-form-field appearance="outline" color="accent" class="dest-field">
-                <mat-label>{{ "media destination name" | translate }}</mat-label>
-                <input matInput [(ngModel)]="finalName">
-            </mat-form-field>
-        </div>
-        <p>{{ "season" | translate }}</p>
         <div *ngIf="type === 'TV'" class="form-container">
+            <p>{{ "season" | translate }}</p>
             <mat-button-toggle-group [ngModel]="season" (change)="setSeason($event.value)" class="season-toggle-group">
                 <mat-button-toggle value="" class="season-toggle">-</mat-button-toggle>
                 <mat-button-toggle value="1" class="season-toggle">1</mat-button-toggle>
