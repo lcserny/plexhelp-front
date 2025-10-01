@@ -23,7 +23,7 @@
                     <div class="actions-container">
                         <mat-card-actions>
                             <div [matTooltip]="!searchItem.downloaded ? detailsDisabledText : ''">
-                                <button mat-raised-button color="primary" class="details-button" [disabled]="!searchItem.downloaded" (click)="goToMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>
+                                <button mat-raised-button color="primary" class="details-button" [disabled]="!searchItem.downloaded" (click)="goToSingleMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>
                             </div>
                         </mat-card-actions>
                     </div>

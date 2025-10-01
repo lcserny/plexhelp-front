@@ -40,7 +40,8 @@ export class MediaDetailComponent {
     ) {
         // only available in constructor
         const navigation = this.router.getCurrentNavigation();
-        const state = navigation?.extras.state as MediaFileGroup[];
+        let state: MediaFileGroup[] = navigation?.extras.state?.["items"] ?? [];
+
         if (state) {
             this.allMediaFileGroups = state;
             this.mainMediaFileGroup = this.allMediaFileGroups[0];

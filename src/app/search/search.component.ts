@@ -128,7 +128,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.bottomSheetRef.afterDismissed().subscribe((action: SearchButtonsCommand) => {
             switch (action) {
                 case "GO_TO_DETAILS":
-                    this.goToToggledMediaDetails();
+                    this.goToMultipleMediaDetails();
                     break;
                 case "CLEAR":
                     this.clearToggles();
@@ -147,13 +147,18 @@ export class SearchComponent implements OnInit, OnDestroy {
         }
     }
 
-    goToMediaDetails(index: number) {
-        this.router.navigate([`/media-detail`], {state: [this.searchItems[index].group]});
+    goToSingleMediaDetails(index: number) {
+        const items: MediaFileGroup[] = [this.searchItems[index].group];
+        this.navigateToMediaDetails(items);
     }
 
-    goToToggledMediaDetails() {
-        const items = this.searchItems.filter(value => value.checked).map(value => value.group);
-        this.router.navigate([`/media-detail`], {state: items});
+    goToMultipleMediaDetails() {
+        const items: MediaFileGroup[] = this.searchItems.filter(value => value.checked).map(value => value.group);
+        this.navigateToMediaDetails(items);
+    }
+
+    private navigateToMediaDetails(items: MediaFileGroup[])  {
+        this.router.navigate([`/media-detail`], { state: { items } });
     }
 
     toggleMedia(checked: boolean, index: number) {
