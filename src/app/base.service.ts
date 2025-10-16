@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
-import { Observable, of } from 'rxjs';
-import {ApplicationErrorResponse} from "./generated/auth/model/applicationErrorResponse";
+import {Observable} from 'rxjs';
+import {ApplicationErrorResponse as authError} from "./generated/auth/model/applicationErrorResponse";
+import {ApplicationErrorResponse as apiError} from "./generated/commander/model/applicationErrorResponse";
+import {HttpErrorResponse} from "@angular/common/http";
+import {MessageType} from "./messages/messages.model";
 
 @Injectable({
     providedIn: 'root'
@@ -10,24 +13,19 @@ export abstract class BaseService {
 
     protected constructor(protected messageService: MessageService) { }
 
-    log(message: string) {
-        this.messageService.add(`${message}`);
+    log(message: string, type: MessageType) {
+        this.messageService.add(message, type);
     }
 
-    handleError<T>(operation = 'operation', result?: T) {
-        return this.handleErrorWith(operation, () => {}, result);
+    info(message: string) {
+        this.log(message, "INFO");
     }
 
-    handleErrorWith<T>(operation = 'operation', process?: () => void, result?: T) {
-        return (error: ApplicationErrorResponse): Observable<T> => {
-            if (process) {
-                process();
-            }
-
-            console.error(error);
-            this.log(`${operation} failed: ${error.message}`);
-            return of(result as T);
-        };
+    error(outerError: HttpErrorResponse): Observable<never> {
+        const actualError = (outerError.error?.error ?? outerError.error) as (authError | apiError);
+        const errorLog = `code=${actualError.code}, type=${actualError.type}, message=${actualError.message}`;
+        this.messageService.add(errorLog, "ERROR");
+        throw actualError;
     }
 }
 

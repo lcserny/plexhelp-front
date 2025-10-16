@@ -41,15 +41,10 @@ export class RegisterComponent {
         userRegistration.firstName = this.registerForm.get("firstName")?.value;
         userRegistration.lastName = this.registerForm.get("lastName")?.value;
 
-        this.userService.register(userRegistration)
-            .subscribe(message => {
-                if (!message) {
-                    this.showError();
-                    return;
-                }
-
-                this.router.navigate(["/security/login"]);
-            });
+        this.userService.register(userRegistration).subscribe({
+            next: _ => this.router.navigate(["/security/login"]),
+            error: _ => this.showError()
+        });
     }
 
     private showError() {

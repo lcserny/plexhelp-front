@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {UserService} from "../user.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserData} from "../../generated/auth/model/userData";
-import {PaginatedUsers} from "../../generated/auth/model/paginatedUsers";
 import {PageEvent} from "@angular/material/paginator";
 import {SecurityService} from "../../security/security.service";
 import {Router} from "@angular/router";
@@ -82,15 +81,12 @@ export class ListComponent {
         }
 
         const pageable = new Pageable(page, perPage);
-        this.userService.getAllUsers(pageable, username, firstName, lastName).subscribe(resp => {
-            if (!resp) {
-                this.showError();
-                return;
-            }
-
-            const paginatedUsers = resp as PaginatedUsers;
-            this.dataSource.data = paginatedUsers.data;
-            this.totalItems = paginatedUsers.total;
+        this.userService.getAllUsers(pageable, username, firstName, lastName).subscribe({
+            next: paginatedUsers => {
+                this.dataSource.data = paginatedUsers.data;
+                this.totalItems = paginatedUsers.total;
+            },
+            error: _ => this.showError()
         });
     }
 

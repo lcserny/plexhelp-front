@@ -34,17 +34,10 @@ export class LoginComponent {
         const username = this.loginForm.get("username")?.value;
         const password = this.loginForm.get("password")?.value;
 
-        this.securityService.login(username, password)
-            .subscribe(user => {
-                if (!user) {
-                    this.showError();
-                    return;
-                }
-
-                this.route.queryParamMap.subscribe(params => {
-                    this.router.navigate([params.get("returnUrl") || "/"]);
-                })
-            });
+        this.securityService.login(username, password).subscribe({
+            next: user => this.route.queryParamMap.subscribe(params => this.router.navigate([params.get("returnUrl") || "/"])),
+            error: _ => this.showError()
+        });
     }
 
     private showError() {

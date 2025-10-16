@@ -14,7 +14,7 @@ export interface ApplicationErrorResponse {
     /**
      * the error type
      */
-    error: string;
+    type?: string;
     /**
      * the error description
      */

@@ -1,10 +1,10 @@
-<h1>{{ "current messages" | translate }} <button mat-raised-button id="clear-btn" (click)="messageService.clear()">{{ "clear all" | translate }}</button></h1>
+<h1>{{ "current messages" | translate }} <button mat-raised-button id="clear-btn" (click)="clearMessages()">{{ "clear all" | translate }}</button></h1>
 
-<div *ngIf="messageService.messages.length">
-    <div *ngFor="let message of messageService.messages; let i = index">
+<div *ngIf="messages">
+    <div *ngFor="let m of messages">
         <mat-card class="messages-item-card">
             <mat-card-header>
-                <mat-card-subtitle>{{message}}</mat-card-subtitle>
+                <mat-card-subtitle>{{m.date | date:'yyyy-MM-dd HH:mm:ss'}} {{m.type}}: {{m.message}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>
         <br />

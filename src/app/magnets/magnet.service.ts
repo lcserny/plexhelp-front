@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {map} from "rxjs/operators";
 import {catchError, Observable, tap} from "rxjs";
 import {PaginatedMagnets} from "../generated/commander/model/paginatedMagnets";
 import {BaseService, Pageable} from "../base.service";
@@ -25,26 +24,15 @@ export class MagnetService extends BaseService {
         const nameFilter = name ? `&name=${name}` : "";
 
         return this.http.get<PaginatedMagnets>(`${environment.commanderApiUrl}/magnets?page=${pageable.page}&size=${pageable.perPage}${sortJoined}${nameFilter}`, this.httpOptions).pipe(
-            tap(page => this.log(`${page.content.length} magnets retrieved`)),
-            catchError(this.handleErrorWith<PaginatedMagnets>("getAllMagnets", () => {}, {
-                content: [],
-                page: {
-                    size: 0,
-                    number: 0,
-                    totalElements: 0,
-                    totalPages: 0
-                }
-            }))
+            tap(page => this.info(`${page.content.length} magnet(s) retrieved`)),
+            catchError(err => this.error(err))
         );
     }
 
     addMagnet(link: string): Observable<MagnetData> {
         return this.http.post<MagnetData>(`${environment.commanderApiUrl}/magnets`, link, this.httpOptions).pipe(
-            map((magnet) => {
-                this.log(`added magnet ${link.substring(0, 50)}`);
-                return magnet;
-            }),
-            catchError(this.handleError<MagnetData>("addMagnet"))
+            tap(_ => this.info(`added magnet ${link.substring(0, 50)}`)),
+            catchError(err => this.error(err))
         );
     }
 }

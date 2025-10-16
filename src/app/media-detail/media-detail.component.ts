@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {Router} from '@angular/router';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
-import {isNotEmptyArray, MediaService} from '../media.service';
+import {MediaService} from '../media.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {MediaFileType} from "../generated/commander/model/mediaFileType";
@@ -13,6 +13,8 @@ import {CLOSE_KEY, DURATION} from "../app.component";
 
 export const MOVE_SUCCESS_KEY = "successfully moved media";
 export const MOVE_FAILED_KEY = "failed move media";
+export const MOVE_PARTIAL_KEY = "partial move media";
+export const GEN_OPTS_FAILED_KEY = "generating rename options failed";
 export const OTHER_MEDIA_KEY = "other media";
 
 @Component({
@@ -62,8 +64,10 @@ export class MediaDetailComponent {
 
     generateName(name: string, type: MediaFileType): void {
         this.type = type;
-        this.mediaService.generateNameOptions(name, this.type)
-            .subscribe(opts => this.handleOptionsSheet(opts));
+        this.mediaService.generateNameOptions(name, this.type).subscribe({
+            next: opts => this.handleOptionsSheet(opts),
+            error: _ => this.showPopup(this.translateService.instant(GEN_OPTS_FAILED_KEY))
+        });
     }
 
     handleOptionsSheet(opts: RenamedMediaOptions): void {
@@ -83,13 +87,16 @@ export class MediaDetailComponent {
             }
         })
 
-        this.mediaService.moveAllMedia(this.allMediaFileGroups!, this.type!).subscribe(errors => {
-            if (isNotEmptyArray(errors)) {
-                this.showPopup(this.translateService.instant(MOVE_FAILED_KEY));
-            } else {
-                this.showPopup(this.translateService.instant(MOVE_SUCCESS_KEY));
-                this.goBack()
-            }
+        this.mediaService.moveAllMedia(this.allMediaFileGroups!, this.type!).subscribe({
+            next: errors => {
+                if (errors.length == 0) {
+                    this.showPopup(this.translateService.instant(MOVE_SUCCESS_KEY));
+                    this.goBack()
+                } else {
+                    this.showPopup(this.translateService.instant(MOVE_PARTIAL_KEY));
+                }
+            },
+            error: _ => this.showPopup(this.translateService.instant(MOVE_FAILED_KEY))
         });
     }
 

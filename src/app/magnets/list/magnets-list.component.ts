@@ -62,9 +62,12 @@ export class MagnetsListComponent {
         }
 
         const pageable = new Pageable(page, size, sort);
-        this.magnetService.getAllMagnets(pageable, name).subscribe(paginatedMagnets => {
-            this.dataSource.data = paginatedMagnets.content;
-            this.totalItems = paginatedMagnets.page.totalElements;
+        this.magnetService.getAllMagnets(pageable, name).subscribe({
+            next: paginatedMagnets => {
+                this.dataSource.data = paginatedMagnets.content;
+                this.totalItems = paginatedMagnets.page.totalElements;
+            },
+            error: _ => this.showError()
         });
     }
 
@@ -85,9 +88,10 @@ export class MagnetsListComponent {
         const dialogRef = this.dialog.open(AddDialogComponent);
         dialogRef.afterClosed().subscribe(magnetLink => {
             if (magnetLink !== undefined) {
-                this.magnetService.addMagnet(magnetLink).subscribe(data => {
-                    this.loadMagnets(0, this.defaultPageSize, this.defaultSort);
-                })
+                this.magnetService.addMagnet(magnetLink).subscribe({
+                    next: _ => this.loadMagnets(0, this.defaultPageSize, this.defaultSort),
+                    error: _ => this.showError()
+                });
             }
         });
     }

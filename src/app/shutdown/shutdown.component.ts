@@ -21,29 +21,24 @@ export class ShutdownComponent {
 
     constructor(private shutdownService: ShutdownService,
                 public snackBar: MatSnackBar,
-                private translateService: TranslateService
-    ) {
-        this.shutdownForm = new FormGroup({
-            minutes: new FormControl(''),
-        });
+                private translateService: TranslateService) {
+        this.shutdownForm = new FormGroup({minutes: new FormControl(''),});
     }
 
     shutdown(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        this.shutdownService.shutdown(Number(minutes))
-            .subscribe(cmdResp => this.showPopup(cmdResp?.status === "SUCCESS"
-                ? this.translateService.instant(SHUTDOWN_SUCCESS_KEY)
-                : this.translateService.instant(SHUTDOWN_FAILED_KEY)
-            ));
+        this.shutdownService.shutdown(Number(minutes)).subscribe({
+            next: _ => this.showPopup(this.translateService.instant(SHUTDOWN_SUCCESS_KEY)),
+            error: _ => this.showPopup(this.translateService.instant(SHUTDOWN_FAILED_KEY))
+        });
     }
 
     reboot(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        this.shutdownService.reboot(Number(minutes))
-            .subscribe(cmdResp => this.showPopup(cmdResp?.status === "SUCCESS"
-                ? this.translateService.instant(RESTART_SUCCESS_KEY)
-                : this.translateService.instant(RESTART_FAILED_KEY)
-            ));
+        this.shutdownService.reboot(Number(minutes)).subscribe({
+            next: _ => this.showPopup(this.translateService.instant(RESTART_SUCCESS_KEY)),
+            error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
+        });
     }
 
     private showPopup(message: string) {

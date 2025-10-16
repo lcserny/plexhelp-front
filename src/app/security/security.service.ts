@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, finalize, Observable, of, switchMap} from "rxjs";
+import {BehaviorSubject, catchError, finalize, Observable, tap} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {MessageService} from "../message.service";
 import {BaseService} from "../base.service";
 import {UserAccess} from "../generated/auth/model/userAccess";
-import {map} from "rxjs/operators";
 import {ResponseMessage} from "../generated/auth/model/responseMessage";
 
 export const USER_KEY = "vm-front-user";
@@ -36,14 +35,15 @@ export class SecurityService extends BaseService {
 
     login(username: string, password: string): Observable<UserAccess> {
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate`, { username, password }, this.httpOptions).pipe(
-            map(user => {
-                this.log("user logged in");
-
+            tap(user => {
+                this.info("user logged in");
                 localStorage.setItem(USER_KEY, JSON.stringify(user));
                 this.userSubject.next(user);
-                return user;
             }),
-            catchError(this.handleErrorWith<UserAccess>("login", () => this.handleClearToken()))
+            catchError(err => {
+                this.handleClearToken();
+                return this.error(err);
+            })
         );
     }
 
@@ -56,26 +56,24 @@ export class SecurityService extends BaseService {
         this.userSubject.next(null);
 
         return this.http.post<UserAccess>(`${environment.securityApiUrl}/authenticate/refresh`, null, this.httpOptions).pipe(
-            map(user => {
-                this.log("refreshed access token");
-
+            tap(user => {
+                this.info("refreshed access token");
                 this.refreshInProgress = false;
                 this.userSubject.next(user);
                 localStorage.setItem(USER_KEY, JSON.stringify(user));
-                return user;
             }),
-            catchError(this.handleErrorWith<UserAccess>("refresh", () => {
+            catchError(err => {
                 this.handleClearToken();
-                return null;
-            }))
+                return this.error(err);
+            })
         );
     }
 
     logout(): Observable<ResponseMessage> {
         return this.http.post<ResponseMessage>(`${environment.securityApiUrl}/authenticate/logout`, null, this.httpOptions).pipe(
-            catchError(this.handleError<ResponseMessage>("logout")),
+            catchError(err => this.error(err)),
             finalize(() => {
-                this.log("user logged out");
+                this.info("user logged out");
                 this.handleClearToken();
             })
         );

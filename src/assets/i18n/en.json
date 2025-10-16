@@ -67,9 +67,14 @@
     "restart failed": "Restart failed!",
     "successfully moved media": "Successfully moved media!",
     "failed move media": "Failed to move media, check messages!",
+    "partial move media": "Failed to move some media, check messages!",
 
     "fetch user failed": "Fetching user details failed!",
     "registration failed": "Registration error, please try again or contact administrator.",
+
+    "search items failed": "Searching media files failed, check messages!",
+
+    "generating rename options failed": "Generating rename options failed, check messages!",
 
     "user details": "User Details",
     "roles": "Roles",

@@ -10,7 +10,6 @@ import {RenamedMediaOptions} from "./generated/commander/model/renamedMediaOptio
 import {MediaRenameRequest} from "./generated/commander/model/mediaRenameRequest";
 import {MediaMoveError} from "./generated/commander/model/mediaMoveError";
 import {MediaMoveRequest} from "./generated/commander/model/mediaMoveRequest";
-import {map} from "rxjs/operators";
 import {DownloadedMediaData} from "./generated/commander/model/downloadedMediaData";
 import {SearchDownloadedMedia} from "./generated/commander/model/searchDownloadedMedia";
 import {PaginatedDownloads} from "./generated/commander/model/paginatedDownloads";
@@ -30,11 +29,8 @@ export class MediaService extends BaseService {
     searchMedia(): Observable<MediaFileGroup[]> {
         const url = `${environment.commanderApiUrl}/media-searches`;
         return this.http.get<MediaFileGroup[]>(url, this.httpOptions).pipe(
-            map(groups => {
-                this.log(`search for media files returned ${groups.length} files`);
-                return groups;
-            }),
-            catchError(this.handleError<MediaFileGroup[]>("searchMedia", []))
+            tap(groups => this.info(`search for media files returned ${groups.length} files`)),
+            catchError(err => this.error(err))
         );
     }
 
@@ -47,8 +43,8 @@ export class MediaService extends BaseService {
         }
 
         return this.http.post<DownloadedMediaData[]>(url, req, this.httpOptions).pipe(
-            tap(medias => this.log(`retrieved ${medias.length} downloaded media for: ${date?.toISOString()}, ${downloaded}, ${names?.join(', ')}`)),
-            catchError(this.handleError<DownloadedMediaData[]>("searchDownloadedMedia"))
+            tap(medias => this.info(`retrieved ${medias.length} downloaded media for: ${date?.toISOString()}, ${downloaded}, ${names?.join(', ')}`)),
+            catchError(err => this.error(err))
         );
     }
 
@@ -67,16 +63,8 @@ export class MediaService extends BaseService {
         }
 
         return this.http.post<PaginatedDownloads>(url, req, this.httpOptions).pipe(
-            tap(page => this.log(`retrieved ${page.content.length} downloaded media for: ${date}, ${downloaded}, ${name}`)),
-            catchError(this.handleErrorWith<PaginatedDownloads>("searchPaginatedDownloadedMedia", () => {}, {
-                content: [],
-                page: {
-                    size: 0,
-                    number: 0,
-                    totalElements: 0,
-                    totalPages: 0
-                }
-            }))
+            tap(page => this.info(`retrieved ${page.content.length} downloaded media for: ${date}, ${downloaded}, ${name}`)),
+            catchError(err => this.error(err))
         );
     }
 
@@ -84,25 +72,8 @@ export class MediaService extends BaseService {
         const url = `${environment.commanderApiUrl}/media-renames`;
         let req: MediaRenameRequest = { name, type };
         return this.http.post<RenamedMediaOptions>(url, req, this.httpOptions).pipe(
-            tap(opts => this.log(`generated media options for ${name} with type ${type} and origin ${opts.origin}`)),
-            catchError(this.handleError<RenamedMediaOptions>("generateNameOptions"))
-        );
-    }
-
-    moveMedia(fileGroup: MediaFileGroup, type: MediaFileType): Observable<MediaMoveError[]> {
-        const url = `${environment.commanderApiUrl}/media-moves`;
-        const req: MediaMoveRequest = { fileGroup, type };
-        return this.http.post<MediaMoveError[]>(url, req, this.httpOptions).pipe(
-            tap(errors => {
-                if (errors) {
-                    for (let e of errors) {
-                        this.log(`moved media failed: ${e.error} for ${e.mediaPath}`);
-                    }
-                } else {
-                    this.log(`moved media with type ${type} to destination ${fileGroup.name}`);
-                }
-            }),
-            catchError(this.handleError<MediaMoveError[]>("moveMedia"))
+            tap(opts => this.info(`generated media options for ${name} with type ${type} and origin ${opts.origin}`)),
+            catchError(err => this.error(err))
         );
     }
 
@@ -111,19 +82,12 @@ export class MediaService extends BaseService {
         const req: MediaMoveRequest[] = fileGroups.map(fileGroup => { return { fileGroup, type } });
         return this.http.post<MediaMoveError[]>(url, req, this.httpOptions).pipe(
             tap(errors => {
-                if (isNotEmptyArray(errors)) {
-                    for (let e of errors) {
-                        this.log(`moved media failed: ${e.error} for ${e.mediaPath}`);
-                    }
-                } else {
-                    this.log(`moved all media with type ${type}`);
+                for (let e of errors) {
+                    this.log(`moved media failed: ${e.error} for ${e.mediaPath}`, "ERROR");
                 }
+                this.info(`moved all media with type ${type}`);
             }),
-            catchError(this.handleError<MediaMoveError[]>("moveAllMedia"))
+            catchError(err => this.error(err))
         );
     }
-}
-
-export function isNotEmptyArray(arr: any[]): boolean {
-    return Array.isArray(arr) && arr.length > 0;
 }

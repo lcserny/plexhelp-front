@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MessagesComponent} from './messages.component';
 import {TranslateModule} from "@ngx-translate/core";
+import {MessageService} from "../message.service";
 
 describe('MessagesComponent', () => {
     let component: MessagesComponent;
@@ -11,8 +12,9 @@ describe('MessagesComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [MessagesComponent],
             imports: [
-                TranslateModule.forRoot()
-            ]
+                TranslateModule.forRoot(),
+            ],
+            providers: [MessageService]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MessagesComponent);

@@ -1,4 +1,4 @@
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Injectable} from "@angular/core";
 import {SecurityService} from "./security.service";
 import {firstValueFrom} from "rxjs";
@@ -10,13 +10,17 @@ export class AuthGuard implements CanActivate {
     }
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        if (!this.validate()) {
+        if (!this.isValid()) {
             return this.redirectLogin(state);
         }
 
         if (this.tokenExpired()) {
-            const result = await firstValueFrom(this.securityService.refresh());
-            if (!result) {
+            try {
+                const result = await firstValueFrom(this.securityService.refresh());
+                if (!result) {
+                    return this.redirectLogin(state);
+                }
+            } catch (err) {
                 return this.redirectLogin(state);
             }
         }
@@ -24,7 +28,7 @@ export class AuthGuard implements CanActivate {
         return true;
     }
 
-    validate(): boolean {
+    isValid(): boolean {
         return !!this.securityService.userValue;
     }
 
@@ -47,7 +51,7 @@ export class AuthGuard implements CanActivate {
 @Injectable({providedIn: "root"})
 export class AdminAuthGuard extends AuthGuard {
 
-    override validate(): boolean {
+    override isValid(): boolean {
         const user = this.securityService.userValue;
         return !!(user && user?.roles.includes("ADMIN"));
     }

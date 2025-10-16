@@ -68,10 +68,12 @@ export class DownloadsListComponent {
             downloaded = (this.downloadsForm.get("downloaded")?.value === true);
         }
 
-        const pageable = new Pageable(page, perPage, sort);
-        this.mediaService.searchPaginatedDownloadedMedia(pageable, date, downloaded, fileName).subscribe(paginatedResults => {
-            this.dataSource.data = paginatedResults.content;
-            this.totalItems = paginatedResults.page.totalElements;
+        this.mediaService.searchPaginatedDownloadedMedia(new Pageable(page, perPage, sort), date, downloaded, fileName).subscribe({
+            next: paginatedResults => {
+                this.dataSource.data = paginatedResults.content;
+                this.totalItems = paginatedResults.page.totalElements;
+            },
+            error: _ => this.showError()
         });
     }
 

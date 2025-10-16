@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
+import {Message, MessageType} from "./messages/messages.model";
+
+const MESSAGES = "notificationMessages";
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
 
-    messages: string[] = [];
+    add(message: string, type: MessageType): void {
+        const messages: Message[] = this.getAll();
+        messages.unshift({ date: new Date(), message, type });
+        localStorage.setItem(MESSAGES, JSON.stringify(messages));
+    }
 
-    add(message: string): void {
-        this.messages.push(new Date().toLocaleString() + ": " + message);
+    getAll(): Message[] {
+        const messages = localStorage.getItem(MESSAGES);
+        if (messages) {
+            return JSON.parse(messages);
+        }
+        return [];
     }
 
     clear(): void {
-        this.messages = [];
+        localStorage.setItem(MESSAGES, JSON.stringify([]));
     }
 }

@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 import {environment} from "../environments/environment";
 import {CommandResponse} from "./generated/commander/model/commandResponse";
 import {CommandRequest} from "./generated/commander/model/commandRequest";
+import {Status} from "./generated/commander/model/status";
 
 @Injectable({ providedIn: 'root' })
 export class ShutdownService extends BaseService {
@@ -22,20 +23,26 @@ export class ShutdownService extends BaseService {
     shutdown(minutes: number): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
         let req: CommandRequest = { name: "shutdown", params: [String(minutes)] };
-        return this.http.post<CommandResponse>(url, req, this.httpOptions)
-            .pipe(
-                tap(opts => this.log(`shutting down server in ${minutes} minutes`)),
-                catchError(this.handleError<CommandResponse>("shutdown"))
-            );
+        return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
+            map(resp => this.mapResponse(`shutting down server in ${minutes} minutes`, resp)),
+            catchError(err => this.error(err))
+        );
     }
 
     reboot(minutes: number): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
         let req: CommandRequest = { name: "reboot", params: [String(minutes)] };
-        return this.http.post<CommandResponse>(url, req, this.httpOptions)
-            .pipe(
-                tap(opts => this.log(`rebooting server in ${minutes} minutes`)),
-                catchError(this.handleError<CommandResponse>("reboot"))
-            );
+        return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
+            map(resp => this.mapResponse(`reboot server in ${minutes} minutes`, resp)),
+            catchError(err => this.error(err))
+        );
+    }
+
+    private mapResponse(message: string, resp: CommandResponse) {
+        if (resp.status == Status.Failed || resp.status == Status.NotFound) {
+            throw new Error("Command failed or not found");
+        }
+        this.info(message);
+        return resp;
     }
 }

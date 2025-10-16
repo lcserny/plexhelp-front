@@ -5,6 +5,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 describe('SearchComponent', () => {
     let component: SearchComponent;
@@ -17,7 +18,8 @@ describe('SearchComponent', () => {
                 HttpClientTestingModule,
                 TranslateModule.forRoot(),
                 MatPaginatorModule,
-                MatBottomSheetModule
+                MatBottomSheetModule,
+                MatSnackBarModule,
             ]
         }).compileComponents();
 

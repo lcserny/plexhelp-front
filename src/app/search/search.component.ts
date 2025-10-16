@@ -10,8 +10,11 @@ import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from "rxjs";
 import {OTHER_MEDIA_KEY} from "../media-detail/media-detail.component";
 import {DownloadedMediaData} from "../generated/commander/model/downloadedMediaData";
+import {CLOSE_KEY, DURATION} from "../app.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 const SEARCH_PER_PAGE_KEY = "vm-front-search-perPage";
+const SEARCH_FAILED_KEY = "search items failed";
 
 @Component({
     selector: 'app-search',
@@ -43,6 +46,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     constructor(private mediaService: MediaService,
                 private router: Router,
                 private buttonsSheet: MatBottomSheet,
+                private snackBar: MatSnackBar,
                 private translateService: TranslateService) {
         this.detailsText = this.translateService.instant("details");
         this.otherMediaText = this.translateService.instant(OTHER_MEDIA_KEY);
@@ -68,19 +72,22 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     initSearch(): void {
         this.searchPerformed = false;
-        this.mediaService.searchMedia().subscribe(groups => {
-            this.searchPerformed = true;
+        this.mediaService.searchMedia().subscribe({
+            next: groups => {
+                const nameGroups = this.produceGroupWithNames(groups);
+                if (!nameGroups || nameGroups.length < 1) {
+                    this.setItems([], []);
+                    return;
+                }
 
-            const nameGroups = this.produceGroupWithNames(groups);
-            if (!nameGroups || nameGroups.length < 1) {
-                this.setItems([], []);
-                return;
-            }
-
-            const allNames = nameGroups.map(ng => ng.names).flat();
-            this.mediaService.searchDownloadedMedia(undefined, true, allNames).subscribe(medias => {
-                this.setItems(nameGroups, medias);
-            });
+                const allNames = nameGroups.map(ng => ng.names).flat();
+                this.mediaService.searchDownloadedMedia(undefined, true, allNames).subscribe({
+                    next: medias => this.setItems(nameGroups, medias),
+                    error: _ => this.showError()
+                });
+            },
+            error: _ => this.showError(),
+            complete: () => this.searchPerformed = true
         });
     }
 
@@ -195,6 +202,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 
         this.currentIndex = startIndex;
         this.currentPage = this.searchItems.slice(startIndex, endIndex);
+    }
+
+    private showError() {
+        this.snackBar.open(
+            this.translateService.instant(SEARCH_FAILED_KEY),
+            this.translateService.instant(CLOSE_KEY),
+            {duration: DURATION}
+        );
     }
 }
 

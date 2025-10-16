@@ -42,23 +42,20 @@ export class DetailsComponent {
         this.canUpdate = !!this.securityService.userValue?.perms.includes("WRITE");
         this.isAdmin = !!this.securityService.userValue?.roles.includes("ADMIN");
 
-        this.userService.getUser(this.userId).subscribe(user => {
-            if (!user) {
-                this.showError();
-                return;
-            }
-
-            const userData = user as UserData;
-            this.detailsForm = this.formBuilder.group({
-                username: this.formBuilder.control({value: userData.username, disabled: true}, [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]),
-                password: this.formBuilder.control({value: userData.password, disabled: !this.canUpdate}),
-                firstName: this.formBuilder.control({value: userData.firstName, disabled: !this.canUpdate}, [Validators.pattern('[a-zA-Z\-\']+')]),
-                lastName: this.formBuilder.control({value: userData.lastName, disabled: !this.canUpdate}, [Validators.pattern('[a-zA-Z\-\']+')]),
-                roles: this.buildArray(userData.roles!),
-                perms: this.buildArray(userData.perms!),
-                status: this.formBuilder.control({value: userData.status, disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
-                created: this.formBuilder.control({value: this.datePipe.transform(userData.created, "yyyy-MM-dd"), disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
-            });
+        this.userService.getUser(this.userId).subscribe({
+            next: userData => {
+                this.detailsForm = this.formBuilder.group({
+                    username: this.formBuilder.control({value: userData.username, disabled: true}, [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]),
+                    password: this.formBuilder.control({value: userData.password, disabled: !this.canUpdate}),
+                    firstName: this.formBuilder.control({value: userData.firstName, disabled: !this.canUpdate}, [Validators.pattern('[a-zA-Z\-\']+')]),
+                    lastName: this.formBuilder.control({value: userData.lastName, disabled: !this.canUpdate}, [Validators.pattern('[a-zA-Z\-\']+')]),
+                    roles: this.buildArray(userData.roles!),
+                    perms: this.buildArray(userData.perms!),
+                    status: this.formBuilder.control({value: userData.status, disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
+                    created: this.formBuilder.control({value: this.datePipe.transform(userData.created, "yyyy-MM-dd"), disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
+                });
+            },
+            error: _ => this.showError()
         });
     }
 
@@ -122,13 +119,9 @@ export class DetailsComponent {
             created: parsedDate,
         };
 
-        this.userService.updateUser(this.userId, userData).subscribe(user => {
-            if (!user) {
-                this.showError();
-                return;
-            }
-
-            this.router.navigate([`/user/details/${this.userId}`]);
+        this.userService.updateUser(this.userId, userData).subscribe({
+            next: _ => this.router.navigate([`/user/details/${this.userId}`]),
+            error: _ => this.showError()
         });
     }
 }

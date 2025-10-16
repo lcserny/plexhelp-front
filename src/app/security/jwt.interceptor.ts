@@ -39,18 +39,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private handleAccessDenied(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return this.securityService.refresh().pipe(
-            switchMap((user) => {
-                let clonedRequest = this.addTokenHeader(request, user);
-                return next.handle(clonedRequest);
-            }),
-            catchError((err: HttpErrorResponse) => {
-                return this.securityService.logout().pipe(
-                    switchMap(() => {
-                        this.router.navigate(["/security/login"]);
-                        return throwError(() => err);
-                    })
-                );
-            })
+            switchMap(user => next.handle(this.addTokenHeader(request, user))),
+            catchError(err => this.securityService.logout().pipe(switchMap(() => {
+                this.router.navigate(["/security/login"]);
+                return this.securityService.error(err);
+            })))
         );
     }
 }

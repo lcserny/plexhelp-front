@@ -67,9 +67,14 @@
     "restart failed": "Repornirea a esuat!",
     "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
     "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!",
+    "partial move media": "Mutarea unelor fisiere media a esuat, verifica mesajele!",
 
     "fetch user failed": "Aducerea informatiilor utlizatorului a esuat!",
     "registration failed": "Inregistrarea a esuat, va rugam reincercati sau contactati administratorul.",
+
+    "search items failed": "Cautarea fisierelor media a esuat, verifica mesajele!",
+
+    "generating rename options failed": "Generarea optiunilor pentru redenumire a esuat, verifica mesajele!",
 
     "user details": "Detalii Utilizator",
     "roles": "Roluri",
