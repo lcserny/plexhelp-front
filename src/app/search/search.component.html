@@ -13,7 +13,7 @@
         <br />
         <mat-card class="search-item-card">
             <div style="display: flex">
-                <div class="toggle-container" >
+                <div class="toggle-container" (click)="handleToggleClick($event)" >
                     <mat-slide-toggle color="accent" [disabled]="!searchItem.downloaded" [checked]="searchItem.checked" (change)="toggleMedia($event.checked, this.currentIndex + i)"></mat-slide-toggle>
                 </div>
                 <div class="media-container">
