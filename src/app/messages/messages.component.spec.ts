@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MessagesComponent} from './messages.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {MessageService} from "../message.service";
+import {MatCardModule} from "@angular/material/card";
 
 describe('MessagesComponent', () => {
     let component: MessagesComponent;
@@ -13,6 +14,7 @@ describe('MessagesComponent', () => {
             declarations: [MessagesComponent],
             imports: [
                 TranslateModule.forRoot(),
+                MatCardModule
             ],
             providers: [MessageService]
         }).compileComponents();
