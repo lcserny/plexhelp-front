@@ -168,10 +168,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.router.navigate([`/media-detail`], { state: { items } });
     }
 
-    handleToggleClick($event: MouseEvent) {
-        console.log("clicked!");
-    }
-
     toggleMedia(checked: boolean, index: number) {
         const item = this.searchItems.find(value => value.index === index);
         if (item) {
