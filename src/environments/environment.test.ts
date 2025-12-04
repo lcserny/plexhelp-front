@@ -10,4 +10,12 @@ export const environment = {
         magnets: [10, 20, 50],
         downloads: [10, 20, 50, 100]
     },
+
+    region: {
+        dateFormat: "dd.MM.yyyy",
+        timeFormat: "HH:mm:ss",
+        timezone: "Europe/Bucharest",
+        locale: "ro",
+        firstDayWeek: 1
+    }
 };

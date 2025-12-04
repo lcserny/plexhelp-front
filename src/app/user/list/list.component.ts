@@ -116,6 +116,6 @@ export class ListComponent {
     }
 
     formatDate(date?: string): string {
-        return this.datePipe.transform(date, "yyyy-MM-dd") || this.noDateText;
+        return this.datePipe.transform(date) || this.noDateText;
     }
 }

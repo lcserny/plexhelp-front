@@ -1,14 +1,13 @@
 import {Component} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {MatTableDataSource} from "@angular/material/table";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {DownloadedMediaData} from "../../generated/commander/model/downloadedMediaData";
 import {MediaService} from "../../media.service";
 import {Pageable} from "../../base.service";
-import {CLOSE_KEY, DURATION, momentDateValidator, MY_DATE_FORMATS, NO_DATE_KEY} from "../../app.component";
+import {CLOSE_KEY, DURATION, NO_DATE_KEY} from "../../app.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
-import * as moment from 'moment';
 import {DatePipe} from "@angular/common";
 import {PageEvent} from "@angular/material/paginator";
 
@@ -60,10 +59,6 @@ export class DownloadsListComponent {
         let downloaded: boolean = false;
         if (this.downloadsForm.valid) {
             date = this.downloadsForm.get("date")?.value;
-            if (moment.isMoment(date)) {
-                date = date.toDate();
-            }
-
             fileName = this.downloadsForm.get("fileName")?.value;
             downloaded = (this.downloadsForm.get("downloaded")?.value === true);
         }
@@ -81,12 +76,25 @@ export class DownloadsListComponent {
         return new FormControl("", [Validators.pattern('[a-zA-Z0-9\-\'\./\s]+')]);
     }
 
-    produceDateControl(): FormControl {
-        return new FormControl("", [momentDateValidator(MY_DATE_FORMATS.parse.dateInput)]);
+    produceDateControl(): FormControl<Date | null> {
+        return new FormControl<Date | null>(null, [this.dateValidator()]);
     }
 
     produceCheckmarkControl(): FormControl {
         return new FormControl("", [Validators.pattern('true|false')]);
+    }
+
+    private dateValidator(): ValidatorFn {
+        return (control: AbstractControl) => {
+            if (!control.value) {
+                return null; // Don't validate if the value is empty
+            }
+
+            const value = control.value;
+            const isValid = value instanceof Date && !isNaN(value.getTime());
+
+            return isValid ? null : {invalidDate: {value: control.value}};
+        };
     }
 
     search() {
@@ -111,7 +119,12 @@ export class DownloadsListComponent {
     }
 
     formatDate(date?: number): string {
-        return this.datePipe.transform(date ? date * 1000 : date, "yyyy-MM-dd") || this.noDateText;
+        if (!date) {
+            return this.noDateText;
+        }
+        const newDate = new Date(date * 1000);
+        const format = environment.region.dateFormat + " " + environment.region.timeFormat;
+        return this.datePipe.transform(newDate, format)!;
     }
 
     formatSize(size?: number): string {

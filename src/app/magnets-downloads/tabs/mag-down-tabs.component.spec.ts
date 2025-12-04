@@ -19,8 +19,9 @@ import {MatTableModule} from "@angular/material/table";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import {CustomDateAdapter} from "../../app.component";
 
 describe('TabsComponent', () => {
     let component: MagDownTabsComponent;
@@ -49,10 +50,10 @@ describe('TabsComponent', () => {
                 MatInputModule,
                 NoopAnimationsModule,
                 MatDatepickerModule,
-                MatMomentDateModule,
-                MatCheckboxModule
+                MatCheckboxModule,
+                MatNativeDateModule
             ],
-            providers: [DatePipe]
+            providers: [DatePipe, {provide: DateAdapter, useClass: CustomDateAdapter}]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagDownTabsComponent);

@@ -15,7 +15,8 @@ import {DatePipe} from "@angular/common";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {BrowserModule} from "@angular/platform-browser";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import {CustomDateAdapter} from "../../app.component";
 
 describe('DownloadsListComponent', () => {
     let component: DownloadsListComponent;
@@ -39,10 +40,11 @@ describe('DownloadsListComponent', () => {
                 NoopAnimationsModule,
                 MatCheckboxModule,
                 MatDatepickerModule,
-                MatMomentDateModule
+                MatNativeDateModule
             ],
             providers: [
-                DatePipe
+                DatePipe,
+                {provide: DateAdapter, useClass: CustomDateAdapter}
             ]
         }).compileComponents();
 

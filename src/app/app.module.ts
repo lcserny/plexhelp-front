@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AppComponent, MY_DATE_FORMATS} from './app.component';
+import {AppComponent, CustomDateAdapter} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavigationComponent} from './navigation/navigation.component';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -35,11 +35,14 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {TranslatedPaginator} from "./custom.paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatMomentDateModule} from "@angular/material-moment-adapter";
-import {MAT_DATE_FORMATS} from "@angular/material/core";
+import {
+    DateAdapter,
+    MAT_DATE_LOCALE,
+    MatNativeDateModule,
+} from "@angular/material/core";
 import {MagnetsListComponent} from './magnets/list/magnets-list.component';
 import {MatTableModule} from "@angular/material/table";
-import {DatePipe, NgOptimizedImage} from "@angular/common";
+import {DATE_PIPE_DEFAULT_OPTIONS, DatePipe, NgOptimizedImage} from "@angular/common";
 import {AddDialogComponent} from './magnets/add-dialog/add-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -50,6 +53,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MagDownTabsComponent} from "./magnets-downloads/tabs/mag-down-tabs.component";
+import {environment} from "../environments/environment";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -101,7 +105,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         })),
         MatPaginatorModule,
         MatSlideToggleModule,
-        MatMomentDateModule,
         MatTableModule,
         MatDialogModule,
         MatButtonToggleModule,
@@ -110,13 +113,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatTabsModule,
         MatDatepickerModule,
         MatCheckboxModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        MatNativeDateModule
     ],
     providers: [
+        {provide: DateAdapter, useClass: CustomDateAdapter},
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: MatPaginatorIntl, useClass: TranslatedPaginator},
-        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+        {provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: environment.region.dateFormat, timezone: environment.region.timezone }},
+        {provide: MAT_DATE_LOCALE, useValue: environment.region.locale},
         DatePipe
     ],
     bootstrap: [AppComponent]

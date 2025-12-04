@@ -4,7 +4,6 @@ import {MagnetData} from "../../generated/commander/model/magnetData";
 import {MatTableDataSource} from "@angular/material/table";
 import {DatePipe} from "@angular/common";
 import {TranslateService} from "@ngx-translate/core";
-import * as moment from "moment/moment";
 import {environment} from "../../../environments/environment";
 import {PageEvent} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
@@ -81,7 +80,8 @@ export class MagnetsListComponent {
             return this.noDateText;
         }
         const converted = new Date(parseFloat(date) * 1000);
-        return moment(converted).utc().format("YYYY-MM-DD HH:mm:ss");
+        const format = environment.region.dateFormat + " " + environment.region.timeFormat;
+        return this.datePipe.transform(converted, format)!;
     }
 
     openAddDialog() {

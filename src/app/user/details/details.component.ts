@@ -4,11 +4,10 @@ import {SecurityService} from "../../security/security.service";
 import {UserData} from "../../generated/auth/model/userData";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
-import {CLOSE_KEY, DURATION, OPENAPI_DATE_FORMAT} from "../../app.component";
+import {CLOSE_KEY, DURATION} from "../../app.component";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DatePipe, Location} from "@angular/common";
+import {Location} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import * as moment from 'moment';
 
 export const FETCH_FAILED_KEY = "fetch user failed";
 
@@ -31,7 +30,6 @@ export class DetailsComponent {
                 private route: ActivatedRoute,
                 private location: Location,
                 private translateService: TranslateService,
-                private datePipe: DatePipe,
                 private formBuilder: FormBuilder,
                 private router: Router) {
         this.userId = this.route.snapshot.paramMap.get("idx")!;
@@ -52,7 +50,7 @@ export class DetailsComponent {
                     roles: this.buildArray(userData.roles!),
                     perms: this.buildArray(userData.perms!),
                     status: this.formBuilder.control({value: userData.status, disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
-                    created: this.formBuilder.control({value: this.datePipe.transform(userData.created, "yyyy-MM-dd"), disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
+                    created: this.formBuilder.control({value: userData.created, disabled: !this.canUpdate || !this.isAdmin}, Validators.required),
                 });
             },
             error: _ => this.showError()
@@ -102,11 +100,6 @@ export class DetailsComponent {
             return;
         }
 
-        const rawDate = this.detailsForm.get("created")?.getRawValue();
-        const parsedDate = moment.isMoment(rawDate)
-            ? rawDate.format(OPENAPI_DATE_FORMAT)
-            : moment(rawDate).format(OPENAPI_DATE_FORMAT);
-
         const userData: UserData = {
             id: this.userId!,
             username: this.detailsForm.get("username")?.getRawValue(),
@@ -116,7 +109,7 @@ export class DetailsComponent {
             roles: this.detailsForm.get("roles")?.getRawValue(),
             perms: this.detailsForm.get("perms")?.getRawValue(),
             status: this.detailsForm.get("status")?.getRawValue(),
-            created: parsedDate,
+            created: this.detailsForm.get("created")?.getRawValue(),
         };
 
         this.userService.updateUser(this.userId, userData).subscribe({
