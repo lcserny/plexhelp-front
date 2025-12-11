@@ -9,6 +9,8 @@ export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
 export const SHUTDOWN_FAILED_KEY = "shutdown failed";
 export const RESTART_SUCCESS_KEY = "restart successful";
 export const RESTART_FAILED_KEY = "restart failed";
+export const SLEEP_SUCCESS_KEY = "sleep successful";
+export const SLEEP_FAILED_KEY = "sleep failed";
 
 @Component({
     selector: 'app-shutdown',
@@ -36,6 +38,14 @@ export class ShutdownComponent {
     reboot(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.reboot(Number(minutes)).subscribe({
+            next: _ => this.showPopup(this.translateService.instant(RESTART_SUCCESS_KEY)),
+            error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
+        });
+    }
+
+    sleep(): void {
+        const minutes = this.shutdownForm.get("minutes")?.value || 0;
+        this.shutdownService.sleep(Number(minutes)).subscribe({
             next: _ => this.showPopup(this.translateService.instant(RESTART_SUCCESS_KEY)),
             error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
         });

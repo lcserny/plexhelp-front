@@ -28,6 +28,7 @@
     "delay in minutes": "Delay in minutes",
     "shutdown_cmd": "Shutdown",
     "reboot_cmd": "Reboot",
+    "sleep_cmd": "Sleep",
 
     "id": "ID",
     "username": "Username:",
@@ -65,6 +66,8 @@
     "shutdown failed": "Shutdown failed!",
     "restart successful": "Restart performed successfully!",
     "restart failed": "Restart failed!",
+    "sleep successful": "Sleep performed successfully!",
+    "sleep failed": "Sleep failed!",
     "successfully moved media": "Successfully moved media!",
     "failed move media": "Failed to move media, check messages!",
     "partial move media": "Failed to move some media, check messages!",

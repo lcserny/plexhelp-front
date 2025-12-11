@@ -28,6 +28,7 @@
     "delay in minutes": "Decalare in minute",
     "shutdown_cmd": "Oprire",
     "reboot_cmd": "Repornire",
+    "sleep_cmd": "Suspendare",
 
     "id": "ID",
     "username": "Utilizator:",
@@ -65,6 +66,8 @@
     "shutdown failed": "Oprirea a esuat!",
     "restart successful": "Repornirea s-a executat cu succes!",
     "restart failed": "Repornirea a esuat!",
+    "sleep successful": "Suspendarea s-a executat cu succes!",
+    "sleep failed": "Suspendarea a esuat!",
     "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
     "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!",
     "partial move media": "Mutarea unelor fisiere media a esuat, verifica mesajele!",

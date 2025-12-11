@@ -38,6 +38,15 @@ export class ShutdownService extends BaseService {
         );
     }
 
+    sleep(minutes: number): Observable<CommandResponse> {
+        const url = `${environment.commanderApiUrl}/commands`;
+        let req: CommandRequest = { name: "sleep", params: [String(minutes)] };
+        return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
+            map(resp => this.mapResponse(`sleep server in ${minutes} minutes`, resp)),
+            catchError(err => this.error(err))
+        );
+    }
+
     private mapResponse(message: string, resp: CommandResponse) {
         if (resp.status == Status.Failed || resp.status == Status.NotFound) {
             throw new Error("Command failed or not found");
