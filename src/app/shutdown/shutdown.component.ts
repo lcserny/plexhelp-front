@@ -11,6 +11,8 @@ export const RESTART_SUCCESS_KEY = "restart successful";
 export const RESTART_FAILED_KEY = "restart failed";
 export const SLEEP_SUCCESS_KEY = "sleep successful";
 export const SLEEP_FAILED_KEY = "sleep failed";
+export const DLNA_RESTART_SUCCESS_KEY = "dlna server restart successful";
+export const DLNA_RESTART_FAILED_KEY = "dlna server restart failed";
 
 @Component({
     selector: 'app-shutdown',
@@ -46,8 +48,16 @@ export class ShutdownComponent {
     sleep(): void {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.sleep(Number(minutes)).subscribe({
-            next: _ => this.showPopup(this.translateService.instant(RESTART_SUCCESS_KEY)),
-            error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
+            next: _ => this.showPopup(this.translateService.instant(SLEEP_SUCCESS_KEY)),
+            error: _ => this.showPopup(this.translateService.instant(SLEEP_FAILED_KEY))
+        });
+    }
+
+    restartDLNAServer(): void {
+        const minutes = this.shutdownForm.get("minutes")?.value || 0;
+        this.shutdownService.restartDLNAServer(Number(minutes)).subscribe({
+            next: _ => this.showPopup(this.translateService.instant(DLNA_RESTART_SUCCESS_KEY)),
+            error: _ => this.showPopup(this.translateService.instant(DLNA_RESTART_FAILED_KEY))
         });
     }
 

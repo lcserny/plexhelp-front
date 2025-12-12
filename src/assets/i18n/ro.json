@@ -29,6 +29,7 @@
     "shutdown_cmd": "Oprire",
     "reboot_cmd": "Repornire",
     "sleep_cmd": "Suspendare",
+    "restart_dlna_cmd": "Repornire Media Server",
 
     "id": "ID",
     "username": "Utilizator:",
@@ -68,6 +69,8 @@
     "restart failed": "Repornirea a esuat!",
     "sleep successful": "Suspendarea s-a executat cu succes!",
     "sleep failed": "Suspendarea a esuat!",
+    "dlna server restart successful": "Restartarea Serverului Media s-a executat cu succes!",
+    "dlna server restart failed": "Restartarea Serverului Media a esuat!",
     "successfully moved media": "Mutarea fisierelor media s-a executat cu succes!",
     "failed move media": "Mutarea fisierelor media a esuat, verifica mesajele!",
     "partial move media": "Mutarea unelor fisiere media a esuat, verifica mesajele!",

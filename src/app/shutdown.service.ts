@@ -11,6 +11,11 @@ import {Status} from "./generated/commander/model/status";
 @Injectable({ providedIn: 'root' })
 export class ShutdownService extends BaseService {
 
+    private static readonly shutdownCmd = "shutdown";
+    private static readonly rebootCmd = "reboot";
+    private static readonly sleepCmd = "sleep";
+    private static readonly restartDLNACmd = "restart-dlna";
+
     private httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         withCredentials: true
@@ -22,7 +27,7 @@ export class ShutdownService extends BaseService {
 
     shutdown(minutes: number): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
-        let req: CommandRequest = { name: "shutdown", params: [String(minutes)] };
+        let req: CommandRequest = { name: ShutdownService.shutdownCmd, params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
             map(resp => this.mapResponse(`shutting down server in ${minutes} minutes`, resp)),
             catchError(err => this.error(err))
@@ -31,7 +36,7 @@ export class ShutdownService extends BaseService {
 
     reboot(minutes: number): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
-        let req: CommandRequest = { name: "reboot", params: [String(minutes)] };
+        let req: CommandRequest = { name: ShutdownService.rebootCmd, params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
             map(resp => this.mapResponse(`reboot server in ${minutes} minutes`, resp)),
             catchError(err => this.error(err))
@@ -40,9 +45,18 @@ export class ShutdownService extends BaseService {
 
     sleep(minutes: number): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
-        let req: CommandRequest = { name: "sleep", params: [String(minutes)] };
+        let req: CommandRequest = { name: ShutdownService.sleepCmd, params: [String(minutes)] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
             map(resp => this.mapResponse(`sleep server in ${minutes} minutes`, resp)),
+            catchError(err => this.error(err))
+        );
+    }
+
+    restartDLNAServer(minutes: number): Observable<CommandResponse> {
+        const url = `${environment.commanderApiUrl}/commands`;
+        let req: CommandRequest = { name: ShutdownService.restartDLNACmd, params: [String(minutes)] };
+        return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
+            map(resp => this.mapResponse(`media server restart in ${minutes} minutes`, resp)),
             catchError(err => this.error(err))
         );
     }
