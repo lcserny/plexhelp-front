@@ -14,5 +14,10 @@
 
     <br>
 
-    <button mat-raised-button color="primary" class="command-button" (click)="restartDLNAServer()">{{ "restart_dlna_cmd" | translate }}</button>
+    <mat-form-field>
+        <mat-label>{{ "service name" | translate }}</mat-label>
+        <input matInput formControlName="serviceName">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="command-button" (click)="restartService()">{{ "restart_service" | translate }}</button>
 </form>
