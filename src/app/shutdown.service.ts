@@ -54,7 +54,7 @@ export class ShutdownService extends BaseService {
 
     restartService(minutes: number, serviceName: string): Observable<CommandResponse> {
         const url = `${environment.commanderApiUrl}/commands`;
-        let req: CommandRequest = { name: ShutdownService.restartServiceCmd, params: [serviceName, String(minutes)] };
+        let req: CommandRequest = { name: ShutdownService.restartServiceCmd, params: [String(minutes), serviceName] };
         return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
             map(resp => this.mapResponse(`service ${serviceName} restart in ${minutes} minutes`, resp)),
             catchError(err => this.error(err))

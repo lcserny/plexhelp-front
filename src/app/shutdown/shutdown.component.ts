@@ -24,8 +24,9 @@ export const SERVICE_NAME_KEY = "vm-front-serviceName";
 })
 export class ShutdownComponent {
 
-    serviceName: string | null;
     shutdownForm: FormGroup;
+    serviceForm: FormGroup;
+    serviceName: string | null;
 
     constructor(private shutdownService: ShutdownService,
                 public snackBar: MatSnackBar,
@@ -34,6 +35,9 @@ export class ShutdownComponent {
 
         this.shutdownForm = new FormGroup({
             minutes: new FormControl(''),
+        });
+
+        this.serviceForm = new FormGroup({
             serviceName: new FormControl(this.serviceName, [Validators.required]),
         });
     }
@@ -63,12 +67,12 @@ export class ShutdownComponent {
     }
 
     restartService(): void {
-        if (!this.shutdownForm.valid) {
+        if (!this.serviceForm.valid) {
             this.showPopup(this.translateService.instant(PROVIDE_SERVICE_NAME_KEY));
             return
         }
 
-        const serviceName: string = this.shutdownForm.get("serviceName")?.value;
+        const serviceName: string = this.serviceForm.get("serviceName")?.value;
         localStorage.setItem(SERVICE_NAME_KEY, serviceName);
 
         const minutes = this.shutdownForm.get("minutes")?.value || 0;

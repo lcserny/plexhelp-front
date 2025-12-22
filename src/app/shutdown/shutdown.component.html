@@ -7,13 +7,13 @@
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="command-button" (click)="shutdown()">{{ "shutdown_cmd" | translate }}</button>
-
     <button mat-raised-button color="primary" class="command-button" (click)="reboot()">{{ "reboot_cmd" | translate }}</button>
-
     <button mat-raised-button color="primary" class="command-button" (click)="sleep()">{{ "sleep_cmd" | translate }}</button>
+</form>
 
-    <br>
+<br>
 
+<form [formGroup]="serviceForm" class="center-container">
     <mat-form-field>
         <mat-label>{{ "service name" | translate }}</mat-label>
         <input matInput formControlName="serviceName">
