@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {MatTableDataSource} from "@angular/material/table";
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {DownloadedMediaData} from "../../generated/commander/model/downloadedMediaData";
 import {MediaService} from "../../media.service";
 import {Pageable} from "../../base.service";
-import {CLOSE_KEY, DURATION, NO_DATE_KEY} from "../../app.component";
+import {booleanValidator, CLOSE_KEY, DURATION, NO_DATE_KEY} from "../../app.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
 import {DatePipe} from "@angular/common";
@@ -56,7 +56,7 @@ export class DownloadsListComponent {
     loadData(page: number, perPage: number, sort: string[]) {
         let date: Date = new Date();
         let fileName: string = "";
-        let downloaded: boolean = false;
+        let downloaded: boolean = true;
         if (this.downloadsForm.valid) {
             date = this.downloadsForm.get("date")?.value;
             fileName = this.downloadsForm.get("fileName")?.value;
@@ -81,7 +81,7 @@ export class DownloadsListComponent {
     }
 
     produceCheckmarkControl(): FormControl {
-        return new FormControl("", [Validators.pattern('true|false')]);
+        return new FormControl(true, [booleanValidator]);
     }
 
     private dateValidator(): ValidatorFn {
