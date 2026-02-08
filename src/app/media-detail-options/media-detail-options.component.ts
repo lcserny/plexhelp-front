@@ -19,7 +19,6 @@ export class MediaDetailOptionsComponent {
     ) { }
 
     selectDescription(desc: MediaDescriptionData): void {
-        let mediaName = desc.title + (desc.date ? ` (${desc.date})` : "");
-        this.bottomSheetRef.dismiss(mediaName);
+        this.bottomSheetRef.dismiss(desc);
     }
 }

@@ -13,6 +13,7 @@ import {MediaMoveRequest} from "./generated/commander/model/mediaMoveRequest";
 import {DownloadedMediaData} from "./generated/commander/model/downloadedMediaData";
 import {SearchDownloadedMedia} from "./generated/commander/model/searchDownloadedMedia";
 import {PaginatedDownloads} from "./generated/commander/model/paginatedDownloads";
+import {MediaDescriptionData} from "./generated/commander/model/mediaDescriptionData";
 
 @Injectable({ providedIn: 'root' })
 export class MediaService extends BaseService {
@@ -77,9 +78,9 @@ export class MediaService extends BaseService {
         );
     }
 
-    moveAllMedia(fileGroups: MediaFileGroup[], type: MediaFileType): Observable<MediaMoveError[]> {
+    moveAllMedia(fileGroups: MediaFileGroup[], type: MediaFileType, mediaDesc: MediaDescriptionData): Observable<MediaMoveError[]> {
         const url = `${environment.commanderApiUrl}/media-moves/all`;
-        const req: MediaMoveRequest[] = fileGroups.map(fileGroup => { return { fileGroup, type } });
+        const req: MediaMoveRequest[] = fileGroups.map(fileGroup => { return { fileGroup, type, mediaDesc } });
         return this.http.post<MediaMoveError[]>(url, req, this.httpOptions).pipe(
             tap(errors => {
                 for (let e of errors) {

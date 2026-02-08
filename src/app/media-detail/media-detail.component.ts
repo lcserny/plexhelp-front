@@ -10,6 +10,7 @@ import {MediaFileType} from "../generated/commander/model/mediaFileType";
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 import {TranslateService} from "@ngx-translate/core";
 import {CLOSE_KEY, DURATION} from "../app.component";
+import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptionData";
 
 export const MOVE_SUCCESS_KEY = "successfully moved media";
 export const MOVE_FAILED_KEY = "failed move media";
@@ -28,6 +29,7 @@ export class MediaDetailComponent {
     allMediaFileGroups?: MediaFileGroup[] = [];
     type?: MediaFileType;
     finalName?: string;
+    mediaDescription?: MediaDescriptionData;
 
     season = "";
     groupText = "";
@@ -72,9 +74,10 @@ export class MediaDetailComponent {
 
     handleOptionsSheet(opts: RenamedMediaOptions): void {
         this.bottomSheet.open(MediaDetailOptionsComponent, { data: opts })
-            .afterDismissed().subscribe(mediaName => {
-                if (mediaName) {
-                    this.finalName = mediaName;
+            .afterDismissed().subscribe((desc: MediaDescriptionData) => {
+                if (desc) {
+                    this.mediaDescription = desc;
+                    this.finalName = desc.title + (desc.date ? ` (${desc.date})` : "");
                 }
             });
     }
@@ -87,7 +90,7 @@ export class MediaDetailComponent {
             }
         })
 
-        this.mediaService.moveAllMedia(this.allMediaFileGroups!, this.type!).subscribe({
+        this.mediaService.moveAllMedia(this.allMediaFileGroups!, this.type!, this.mediaDescription!).subscribe({
             next: errors => {
                 if (errors.length == 0) {
                     this.showPopup(this.translateService.instant(MOVE_SUCCESS_KEY));

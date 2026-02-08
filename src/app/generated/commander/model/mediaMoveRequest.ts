@@ -8,6 +8,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MediaDescriptionData } from './mediaDescriptionData';
 import { MediaFileGroup } from './mediaFileGroup';
 import { MediaFileType } from './mediaFileType';
 
@@ -15,6 +16,7 @@ import { MediaFileType } from './mediaFileType';
 export interface MediaMoveRequest { 
     fileGroup: MediaFileGroup;
     type: MediaFileType;
+    mediaDesc?: MediaDescriptionData;
 }
 export namespace MediaMoveRequest {
 }
