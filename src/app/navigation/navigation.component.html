@@ -5,6 +5,7 @@
         <mat-nav-list>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/">{{ "home" | translate }}</a>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/search">{{ "search" | translate }}</a>
+            <a *ngIf="isLoggedIn" mat-list-item routerLink="/moved-media/search">{{ "moved-media" | translate }}</a>
             <a *ngIf="isLoggedInAdmin" mat-list-item routerLink="/shutdown">{{ "shutdown" | translate }}</a>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/magnets-downloads/0">{{ "magnets" | translate }}</a>
             <a *ngIf="isLoggedIn" mat-list-item routerLink="/magnets-downloads/1">{{ "downloads" | translate }}</a>

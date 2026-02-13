@@ -10,6 +10,7 @@ import {MagDownTabsComponent as MagnetsDownloadsTabsComponent} from "../magnets-
 
 const securityModule = () => import("../security/security.module").then(x => x.SecurityModule);
 const userModule = () => import("../user/user.module").then(x => x.UserModule);
+const movedMediaModule = () => import("../moved-media/moved-media.module").then(x => x.MovedMediaModule);
 
 export const routes: Routes = [
     { path: "search", component: SearchComponent, canActivate: [AuthGuard] },
@@ -19,6 +20,7 @@ export const routes: Routes = [
     { path: "media-detail", component: MediaDetailComponent, canActivate: [AuthGuard] },
     { path: "security", loadChildren: securityModule },
     { path: "user", loadChildren: userModule },
+    { path: "moved-media", loadChildren: movedMediaModule },
     { path: "", component: HomeComponent, canActivate: [AuthGuard] },
     { path: "**", redirectTo: "" }
 ];
