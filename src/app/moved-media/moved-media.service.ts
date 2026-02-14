@@ -7,18 +7,19 @@ import {environment} from "../../environments/environment";
 import {catchError, firstValueFrom, Observable, tap} from "rxjs";
 import {MovedMediaData} from "../generated/commander/model/movedMediaData";
 import {MediaFileType} from "../generated/commander/model/mediaFileType";
-import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptionData";
 
 const noId = "<noId>";
 
-// TODO define better hierarchy: groupItem > seasonItem (optional) > mediaItem (episode or movie)
-export interface MovedMediaGroup {
-    posterUrl: string; // fallback to default if empty
-    fullTitle: string; // including date if any
-    season?: number;
-    description: string; // fallback to "No description available"
+export interface MovedMediaDTO {
+    // TODO used for nav, view needs to know where to route to, movie, tvShow seasons or tvShow episode
+    id: string;
+    type: MediaFileType;
+
+    posterUrl: string;
+    title: string;
+    date: Date | null;
+    description: string;
     cast: string[];
-    mediaList: MovedMedia[];
 }
 
 @Injectable({providedIn: 'root'})
@@ -44,38 +45,36 @@ export class MovedMediaService extends BaseService {
         this.repository.saveAll(this.allToMovedMedia(movedMedia));
     }
 
-    getAllMovedMedia(mediaNamePart?: string): MovedMediaGroup[] {
+    getAllMovedMedia(mediaNamePart?: string): MovedMediaDTO[] {
         const foundMedia = mediaNamePart
             ? this.repository.findAllByMediaNameSubstr(mediaNamePart)
             : this.repository.findAll();
         return this.allToMovedMediaGroups(foundMedia);
     }
 
-    private allToMovedMediaGroups(media: MovedMedia[]): MovedMediaGroup[] {
+    private allToMovedMediaGroups(media: MovedMedia[]): MovedMediaDTO[] {
         if (!media) {
             return [];
         }
 
-        let groupMap = new Map<string, MovedMedia[]>();
-        media.forEach(m => {
-            const key = m.mediaName! + m.season;
-            if (!groupMap.has(key)) {
-                groupMap.set(key, []);
-            }
-            groupMap.get(key)!.push(m);
-        });
+        let groupMap = new Map<string, MovedMedia>();
+        media.forEach(m => groupMap.set(m.mediaName!, m));
 
-        let results: MovedMediaGroup[] = [];
-        groupMap.forEach((movedMediaList, _) => {
-            const first = movedMediaList[0];
-            // FIXME
-            results.push({
-                description: first.mediaDesc!,
-                mediaList: movedMediaList
-            });
-        });
-
+        let results: MovedMediaDTO[] = [];
+        groupMap.forEach((movedMedia, _) => results.push(this.toMovedMediaDTO(movedMedia)));
         return results;
+    }
+
+    private toMovedMediaDTO(media: MovedMedia): MovedMediaDTO {
+        return {
+            id: media.id,
+            type: media.mediaType!,
+            posterUrl: media.mediaDesc?.posterUrl ? media.mediaDesc.posterUrl : environment.fallbackPosterUrl,
+            title: media.mediaName!,
+            date: media.date,
+            description: media.mediaDesc?.description ? media.mediaDesc.description : "No description available.",
+            cast: media.mediaDesc!.cast!
+        };
     }
 
     private allToMovedMedia(media: MovedMediaData[]): MovedMedia[] {
