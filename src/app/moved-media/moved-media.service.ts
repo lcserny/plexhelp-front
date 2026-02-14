@@ -10,7 +10,7 @@ import {MediaFileType} from "../generated/commander/model/mediaFileType";
 
 const noId = "<noId>";
 
-export interface MovedMediaDTO {
+export interface MovedMediaView {
     // TODO used for nav, view needs to know where to route to, movie, tvShow seasons or tvShow episode
     id: string;
     type: MediaFileType;
@@ -45,27 +45,22 @@ export class MovedMediaService extends BaseService {
         this.repository.saveAll(this.allToMovedMedia(movedMedia));
     }
 
-    getAllMovedMedia(mediaNamePart?: string): MovedMediaDTO[] {
+    getAllMovedMedia(mediaNamePart?: string): MovedMediaView[] {
         const foundMedia = mediaNamePart
             ? this.repository.findAllByMediaNameSubstr(mediaNamePart)
             : this.repository.findAll();
         return this.allToMovedMediaGroups(foundMedia);
     }
 
-    private allToMovedMediaGroups(media: MovedMedia[]): MovedMediaDTO[] {
+    private allToMovedMediaGroups(media: MovedMedia[]): MovedMediaView[] {
         if (!media) {
             return [];
         }
-
-        let groupMap = new Map<string, MovedMedia>();
-        media.forEach(m => groupMap.set(m.mediaName!, m));
-
-        let results: MovedMediaDTO[] = [];
-        groupMap.forEach((movedMedia, _) => results.push(this.toMovedMediaDTO(movedMedia)));
-        return results;
+        const groupMap = new Map<string, MovedMedia>(media.map(m => [m.mediaName!, m]));
+        return Array.from(groupMap.values()).map(movedMedia => this.toMovedMediaView(movedMedia));
     }
 
-    private toMovedMediaDTO(media: MovedMedia): MovedMediaDTO {
+    private toMovedMediaView(media: MovedMedia): MovedMediaView {
         return {
             id: media.id,
             type: media.mediaType!,
