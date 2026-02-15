@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class MovedMediaDetailComponent {
 
+    // TODO page for movie and episode details with buttons to delete and search subs
 }

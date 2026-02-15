@@ -8,6 +8,8 @@ import {MovedMediaService} from "../moved-media.service";
 })
 export class MovedMediaSearchComponent implements OnInit{
 
+    // TODO main page, only this one has search field and order options
+
     constructor(private movedMediaService: MovedMediaService) {}
 
     async ngOnInit() {
