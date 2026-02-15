@@ -10,6 +10,8 @@ export class MovedMediaSearchComponent implements OnInit{
 
     // TODO main page, only this one has search field and order options
 
+    // TODO on the view, the description if its undefined, use a default message translated
+
     constructor(private movedMediaService: MovedMediaService) {}
 
     async ngOnInit() {

@@ -18,7 +18,7 @@ export interface MovedMediaView {
     posterUrl: string;
     title: string;
     date: Date | null;
-    description: string;
+    description: string | undefined;
     cast: string[];
 }
 
@@ -67,7 +67,7 @@ export class MovedMediaService extends BaseService {
             posterUrl: media.mediaDesc?.posterUrl ? media.mediaDesc.posterUrl : environment.fallbackPosterUrl,
             title: media.mediaName!,
             date: media.date,
-            description: media.mediaDesc?.description ? media.mediaDesc.description : "No description available.",
+            description: media.mediaDesc?.description,
             cast: media.mediaDesc!.cast!
         };
     }
