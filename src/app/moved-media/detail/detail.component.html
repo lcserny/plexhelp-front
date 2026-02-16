@@ -1,1 +1,12 @@
 <p>detail works!</p>
+
+<div *ngIf="movedMedia">
+    <div>id: {{ movedMedia.id }}</div>
+    <div>type: {{ movedMedia.type }}</div>
+    <div>season: {{ movedMedia.season }}</div>
+    <div>title: {{ movedMedia.title }}</div>
+    <div>desc: {{ movedMedia.description ? movedMedia.description : ("no media description" | translate) }}</div>
+    <div>poster: {{ movedMedia.posterUrl }}</div>
+    <div>cast: {{ movedMedia.cast }}</div>
+<!--    <div>link: <a [routerLink]="generateLink(media)">Link</a></div>-->
+</div>

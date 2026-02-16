@@ -11,9 +11,10 @@ import {MediaFileType} from "../generated/commander/model/mediaFileType";
 const noId = "<noId>";
 
 export interface MovedMediaView {
-    // TODO used for nav, view needs to know where to route to, movie, tvShow seasons or tvShow episode
     id: string;
     type: MediaFileType;
+    season: number | undefined;
+    episode: number | undefined;
 
     posterUrl: string;
     title: string;
@@ -49,10 +50,35 @@ export class MovedMediaService extends BaseService {
         const foundMedia = mediaNamePart
             ? this.repository.findAllByMediaNameSubstr(mediaNamePart)
             : this.repository.findAll();
-        return this.allToMovedMediaGroups(foundMedia);
+        return this.convertGroupedByMediaName(foundMedia);
     }
 
-    private allToMovedMediaGroups(media: MovedMedia[]): MovedMediaView[] {
+    getMovedMedia(mediaId: string): MovedMediaView | undefined {
+        const media = this.repository.findById(mediaId);
+        if (media) {
+            return this.toMovedMediaView(media);
+        }
+        return undefined;
+    }
+
+    getAllTVShowSeasons(movedMedia: MovedMediaView): MovedMediaView[] {
+        const media = this.repository.findAllByMediaTypeAndDateAndMediaName("TV", movedMedia.date, movedMedia.title);
+        if (!media) {
+            return [];
+        }
+        const groupMap = new Map<number, MovedMedia>(media.map(m => [m.season!, m]));
+        return Array.from(groupMap.values()).map(movedMedia => this.toMovedMediaView(movedMedia));
+    }
+
+    getAllTVShowEpisodes(movedMedia: MovedMediaView, season: number): MovedMediaView[] {
+        const media = this.repository.findAllByMediaTypeAndDateAndMediaNameAndSeason("TV", movedMedia.date, movedMedia.title, season);
+        if (!media) {
+            return [];
+        }
+        return media.map(movedMedia => this.toMovedMediaView(movedMedia));
+    }
+
+    private convertGroupedByMediaName(media: MovedMedia[]): MovedMediaView[] {
         if (!media) {
             return [];
         }
@@ -64,6 +90,8 @@ export class MovedMediaService extends BaseService {
         return {
             id: media.id,
             type: media.mediaType!,
+            season: media.season,
+            episode: media.episode,
             posterUrl: media.mediaDesc?.posterUrl ? media.mediaDesc.posterUrl : environment.fallbackPosterUrl,
             title: media.mediaName!,
             date: media.date,

@@ -41,3 +41,15 @@
 <!--        </mat-paginator>-->
 <!--    </div>-->
 <!--</div>-->
+
+<div *ngFor="let media of movedMediaList; let i = index">
+    <div>id: {{ media.id }}</div>
+    <div>type: {{ media.type }}</div>
+    <div>season: {{ media.season }}</div>
+    <div>title: {{ media.title }}</div>
+    <div>desc: {{ media.description ? media.description : ("no media description" | translate) }}</div>
+    <div>poster: {{ media.posterUrl }}</div>
+    <div>cast: {{ media.cast }}</div>
+    <div>link: <a [routerLink]="generateLink(media)">Link</a></div>
+    <br/>
+</div>

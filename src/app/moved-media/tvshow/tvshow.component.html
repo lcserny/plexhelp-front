@@ -1,1 +1,14 @@
 <p>tvshow works!</p>
+
+<div *ngIf="tvShowSeasons">
+    <div *ngFor="let movedMediaSeason of tvShowSeasons">
+        <div>id: {{ movedMediaSeason.id }}</div>
+        <div>type: {{ movedMediaSeason.type }}</div>
+        <div>season: {{ movedMediaSeason.season }}</div>
+        <div>title: {{ movedMediaSeason.title }}</div>
+        <div>desc: {{ movedMediaSeason.description ? movedMediaSeason.description : ("no media description" | translate) }}</div>
+        <div>poster: {{ movedMediaSeason.posterUrl }}</div>
+        <div>cast: {{ movedMediaSeason.cast }}</div>
+        <div>link: <a [routerLink]="generateLink(movedMediaSeason)">Link</a></div>
+    </div>
+</div>

@@ -120,5 +120,7 @@
     "fetch downloads failed": "Fetching downloaded media failed!",
 
     "season": "Season",
-    "other media": "other media"
+    "other media": "other media",
+
+    "no media description": "No description available."
 }

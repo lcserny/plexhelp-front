@@ -26,17 +26,22 @@ export class MovedMediaRepository {
         return this.store.query(getEntity(id));
     }
 
-    findAllByMediaTypeAndMediaName(searchType: MediaFileType, searchMediaName: string): MovedMedia[] {
+    findAllByMediaTypeAndDateAndMediaName(searchType: MediaFileType, searchDate: Date | null, searchMediaName: string): MovedMedia[] {
         let allMedia = this.findAll();
         return allMedia.filter(movedMedia =>
-            movedMedia.mediaType === searchType && movedMedia.mediaName === searchMediaName
+            movedMedia.mediaType === searchType
+                    && movedMedia.mediaName === searchMediaName
+                    && this.areDatesEqual(movedMedia.date, searchDate)
         );
     }
 
-    findAllByMediaTypeAndMediaNameAndSeason(searchType: MediaFileType, searchMediaName: string, searchSeason: number): MovedMedia[] {
+    findAllByMediaTypeAndDateAndMediaNameAndSeason(searchType: MediaFileType, searchDate: Date | null, searchMediaName: string, searchSeason: number): MovedMedia[] {
         let allMedia = this.findAll();
         return allMedia.filter(movedMedia =>
-            movedMedia.mediaType === searchType && movedMedia.mediaName === searchMediaName && movedMedia.season === searchSeason
+            movedMedia.mediaType === searchType
+                    && movedMedia.mediaName === searchMediaName
+                    && movedMedia.season === searchSeason
+                    && this.areDatesEqual(movedMedia.date, searchDate)
         );
     }
 
@@ -54,5 +59,15 @@ export class MovedMediaRepository {
         return allMedia.filter(movedMedia =>
             movedMedia.mediaName?.toLowerCase().includes(lowerSelectedName)
         );
+    }
+
+    private areDatesEqual(date1: Date | null, date2: Date | null): boolean {
+        if (date1 === null && date2 === null) {
+            return true;
+        }
+        if (!date1 || !date2) {
+            return false;
+        }
+        return date1.getTime() === date2.getTime();
     }
 }

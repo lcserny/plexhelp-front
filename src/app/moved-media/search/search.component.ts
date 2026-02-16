@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {MovedMediaService} from "../moved-media.service";
+import {MovedMediaService, MovedMediaView} from "../moved-media.service";
+import {Router} from "@angular/router";
+import {routes} from "../../routing/routing.module";
 
 @Component({
     selector: 'movedMedia-search',
@@ -8,14 +10,24 @@ import {MovedMediaService} from "../moved-media.service";
 })
 export class MovedMediaSearchComponent implements OnInit{
 
+    movedMediaList: MovedMediaView[] = [];
+
     // TODO main page, only this one has search field and order options
 
-    // TODO on the view, the description if its undefined, use a default message translated
-
-    constructor(private movedMediaService: MovedMediaService) {}
+    constructor(private movedMediaService: MovedMediaService, private router: Router) {}
 
     async ngOnInit() {
         await this.movedMediaService.refreshMovedMedia();
-        console.log(JSON.stringify(this.movedMediaService.getAllMovedMedia(), null, 2));
+        this.movedMediaList = this.movedMediaService.getAllMovedMedia();
+        console.log(JSON.stringify(this.movedMediaList, null, 2));
+    }
+
+    generateLink(media: MovedMediaView): string {
+        switch (media.type) {
+            case "MOVIE":
+                return `/moved-media/detail/${media.id}`;
+            case "TV":
+                return `/moved-media/tv-show/${media.id}`;
+        }
     }
 }
