@@ -1,55 +1,45 @@
-<!--<h1>{{ "media files found" | translate }}</h1>-->
-<!--<div class="button-container">-->
-<!--    <button mat-raised-button id="search-btn" (click)="initSearch()">{{ "refresh" | translate }}</button>-->
-<!--</div>-->
+<h1>{{ "media files found" | translate }}</h1>
+<div class="button-container">
+    <button mat-raised-button id="search-btn" (click)="refreshMedia()">{{ "refresh" | translate }}</button>
+</div>
 
-<!--<div *ngIf="searchPerformed && currentPage.length == 0">-->
-<!--    <br />-->
-<!--    <h3>{{ "no media found, try again" | translate }}</h3>-->
-<!--</div>-->
+<div class="button-container">
+    <mat-form-field id="search-input">
+        <mat-label>{{ "search" | translate }}</mat-label>
+        <input #searchInput type="text" matInput (input)="filterMedia()" [(ngModel)]="searchText">
+        <button matSuffix mat-icon-button aria-label="Search">
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
 
-<!--<div *ngIf="searchPerformed && currentPage.length > 0">-->
-<!--    <div *ngFor="let searchItem of currentPage; let i = index" (click)="adminForceToggle($event, searchItem)">-->
-<!--        <br />-->
-<!--        <mat-card class="search-item-card">-->
-<!--            <div style="display: flex">-->
-<!--                <div class="toggle-container" >-->
-<!--                    <mat-slide-toggle color="accent" [disabled]="!searchItem.downloaded" [checked]="searchItem.checked" (change)="toggleMedia($event.checked, this.currentIndex + i)"></mat-slide-toggle>-->
-<!--                </div>-->
-<!--                <div class="media-container">-->
-<!--                    <div class="title-container">-->
-<!--                        <mat-card-title><span class="media-title">{{this.currentIndex + i + 1}}. {{searchItem.group.name}}</span></mat-card-title>-->
-<!--                    </div>-->
-<!--                    <div class="actions-container">-->
-<!--                        <mat-card-actions>-->
-<!--                            <div [matTooltip]="!searchItem.downloaded ? detailsDisabledText : ''">-->
-<!--                                <button mat-raised-button color="primary" class="details-button" [disabled]="!searchItem.downloaded" (click)="goToSingleMediaDetails(this.currentIndex + i)">{{ "details" | translate }}</button>-->
-<!--                            </div>-->
-<!--                        </mat-card-actions>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </mat-card>-->
-<!--    </div>-->
+<div *ngIf="!movedMediaList">
+    <br />
+    <h3>{{ "no media found, try again" | translate }}</h3>
+</div>
 
-<!--    <div class="pagination-container">-->
-<!--        <mat-paginator-->
-<!--            [length]="totalItems"-->
-<!--            [pageSize]="defaultPageSize"-->
-<!--            [pageSizeOptions]="pageSizeOptions"-->
-<!--            (page)="onPageChange($event)">-->
-<!--        </mat-paginator>-->
-<!--    </div>-->
-<!--</div>-->
-
-<div *ngFor="let media of movedMediaList; let i = index">
-    <div>id: {{ media.id }}</div>
-    <div>type: {{ media.type }}</div>
-    <div>season: {{ media.season }}</div>
-    <div>title: {{ media.title }}</div>
-    <div>desc: {{ media.description ? media.description : ("no media description" | translate) }}</div>
-    <div>poster: {{ media.posterUrl }}</div>
-    <div>cast: {{ media.cast }}</div>
-    <div>link: <a [routerLink]="generateLink(media)">Link</a></div>
-    <br/>
+<div *ngIf="movedMediaList">
+    <div *ngFor="let media of movedMediaList; let i = index">
+        <mat-card class="search-item-card">
+            <div style="display: flex">
+                <div class="poster-container" >
+                    <img class="options-item-poster" src="{{media.posterUrl}}" alt="">
+                </div>
+                <div class="media-container">
+                    <div class="title-container">
+                        <mat-card-title><span class="media-title">{{ generateTitle(media) }}</span></mat-card-title>
+                        <mat-card-subtitle><span>{{ media.type }}</span></mat-card-subtitle>
+                        <div>{{ media.description ? media.description : ("no media description" | translate) }}</div>
+                        <div>{{ media.cast.length > 0 ? generateCast(media.cast) : ("no cast available" | translate) }}</div>
+                    </div>
+                    <div class="actions-container">
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                        </mat-card-actions>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+        <br/>
+    </div>
 </div>

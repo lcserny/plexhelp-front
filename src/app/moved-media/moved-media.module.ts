@@ -13,6 +13,10 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {HttpClientModule} from "@angular/common/http";
 import {MovedMediaTVShowComponent} from './tvshow/tvshow.component';
 import {MovedMediaTVShowSeasonComponent} from './tvshow-season/tvshow-season.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 
 const routes: Routes = [
     {
@@ -43,6 +47,11 @@ const routes: Routes = [
         MatCardModule,
         MatPaginatorModule,
         MatSlideToggleModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
     ],
     exports: [RouterModule]
 })
