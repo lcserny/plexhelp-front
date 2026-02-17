@@ -112,7 +112,7 @@ export class MovedMediaService extends BaseService {
             title: media.mediaName!,
             date: media.date,
             description: media.mediaDesc?.description,
-            cast: media.mediaDesc!.cast!
+            cast: media.mediaDesc?.cast || []
         };
     }
 
