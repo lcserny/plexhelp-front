@@ -1,13 +1,39 @@
-<p>detail works!</p>
+<div *ngIf="!movedMedia">
+    <br />
+    <h3>{{ "no media found, try again" | translate }}</h3>
+</div>
 
 <div *ngIf="movedMedia">
-    <div>id: {{ movedMedia.id }}</div>
-    <div>type: {{ movedMedia.type }}</div>
-    <div>season: {{ movedMedia.season }}</div>
-    <div>episode: {{ movedMedia.episode }}</div>
-    <div>title: {{ movedMedia.title }}</div>
-    <div>desc: {{ movedMedia.description ? movedMedia.description : ("no media description" | translate) }}</div>
-    <div>poster: {{ movedMedia.posterUrl }}</div>
-    <div>cast: {{ movedMedia.cast }}</div>
-<!--    <div>link: <a [routerLink]="generateLink(media)">Link</a></div>-->
+    <h1>{{ generateTitle(movedMedia) }}</h1>
+
+    <div class="button-container">
+        <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+    </div>
+
+    <br/>
+
+    <mat-card class="search-item-card">
+        <div style="display: flex">
+            <div class="poster-container" >
+                <img class="options-item-poster" src="{{movedMedia.posterUrl}}" alt="">
+            </div>
+            <div class="media-container">
+                <div class="title-container">
+                    <mat-card-subtitle><span>{{ generateSubtitle(movedMedia) }}</span></mat-card-subtitle>
+                    <div>{{ movedMedia.description ? movedMedia.description : ("no media description" | translate) }}</div>
+                    <div>{{ movedMedia.cast.length > 0 ? movedMedia.cast.join(", ") : ("no cast available" | translate) }}</div>
+                </div>
+                <div class="actions-container">
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" class="details-button" (click)="deleteMedia(movedMedia)">{{ "delete media" | translate }}</button>
+                    </mat-card-actions>
+                </div>
+                <div class="actions-container">
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" class="details-button" (click)="findSubtitles(movedMedia)">{{ "find subs" | translate }}</button>
+                    </mat-card-actions>
+                </div>
+            </div>
+        </div>
+    </mat-card>
 </div>

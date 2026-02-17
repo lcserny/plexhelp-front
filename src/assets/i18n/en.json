@@ -125,6 +125,8 @@
 
     "no media description": "No description available.",
     "no cast available": "No cast information available.",
+    "delete media": "Delete media",
+    "find subs": "Find subtitles",
     "sort": "Sort",
     "sort-name-asc": "by name (asc)",
     "sort-name-desc": "by name (desc)",
