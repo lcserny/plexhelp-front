@@ -41,15 +41,11 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
     }
 
     generateTitle(media: MovedMediaView): string {
-        return media.title + (media.date ? ` (${this.formatDate(media.date)})` : "");
+        return this.movedMediaService.generateTitle(media);
     }
 
     generateCast(cast: string[]): string {
         return cast.join(", ");
-    }
-
-    formatDate(date: Date): string {
-        return this.datePipe.transform(date, environment.region.dateFormat)!;
     }
 
     async onSortChange(event: MatSelectChange) {

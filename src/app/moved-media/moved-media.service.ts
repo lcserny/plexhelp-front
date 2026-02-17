@@ -7,6 +7,7 @@ import {environment} from "../../environments/environment";
 import {catchError, firstValueFrom, Observable, tap} from "rxjs";
 import {MovedMediaData} from "../generated/commander/model/movedMediaData";
 import {MediaFileType} from "../generated/commander/model/mediaFileType";
+import {DatePipe} from "@angular/common";
 
 const noId = "<noId>";
 
@@ -46,6 +47,7 @@ export class MovedMediaService extends BaseService {
 
     constructor(private httpClient: HttpClient,
                 private repository: MovedMediaRepository,
+                private datePipe: DatePipe,
                 protected override messageService: MessageService) {
         super(messageService);
     }
@@ -123,6 +125,14 @@ export class MovedMediaService extends BaseService {
             id: media.id || noId,
             date: media.date ? new Date(parseFloat(media.date) * 1000) : null,
         }
+    }
+
+    generateTitle(media: MovedMediaView): string {
+        return media.title + (media.date ? ` (${this.formatDate(media.date)})` : "");
+    }
+
+    formatDate(date: Date): string {
+        return this.datePipe.transform(date, environment.region.dateFormat)!;
     }
 
     private sortByField<T>(

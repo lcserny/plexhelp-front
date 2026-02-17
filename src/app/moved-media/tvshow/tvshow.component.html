@@ -1,15 +1,30 @@
-<p>tvshow works!</p>
+<div *ngIf="!tvShowSeasons">
+    <br />
+    <h3>{{ "no media found, try again" | translate }}</h3>
+</div>
 
 <div *ngIf="tvShowSeasons">
-    <div *ngFor="let movedMediaSeason of tvShowSeasons">
-        <div>id: {{ movedMediaSeason.id }}</div>
-        <div>type: {{ movedMediaSeason.type }}</div>
-        <div>season: {{ movedMediaSeason.season }}</div>
-        <div>episode: {{ movedMediaSeason.episode }}</div>
-        <div>title: {{ movedMediaSeason.title }}</div>
-        <div>desc: {{ movedMediaSeason.description ? movedMediaSeason.description : ("no media description" | translate) }}</div>
-        <div>poster: {{ movedMediaSeason.posterUrl }}</div>
-        <div>cast: {{ movedMediaSeason.cast }}</div>
-        <div>link: <a [routerLink]="generateLink(movedMediaSeason)">Link</a></div>
+    <h1>{{ generateTitle(tvShowSeasons[0]) }}</h1>
+
+    <div class="button-container">
+        <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+    </div>
+
+    <div *ngFor="let media of tvShowSeasons; let i = index">
+        <mat-card class="search-item-card">
+            <div style="display: flex">
+                <div class="media-container">
+                    <div class="title-container">
+                        <mat-card-title><span class="media-title">{{ "season" | translate }} {{ media.season }}</span></mat-card-title>
+                    </div>
+                    <div class="actions-container">
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                        </mat-card-actions>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+        <br/>
     </div>
 </div>

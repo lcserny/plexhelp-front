@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'movedMedia-tvshow-season',
@@ -11,9 +12,9 @@ export class MovedMediaTVShowSeasonComponent implements OnInit {
 
     tvShowSeasonEpisodes: MovedMediaView[] = [];
 
-    // TODO page for a season of a tvshows to present all episodes
-
-    constructor(private route: ActivatedRoute, private movedMediaService: MovedMediaService) {}
+    constructor(private route: ActivatedRoute,
+                private movedMediaService: MovedMediaService,
+                private location: Location) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -28,5 +29,13 @@ export class MovedMediaTVShowSeasonComponent implements OnInit {
 
     generateLink(media: MovedMediaView): string {
         return `/moved-media/detail/${media.id}`;
+    }
+
+    generateTitle(media: MovedMediaView): string {
+        return this.movedMediaService.generateTitle(media);
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 }

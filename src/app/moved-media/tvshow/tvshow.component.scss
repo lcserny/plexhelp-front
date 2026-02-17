@@ -1,0 +1,60 @@
+#back-btn {
+    margin-bottom: 10px;
+}
+
+h1, h3 {
+    font-family: "LatoLight";
+}
+
+.media-title {
+    word-break: break-word;
+}
+
+.search-item-card {
+    padding: 15px;
+    border-top: 1px solid black;
+}
+
+.row {
+    display: table;
+    clear: both;
+}
+
+.column {
+    float: left;
+}
+
+.title-container {
+    padding-left: 10px;
+}
+
+.details-button {
+    width: 150px;
+    height: 40px;
+
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+}
+
+.options-item-poster {
+    float: left;
+    width: 92px;
+    height: 138px;
+    border: 1px solid #ccc;
+}
+
+.poster-container {
+    margin-top: 5px;
+    margin-right: 20px;
+}
+
+.media-container {
+    width: 100%;
+}
+
+.button-container {
+    button {
+        margin-right: 5px;
+    }
+}
