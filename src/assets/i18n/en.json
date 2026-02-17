@@ -123,5 +123,10 @@
     "other media": "other media",
 
     "no media description": "No description available.",
-    "no cast available": "No cast information available."
+    "no cast available": "No cast information available.",
+    "sort": "Sort",
+    "sort-name-asc": "by name (asc)",
+    "sort-name-desc": "by name (desc)",
+    "sort-date-asc": "by date (asc)",
+    "sort-date-desc": "by date (desc)"
 }

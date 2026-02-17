@@ -123,5 +123,10 @@
     "other media": "alte fisiere media",
 
     "no media description": "Nu exista descriere.",
-    "no cast available": "No exista informatii despre actori."
+    "no cast available": "No exista informatii despre actori.",
+    "sort": "Sortare",
+    "sort-name-asc": "dupa nume (asc)",
+    "sort-name-desc": "dupa nume (desc)",
+    "sort-date-asc": "dupa data (asc)",
+    "sort-date-desc": "dupa data (desc)"
 }

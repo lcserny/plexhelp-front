@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MovedMediaService, MovedMediaView} from "../moved-media.service";
-import {Router} from "@angular/router";
+import {MovedMediaService, MovedMediaView, SortData, sortOptions} from "../moved-media.service";
 import {environment} from "../../../environments/environment";
 import {DatePipe} from "@angular/common";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
     selector: 'movedMedia-search',
@@ -14,18 +14,19 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
     @ViewChild('searchInput') searchInput!: ElementRef;
     searchText: string = "";
 
+    sortOptions: SortData[] = sortOptions;
+    selectedSort: SortData = sortOptions[0];
+
     movedMediaList: MovedMediaView[] = [];
 
-    // TODO main page, only this one has search field and order options
-
-    constructor(private movedMediaService: MovedMediaService, private router: Router, private datePipe: DatePipe) {}
+    constructor(private movedMediaService: MovedMediaService, private datePipe: DatePipe) {}
 
     async ngOnInit() {
         await this.refreshMedia();
     }
 
     ngAfterViewInit() {
-        this.focusOnSearch();
+        setTimeout(() => this.focusOnSearch());
     }
 
     private focusOnSearch() {
@@ -35,7 +36,7 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
     async refreshMedia() {
         this.searchText = "";
         await this.movedMediaService.refreshMovedMedia();
-        this.movedMediaList = this.movedMediaService.getAllMovedMedia();
+        this.movedMediaList = this.movedMediaService.getAllMovedMedia(this.selectedSort);
         this.focusOnSearch();
     }
 
@@ -51,10 +52,15 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
         return this.datePipe.transform(date, environment.region.dateFormat)!;
     }
 
+    async onSortChange(event: MatSelectChange) {
+        this.selectedSort = event.value;
+        await this.refreshMedia();
+    }
+
     async filterMedia() {
         if (this.searchText.length >= 3) {
             await this.movedMediaService.refreshMovedMedia();
-            this.movedMediaList = this.movedMediaService.getAllMovedMedia(this.searchText);
+            this.movedMediaList = this.movedMediaService.getAllMovedMedia(this.selectedSort, this.searchText);
         } else if (this.searchText.length == 0) {
             await this.refreshMedia();
         }

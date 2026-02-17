@@ -39,6 +39,12 @@ h1, h3 {
     margin-top: 10px;
 }
 
+#sort-select {
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+}
+
 .options-item-poster {
     float: left;
     width: 92px;

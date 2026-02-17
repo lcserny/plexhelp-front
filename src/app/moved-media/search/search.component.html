@@ -11,6 +11,15 @@
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>
+
+    <mat-form-field id="sort-select">
+        <mat-label>{{ "sort" | translate }}</mat-label>
+        <mat-select [(value)]="selectedSort" (selectionChange)="onSortChange($event)">
+            <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
+                {{ sortOption.label | translate }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 
 <div *ngIf="!movedMediaList">

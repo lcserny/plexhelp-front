@@ -10,6 +10,19 @@ import {MediaFileType} from "../generated/commander/model/mediaFileType";
 
 const noId = "<noId>";
 
+export const sortOptions: SortData[] = [
+    { field: "title", direction: "asc", label: "sort-name-asc" },
+    { field: "title", direction: "desc", label: "sort-name-desc" },
+    { field: "date", direction: "asc", label: "sort-date-asc" },
+    { field: "date", direction: "desc", label: "sort-date-desc" }
+];
+
+export interface SortData {
+    field: string;
+    direction: "asc" | "desc";
+    label: string;
+}
+
 export interface MovedMediaView {
     id: string;
     type: MediaFileType;
@@ -46,11 +59,12 @@ export class MovedMediaService extends BaseService {
         this.repository.saveAll(this.allToMovedMedia(movedMedia));
     }
 
-    getAllMovedMedia(mediaNamePart?: string): MovedMediaView[] {
+    getAllMovedMedia(selectedSort: SortData, mediaNamePart?: string): MovedMediaView[] {
         const foundMedia = mediaNamePart
             ? this.repository.findAllByMediaNameSubstr(mediaNamePart)
             : this.repository.findAll();
-        return this.convertGroupedByMediaName(foundMedia);
+        let converted = this.convertGroupedByMediaName(foundMedia);
+        return this.sortByField(converted, selectedSort.field as keyof MovedMediaView, selectedSort.direction);
     }
 
     getMovedMedia(mediaId: string): MovedMediaView | undefined {
@@ -109,5 +123,39 @@ export class MovedMediaService extends BaseService {
             id: media.id || noId,
             date: media.date ? new Date(parseFloat(media.date) * 1000) : null,
         }
+    }
+
+    private sortByField<T>(
+        items: T[],
+        field: keyof T,
+        direction: 'asc' | 'desc'
+    ): T[] {
+        return [...items].sort((a, b) => {
+            const valueA = a[field];
+            const valueB = b[field];
+
+            if (valueA === undefined || valueA === null) return 1;
+            if (valueB === undefined || valueB === null) return -1;
+
+            if (typeof valueA === 'number' && typeof valueB === 'number') {
+                return direction === 'asc' ? valueA - valueB : valueB - valueA;
+            }
+
+            if (valueA instanceof Date && valueB instanceof Date) {
+                return direction === 'asc'
+                    ? valueA.getTime() - valueB.getTime()
+                    : valueB.getTime() - valueA.getTime();
+            }
+
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return direction === 'asc'
+                    ? valueA.localeCompare(valueB)
+                    : valueB.localeCompare(valueA);
+            }
+
+            return direction === 'asc'
+                ? String(valueA).localeCompare(String(valueB))
+                : String(valueB).localeCompare(String(valueA));
+        });
     }
 }
