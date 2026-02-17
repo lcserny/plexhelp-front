@@ -1,9 +1,9 @@
-<div *ngIf="!tvShowSeasons">
+<div *ngIf="!tvShowSeasons.length">
     <br />
     <h3>{{ "no media found, try again" | translate }}</h3>
 </div>
 
-<div *ngIf="tvShowSeasons">
+<div *ngIf="tvShowSeasons.length">
     <h1>{{ generateTitle(tvShowSeasons[0]) }}</h1>
 
     <div class="button-container">

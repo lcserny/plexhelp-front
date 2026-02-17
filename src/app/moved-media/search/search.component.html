@@ -22,12 +22,12 @@
     </mat-form-field>
 </div>
 
-<div *ngIf="!movedMediaList">
+<div *ngIf="!movedMediaList.length">
     <br />
     <h3>{{ "no media found, try again" | translate }}</h3>
 </div>
 
-<div *ngIf="movedMediaList">
+<div *ngIf="movedMediaList.length">
     <div *ngFor="let media of movedMediaList; let i = index">
         <mat-card class="search-item-card">
             <div style="display: flex">
@@ -39,7 +39,7 @@
                         <mat-card-title><span class="media-title">{{ generateTitle(media) }}</span></mat-card-title>
                         <mat-card-subtitle><span>{{ media.type }}</span></mat-card-subtitle>
                         <div>{{ media.description ? media.description : ("no media description" | translate) }}</div>
-                        <div>{{ media.cast.length > 0 ? generateCast(media.cast) : ("no cast available" | translate) }}</div>
+                        <div>{{ media.cast.length > 0 ? media.cast.join(", ") : ("no cast available" | translate) }}</div>
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>

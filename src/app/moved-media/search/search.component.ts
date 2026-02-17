@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MovedMediaService, MovedMediaView, SortData, sortOptions} from "../moved-media.service";
-import {environment} from "../../../environments/environment";
-import {DatePipe} from "@angular/common";
 import {MatSelectChange} from "@angular/material/select";
 
 @Component({
@@ -19,7 +17,7 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
 
     movedMediaList: MovedMediaView[] = [];
 
-    constructor(private movedMediaService: MovedMediaService, private datePipe: DatePipe) {}
+    constructor(private movedMediaService: MovedMediaService) {}
 
     async ngOnInit() {
         await this.refreshMedia();
@@ -42,10 +40,6 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
 
     generateTitle(media: MovedMediaView): string {
         return this.movedMediaService.generateTitle(media);
-    }
-
-    generateCast(cast: string[]): string {
-        return cast.join(", ");
     }
 
     async onSortChange(event: MatSelectChange) {
