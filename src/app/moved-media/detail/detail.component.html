@@ -21,7 +21,9 @@
                 <div class="title-container">
                     <mat-card-subtitle><span>{{ generateSubtitle(movedMedia) }}</span></mat-card-subtitle>
                     <div>{{ movedMedia.description ? movedMedia.description : ("no media description" | translate) }}</div>
-                    <div>{{ movedMedia.cast.length > 0 ? movedMedia.cast.join(", ") : ("no cast available" | translate) }}</div>
+                    <div>
+                        <span class="ccc">{{ "cast" | translate }}</span> {{ movedMedia.cast.length > 0 ? movedMedia.cast.join(", ") : ("no cast available" | translate) }}
+                    </div>
                 </div>
                 <div class="actions-container">
                     <mat-card-actions>

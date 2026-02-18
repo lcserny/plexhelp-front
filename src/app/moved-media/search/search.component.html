@@ -40,7 +40,9 @@
                         <mat-card-subtitle><span>{{ media.type }}</span></mat-card-subtitle>
                         <div>{{ media.description ? media.description : ("no media description" | translate) }}</div>
                         <br />
-                        <div>{{ "cast" | translate }} {{ media.cast.length > 0 ? media.cast.join(", ") : ("no cast available" | translate) }}</div>
+                        <div>
+                            <span class="ccc">{{ "cast" | translate }}</span> {{ media.cast.length > 0 ? media.cast.join(", ") : ("no cast available" | translate) }}
+                        </div>
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>
