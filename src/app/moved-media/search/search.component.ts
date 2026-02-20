@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MovedMediaService, MovedMediaView, SortData, sortOptions} from "../moved-media.service";
 import {MatSelectChange} from "@angular/material/select";
 
@@ -7,7 +7,7 @@ import {MatSelectChange} from "@angular/material/select";
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
+export class MovedMediaSearchComponent implements OnInit {
 
     @ViewChild('searchInput') searchInput!: ElementRef;
     searchText: string = "";
@@ -23,19 +23,10 @@ export class MovedMediaSearchComponent implements OnInit, AfterViewInit {
         await this.refreshMedia();
     }
 
-    ngAfterViewInit() {
-        setTimeout(() => this.focusOnSearch());
-    }
-
-    private focusOnSearch() {
-        this.searchInput.nativeElement.focus();
-    }
-
     async refreshMedia() {
         this.searchText = "";
         await this.movedMediaService.refreshMovedMedia();
         this.movedMediaList = this.movedMediaService.getAllMovedMedia(this.selectedSort);
-        this.focusOnSearch();
     }
 
     generateTitle(media: MovedMediaView): string {
