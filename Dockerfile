@@ -15,6 +15,8 @@ FROM docker.io/library/nginx:alpine as ngx
 RUN apk add --no-cache gettext-envsubst
 RUN mkdir -p /usr/share/nginx/html/front && \
     chown -R nginx:nginx /usr/share/nginx/html/front
+RUN chown -R nginx:nginx /etc/nginx/conf.d /var/cache/nginx /var/run /var/log/nginx
 COPY --from=node-helper --chown=nginx:nginx /app/dist/front /usr/share/nginx/html/front
 COPY nginx.conf /etc/nginx/templates/default.conf.template
-CMD envsubst "\$API_URL \$AUTH_URL \$SSL_CERT_PATH \$SSL_KEY_PATH \$SSL_CA_CERT_PATH" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+RUN chmod 644 /etc/nginx/templates/default.conf.template
+CMD ["sh", "-c", "envsubst \"\\$API_URL \\$AUTH_URL \\$SSL_CERT_PATH \\$SSL_KEY_PATH \\$SSL_CA_CERT_PATH\" < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
