@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map } from 'rxjs';
+import {Observable, catchError, map, firstValueFrom, of} from 'rxjs';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 import {environment} from "../environments/environment";
@@ -58,6 +58,13 @@ export class ShutdownService extends BaseService {
         return this.http.post<CommandResponse>(url, req, this.httpOptions).pipe(
             map(resp => this.mapResponse(`service ${serviceName} restart in ${minutes} minutes`, resp)),
             catchError(err => this.error(err))
+        );
+    }
+
+    ping(): Observable<boolean> {
+        return this.http.get<void>(`${environment.commanderApiUrl}/ping`, { observe: 'response' }).pipe(
+            map(response => response.ok),
+            catchError(() => of(false))
         );
     }
 
