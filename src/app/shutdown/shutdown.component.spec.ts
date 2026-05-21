@@ -1,6 +1,10 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {
     SHUTDOWN_FAILED_KEY, SHUTDOWN_SUCCESS_KEY,
+    RESTART_FAILED_KEY, RESTART_SUCCESS_KEY,
+    SLEEP_FAILED_KEY, SLEEP_SUCCESS_KEY,
+    SERVICE_RESTART_SUCCESS_KEY, SERVICE_RESTART_FAILED_KEY,
+    PROVIDE_SERVICE_NAME_KEY,
     ShutdownComponent,
 } from './shutdown.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -19,8 +23,10 @@ import {CLOSE_KEY, DURATION} from "../app.component";
 describe('ShutdownComponent', () => {
     let component: ShutdownComponent;
     let fixture: ComponentFixture<ShutdownComponent>;
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
+
+    const commandsUrl = `${environment.commanderApiUrl}/commands`;
+    const pingUrl = `${environment.commanderApiUrl}/ping`;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -38,9 +44,10 @@ describe('ShutdownComponent', () => {
             ],
         }).compileComponents();
 
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
+        localStorage.clear();
         fixture = TestBed.createComponent(ShutdownComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
@@ -50,25 +57,132 @@ describe('ShutdownComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it("shutdown should show popup toast", () => {
-        spyOn(component.snackBar, 'open');
+    describe('shutdown', () => {
+        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.shutdown();
 
-        component.shutdown();
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
+            tick(250);
 
-        const url = `${environment.commanderApiUrl}/commands`;
-        let request = httpTestingController.expectOne(url);
-        let resp: CommandResponse = {status: "SUCCESS"};
-        request.flush(resp);
+            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
+        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.shutdown();
 
-        component.shutdown();
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            tick(250);
 
-        request = httpTestingController.expectOne(url);
-        resp = {status: "FAILED"};
-        request.flush(resp);
+            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
 
-        expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        it('should show failure popup on HTTP error', () => {
+            spyOn(component.snackBar, 'open');
+            component.shutdown();
+
+            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        });
+    });
+
+    describe('reboot', () => {
+        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.reboot();
+
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
+            tick(250);
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
+
+        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.reboot();
+
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            tick(250);
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
+
+        it('should show failure popup on HTTP error', () => {
+            spyOn(component.snackBar, 'open');
+            component.reboot();
+
+            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        });
+    });
+
+    describe('sleep', () => {
+        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.sleep();
+
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
+            tick(250);
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
+
+        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+            spyOn(component.snackBar, 'open');
+            component.sleep();
+
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            tick(250);
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        }));
+
+        it('should show failure popup on HTTP error', () => {
+            spyOn(component.snackBar, 'open');
+            component.sleep();
+
+            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        });
+    });
+
+    describe('restartService', () => {
+        it('should show success popup when command succeeds', () => {
+            spyOn(component.snackBar, 'open');
+            component.serviceForm.get('serviceName')?.setValue('nginx');
+            component.restartService();
+
+            httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SERVICE_RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
+        });
+
+        it('should show failure popup on HTTP error', () => {
+            spyOn(component.snackBar, 'open');
+            component.serviceForm.get('serviceName')?.setValue('nginx');
+            component.restartService();
+
+            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(SERVICE_RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+        });
+
+        it('should show prompt popup when service name is empty', () => {
+            spyOn(component.snackBar, 'open');
+            component.restartService();
+
+            expect(component.snackBar.open).toHaveBeenCalledWith(PROVIDE_SERVICE_NAME_KEY, CLOSE_KEY, {duration: DURATION});
+        });
     });
 
     afterEach(() => {
