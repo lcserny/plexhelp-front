@@ -6,6 +6,7 @@ import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
+import {MatDialogModule} from "@angular/material/dialog";
 
 describe('TvshowSeasonComponent', () => {
     let component: MovedMediaTVShowSeasonComponent;
@@ -17,7 +18,8 @@ describe('TvshowSeasonComponent', () => {
             imports: [
                 TranslateModule.forRoot(),
                 RouterModule.forRoot(routes),
-                HttpClientTestingModule
+                HttpClientTestingModule,
+                MatDialogModule
             ],
             providers: [DatePipe]
         }).compileComponents();

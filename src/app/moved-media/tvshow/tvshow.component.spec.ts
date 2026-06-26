@@ -11,6 +11,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DatePipe} from "@angular/common";
+import {MatDialogModule} from "@angular/material/dialog";
 
 describe('TvshowComponent', () => {
     let component: MovedMediaTVShowComponent;
@@ -22,7 +23,8 @@ describe('TvshowComponent', () => {
             imports: [
                 TranslateModule.forRoot(),
                 RouterModule.forRoot(routes),
-                HttpClientTestingModule
+                HttpClientTestingModule,
+                MatDialogModule
             ],
             providers: [DatePipe]
         }).compileComponents();
