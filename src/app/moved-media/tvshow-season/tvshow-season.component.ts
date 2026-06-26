@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
-import {Location} from "@angular/common";
+import {formatNumber} from "../moved-media.module";
 
 @Component({
   selector: 'movedMedia-tvshow-season',
@@ -10,19 +10,21 @@ import {Location} from "@angular/common";
 })
 export class MovedMediaTVShowSeasonComponent implements OnInit {
 
+    mediaShowId: string | undefined;
+    mediaShowSeason: number | undefined;
     tvShowSeasonEpisodes: MovedMediaView[] = [];
 
     constructor(private route: ActivatedRoute,
                 private movedMediaService: MovedMediaService,
-                private location: Location) {}
+                private router: Router) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            const mediaId = String(params["idx"]);
-            const season = +params["nr"];
-            const movedMedia = this.movedMediaService.getMovedMedia(mediaId);
+            this.mediaShowId = String(params["idx"]);
+            this.mediaShowSeason = +params["nr"];
+            const movedMedia = this.movedMediaService.getMovedMedia(this.mediaShowId);
             if (movedMedia) {
-                this.tvShowSeasonEpisodes = this.movedMediaService.getAllTVShowEpisodes(movedMedia, season);
+                this.tvShowSeasonEpisodes = this.movedMediaService.getAllTVShowEpisodes(movedMedia, this.mediaShowSeason);
             }
         });
     }
@@ -35,7 +37,16 @@ export class MovedMediaTVShowSeasonComponent implements OnInit {
         return this.movedMediaService.generateTitle(media);
     }
 
+    formatEpisode(ep: number | undefined): string {
+        return formatNumber(undefined, ep);
+    }
+
     goBack(): void {
-        this.location.back();
+        this.router.navigate([`/moved-media/tv-show/${this.mediaShowId}`]);
+    }
+
+    async deleteSeason() {
+        await this.movedMediaService.removeMovedMediaSeason(this.mediaShowId!);
+        await this.router.navigate([`/moved-media/tv-show/${this.mediaShowId}`]);
     }
 }

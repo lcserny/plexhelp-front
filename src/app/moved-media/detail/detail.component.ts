@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {Location} from "@angular/common";
+import {formatNumber} from "../moved-media.module";
 
 @Component({
   selector: 'movedMedia-detail',
@@ -10,6 +11,7 @@ import {Location} from "@angular/common";
 })
 export class MovedMediaDetailComponent implements OnInit {
 
+    mediaId: string | undefined;
     movedMedia?: MovedMediaView;
 
     constructor(private route: ActivatedRoute,
@@ -19,8 +21,8 @@ export class MovedMediaDetailComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            const mediaId = String(params["idx"]);
-            this.movedMedia = this.movedMediaService.getMovedMedia(mediaId);
+            this.mediaId = String(params["idx"]);
+            this.movedMedia = this.movedMediaService.getMovedMedia(this.mediaId);
         });
     }
 
@@ -33,7 +35,7 @@ export class MovedMediaDetailComponent implements OnInit {
             case "MOVIE":
                 return "MOVIE";
             case "TV":
-                return `TV: S${media.season}E${media.episode}`;
+                return `TV: ${formatNumber("S", media.season)}-${formatNumber("E", media.episode)}`;
         }
     }
 
@@ -43,10 +45,19 @@ export class MovedMediaDetailComponent implements OnInit {
 
     async deleteMedia(media: MovedMediaView) {
         await this.movedMediaService.removeMovedMedia(media);
-        this.router.navigate(['/moved-media/search']);
+
+        switch (media.type) {
+            case "MOVIE":
+                await this.router.navigate(['/moved-media/search'])
+                break;
+            case "TV":
+                await this.router.navigate([`/moved-media/tv-show/${media.id}/season/${media.season}`]);
+                break;
+        }
     }
 
+    // TODO
     findSubtitles(media: MovedMediaView): void {
-        console.log("TODO delete");
+        throw new Error("Method not implemented.");
     }
 }

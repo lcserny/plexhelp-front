@@ -45,6 +45,11 @@ export class MovedMediaService extends BaseService {
         withCredentials: true
     };
 
+    private jsonHttpOptions = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true
+    };
+
     constructor(private httpClient: HttpClient,
                 private repository: MovedMediaRepository,
                 private datePipe: DatePipe,
@@ -102,6 +107,38 @@ export class MovedMediaService extends BaseService {
         );
         await firstValueFrom(resp);
         this.repository.removeById(movedMedia.id);
+    }
+
+    async removeMovedMediaSeason(id: string) {
+        const movedMedia = this.getMovedMedia(id);
+        await this.removeShowMany(movedMedia,
+            (movedMedia) => this.repository.findAllByMediaTypeAndDateAndMediaNameAndSeason("TV", movedMedia.date, movedMedia.title, movedMedia.season!));
+    }
+
+    async removeMovedMediaShow(id: string) {
+        const movedMedia = this.getMovedMedia(id);
+        await this.removeShowMany(movedMedia,
+            (movedMedia) => this.repository.findAllByMediaTypeAndDateAndMediaName("TV", movedMedia.date, movedMedia.title));
+    }
+
+    private async removeShowMany(movedMedia: MovedMediaView | undefined, supplier: (m: MovedMediaView) => MovedMedia[] ) {
+        if (!movedMedia) {
+            return;
+        }
+
+        const media = supplier(movedMedia);
+        if (!media) {
+            return;
+        }
+
+        const ids = media.map(movedMedia => movedMedia.id);
+        const resp = this.httpClient.post<void>(`${environment.commanderApiUrl}/media-moves/delete-all`, ids, this.jsonHttpOptions).pipe(
+            tap(v => this.info(`MovedMedia with ids ${ids} removed`)),
+            catchError(err => this.error(err))
+        );
+        await firstValueFrom(resp);
+
+        ids.forEach(id => this.repository.removeById(id));
     }
 
     private convertGroupedByMediaName(media: MovedMedia[]): MovedMediaView[] {

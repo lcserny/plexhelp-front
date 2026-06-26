@@ -8,6 +8,7 @@
 
     <div class="button-container">
         <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+        <button mat-raised-button color="primary" id="delete-season-btn" (click)="deleteSeason()">{{ "delete season" | translate }}</button>
     </div>
 
     <div *ngFor="let media of tvShowSeasonEpisodes; let i = index">
@@ -15,7 +16,7 @@
             <div style="display: flex">
                 <div class="media-container">
                     <div class="title-container">
-                        <mat-card-title><span class="media-title">{{ "episode" | translate }} {{ media.episode }}</span></mat-card-title>
+                        <mat-card-title><span class="media-title">{{ "episode" | translate }} {{ formatEpisode(media.episode) }}</span></mat-card-title>
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>

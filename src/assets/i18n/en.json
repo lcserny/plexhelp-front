@@ -126,6 +126,8 @@
     "no media description": "No description available.",
     "no cast available": "No cast information available.",
     "delete media": "Delete media",
+    "delete season": "Delete season",
+    "delete show": "Delete show",
     "find subs": "Find subtitles",
     "sort": "Sort",
     "sort-name-asc": "by name (asc)",
