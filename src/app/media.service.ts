@@ -78,6 +78,7 @@ export class MediaService extends BaseService {
         );
     }
 
+    // TODO move to MovedMediaService
     moveAllMedia(fileGroups: MediaFileGroup[], type: MediaFileType, mediaDesc: MediaDescriptionData): Observable<MediaMoveError[]> {
         const url = `${environment.commanderApiUrl}/media-moves/all`;
         const req: MediaMoveRequest[] = fileGroups.map(fileGroup => { return { fileGroup, type, mediaDesc } });

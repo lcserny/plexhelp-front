@@ -58,6 +58,7 @@ export class MovedMediaService extends BaseService {
             catchError(err => this.error(err))
         );
         const movedMedia = await firstValueFrom(resp);
+        this.repository.removeAll();
         this.repository.saveAll(this.allToMovedMedia(movedMedia));
     }
 
@@ -92,6 +93,15 @@ export class MovedMediaService extends BaseService {
             return [];
         }
         return media.map(movedMedia => this.toMovedMediaView(movedMedia));
+    }
+
+    async removeMovedMedia(movedMedia: MovedMediaView) {
+        const resp = this.httpClient.delete<void>(`${environment.commanderApiUrl}/media-moves/${movedMedia.id}`, this.httpOptions).pipe(
+            tap(v => this.info(`MovedMedia with id ${movedMedia.id} removed`)),
+            catchError(err => this.error(err))
+        );
+        await firstValueFrom(resp);
+        this.repository.removeById(movedMedia.id);
     }
 
     private convertGroupedByMediaName(media: MovedMedia[]): MovedMediaView[] {

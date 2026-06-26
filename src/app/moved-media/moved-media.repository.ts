@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {createStore} from "@ngneat/elf";
 import {
+    deleteAllEntities,
+    deleteEntities,
     getAllEntities,
     getEntity,
     setEntities,
@@ -59,6 +61,14 @@ export class MovedMediaRepository {
         return allMedia.filter(movedMedia =>
             movedMedia.mediaName?.toLowerCase().includes(lowerSelectedName)
         );
+    }
+
+    removeById(id: string) {
+        this.store.update(deleteEntities(id));
+    }
+
+    removeAll() {
+        this.store.update(deleteAllEntities());
     }
 
     private areDatesEqual(date1: Date | null, date2: Date | null): boolean {

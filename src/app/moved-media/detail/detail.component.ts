@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {Location} from "@angular/common";
 
@@ -14,7 +14,8 @@ export class MovedMediaDetailComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private movedMediaService: MovedMediaService,
-                private location: Location) {}
+                private location: Location,
+                private router: Router) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -40,8 +41,9 @@ export class MovedMediaDetailComponent implements OnInit {
         this.location.back();
     }
 
-    deleteMedia(media: MovedMediaView): void {
-        console.log("TODO delete");
+    async deleteMedia(media: MovedMediaView) {
+        await this.movedMediaService.removeMovedMedia(media);
+        this.router.navigate(['/moved-media/search']);
     }
 
     findSubtitles(media: MovedMediaView): void {
