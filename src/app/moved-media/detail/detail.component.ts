@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {Location} from "@angular/common";
-import {formatNumber} from "../moved-media.module";
+import {formatNumber} from "../moved-media.utils";
 
 @Component({
   selector: 'movedMedia-detail',

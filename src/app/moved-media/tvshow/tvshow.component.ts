@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {formatNumber} from "../moved-media.module";
+import {formatNumber} from "../moved-media.utils";
 
 @Component({
   selector: 'movedMedia-tvshow',
