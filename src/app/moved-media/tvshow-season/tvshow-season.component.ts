@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {formatNumber} from "../moved-media.utils";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmComponent} from "../confirm/confirm.component";
 
 @Component({
   selector: 'movedMedia-tvshow-season',
@@ -16,7 +18,8 @@ export class MovedMediaTVShowSeasonComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private movedMediaService: MovedMediaService,
-                private router: Router) {}
+                private router: Router,
+                private dialog: MatDialog) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -46,7 +49,13 @@ export class MovedMediaTVShowSeasonComponent implements OnInit {
     }
 
     async deleteSeason() {
-        await this.movedMediaService.removeMovedMediaSeason(this.mediaShowId!);
-        await this.router.navigate([`/moved-media/tv-show/${this.mediaShowId}`]);
+        let config = { data: { questionKey: 'confirm delete' } };
+        const ref = this.dialog.open(ConfirmComponent, config);
+        ref.afterClosed().subscribe(async (result: boolean | undefined) => {
+            if (result === true) {
+                await this.movedMediaService.removeMovedMediaSeason(this.mediaShowId!);
+                await this.router.navigate([`/moved-media/tv-show/${this.mediaShowId}`]);
+            }
+        });
     }
 }

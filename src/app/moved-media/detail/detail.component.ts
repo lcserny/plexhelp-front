@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {Location} from "@angular/common";
 import {formatNumber} from "../moved-media.utils";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmComponent} from "../confirm/confirm.component";
 
 @Component({
   selector: 'movedMedia-detail',
@@ -17,7 +19,8 @@ export class MovedMediaDetailComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private movedMediaService: MovedMediaService,
                 private location: Location,
-                private router: Router) {}
+                private router: Router,
+                private dialog: MatDialog) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -44,16 +47,22 @@ export class MovedMediaDetailComponent implements OnInit {
     }
 
     async deleteMedia(media: MovedMediaView) {
-        await this.movedMediaService.removeMovedMedia(media);
+        let config = { data: { questionKey: 'confirm delete' } };
+        const ref = this.dialog.open(ConfirmComponent, config);
+        ref.afterClosed().subscribe(async (result: boolean | undefined) => {
+            if (result === true) {
+                await this.movedMediaService.removeMovedMedia(media);
 
-        switch (media.type) {
-            case "MOVIE":
-                await this.router.navigate(['/moved-media/search'])
-                break;
-            case "TV":
-                await this.router.navigate([`/moved-media/tv-show/${media.id}/season/${media.season}`]);
-                break;
-        }
+                switch (media.type) {
+                    case "MOVIE":
+                        await this.router.navigate(['/moved-media/search'])
+                        break;
+                    case "TV":
+                        await this.router.navigate([`/moved-media/tv-show/${media.id}/season/${media.season}`]);
+                        break;
+                }
+            }
+        });
     }
 
     // TODO

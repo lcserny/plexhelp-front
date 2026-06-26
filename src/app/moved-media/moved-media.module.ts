@@ -18,6 +18,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
+import { ConfirmComponent } from './confirm/confirm.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const routes: Routes = [
     {
@@ -37,7 +39,8 @@ const routes: Routes = [
         MovedMediaSearchComponent,
         MovedMediaDetailComponent,
         MovedMediaTVShowComponent,
-        MovedMediaTVShowSeasonComponent
+        MovedMediaTVShowSeasonComponent,
+        ConfirmComponent
     ],
     imports: [
         CommonModule,
@@ -45,6 +48,7 @@ const routes: Routes = [
         HttpClientModule,
         TranslateModule,
         MatButtonModule,
+        MatDialogModule,
         MatCardModule,
         MatPaginatorModule,
         MatSlideToggleModule,
