@@ -18,8 +18,7 @@ describe('DetailComponent', () => {
             imports: [
                 TranslateModule.forRoot(),
                 RouterModule.forRoot(routes),
-                HttpClientTestingModule,
-                MatDialogModule
+                HttpClientTestingModule
             ],
             providers: [DatePipe]
         }).compileComponents();
