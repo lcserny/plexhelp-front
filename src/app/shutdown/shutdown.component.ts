@@ -18,7 +18,7 @@ export const SERVICE_RESTART_FAILED_KEY = "service restart failed";
 export const PROVIDE_SERVICE_NAME_KEY = "provide service name";
 
 export const SERVICE_NAME_KEY = "vm-front-serviceName";
-export const DELAY_PING_MS = 1500;
+export const DELAY_PING_MS = 250;
 
 @Component({
     selector: 'app-shutdown',
@@ -65,10 +65,10 @@ export class ShutdownComponent {
     }
 
     ensureServerStopped(successKey: string, failureKey: string): void {
-        this.loadingService.setLoading(true);
+        this.loadingService.setPinnedLoading(true);
         timer(DELAY_PING_MS).pipe(
             switchMap(() => this.shutdownService.ping()),
-            finalize(() => this.loadingService.setLoading(false))
+            finalize(() => this.loadingService.setPinnedLoading(false))
         ).subscribe({
             next: pingOk => {
                 if (pingOk) {
