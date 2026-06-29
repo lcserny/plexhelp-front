@@ -5,7 +5,7 @@ import {
     SLEEP_FAILED_KEY, SLEEP_SUCCESS_KEY,
     SERVICE_RESTART_SUCCESS_KEY, SERVICE_RESTART_FAILED_KEY,
     PROVIDE_SERVICE_NAME_KEY,
-    ShutdownComponent,
+    ShutdownComponent, DELAY_PING_MS,
 } from './shutdown.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
@@ -65,7 +65,7 @@ describe('ShutdownComponent', () => {
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
@@ -76,7 +76,7 @@ describe('ShutdownComponent', () => {
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
@@ -89,7 +89,7 @@ describe('ShutdownComponent', () => {
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
@@ -100,7 +100,7 @@ describe('ShutdownComponent', () => {
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
@@ -113,7 +113,7 @@ describe('ShutdownComponent', () => {
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
@@ -124,7 +124,7 @@ describe('ShutdownComponent', () => {
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(1000);
+            tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});

@@ -4,7 +4,7 @@ import {LoadingService} from '../loading.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
-import {CLOSE_KEY, DEFAULT_LANG, DURATION, LANG_KEY} from "../app.component";
+import {CLOSE_KEY, DURATION} from "../app.component";
 import {finalize, switchMap, timer} from "rxjs";
 
 export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
@@ -18,6 +18,7 @@ export const SERVICE_RESTART_FAILED_KEY = "service restart failed";
 export const PROVIDE_SERVICE_NAME_KEY = "provide service name";
 
 export const SERVICE_NAME_KEY = "vm-front-serviceName";
+export const DELAY_PING_MS = 2000;
 
 @Component({
     selector: 'app-shutdown',
@@ -65,7 +66,7 @@ export class ShutdownComponent {
 
     ensureServerStopped(successKey: string, failureKey: string): void {
         this.loadingService.setLoading(true);
-        timer(1000).pipe(
+        timer(DELAY_PING_MS).pipe(
             switchMap(() => this.shutdownService.ping()),
             finalize(() => this.loadingService.setLoading(false))
         ).subscribe({
