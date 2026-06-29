@@ -5,13 +5,10 @@ RUN apt update && apt install -y wget && \
     apt install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
 WORKDIR /app
-ENV SHELL=/bin/bash
-RUN npm install -g pnpm
-COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm test
-RUN pnpm exec ng build
+RUN npm install
+RUN npm test
+RUN npx ng build
 
 FROM docker.io/library/nginx:alpine as ngx
 
