@@ -18,7 +18,7 @@ export const SERVICE_RESTART_FAILED_KEY = "service restart failed";
 export const PROVIDE_SERVICE_NAME_KEY = "provide service name";
 
 export const SERVICE_NAME_KEY = "vm-front-serviceName";
-export const DELAY_PING_MS = 2000;
+export const DELAY_PING_MS = 1500;
 
 @Component({
     selector: 'app-shutdown',
