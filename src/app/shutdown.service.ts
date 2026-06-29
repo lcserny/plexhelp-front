@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Observable, catchError, map, firstValueFrom, of, timeout} from 'rxjs';
+import {Observable, catchError, map, firstValueFrom, of, timeout, TimeoutError} from 'rxjs';
 import { MessageService } from './message.service';
 import { BaseService } from './base.service';
 import {environment} from "../environments/environment";
@@ -65,7 +65,12 @@ export class ShutdownService extends BaseService {
         return this.http.get<void>(`${environment.commanderApiUrl}/ping`, { observe: 'response' }).pipe(
             map(response => response.ok),
             timeout(500),
-            catchError(() => of(false))
+            catchError(err => {
+                if (err instanceof TimeoutError || err.status === 404) {
+                    return of(false);
+                }
+                throw err;
+            })
         );
     }
 
