@@ -64,7 +64,7 @@ export class ShutdownService extends BaseService {
     ping(): Observable<boolean> {
         return this.http.get<void>(`${environment.commanderApiUrl}/ping`, { observe: 'response' }).pipe(
             map(response => response.ok),
-            timeout(1000),
+            timeout(500),
             catchError(() => of(false))
         );
     }
