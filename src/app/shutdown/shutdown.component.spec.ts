@@ -89,6 +89,12 @@ describe('ShutdownComponent', () => {
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+            tick(250);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            for (let i = 0; i < 4; i++) {
+                tick(200);
+                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
@@ -126,6 +132,12 @@ describe('ShutdownComponent', () => {
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+            tick(250);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            for (let i = 0; i < 4; i++) {
+                tick(200);
+                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
@@ -163,6 +175,12 @@ describe('ShutdownComponent', () => {
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
+            tick(250);
+            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            for (let i = 0; i < 4; i++) {
+                tick(200);
+                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
+            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
