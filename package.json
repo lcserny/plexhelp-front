@@ -13,6 +13,16 @@
         "test": "ng test --browsers=ChromeHeadless_custom --watch=false front"
     },
     "private": true,
+    "pnpm": {
+        "onlyBuiltDependencies": [
+          "@nestjs/core",
+          "@openapitools/openapi-generator-cli",
+          "bcrypt",
+          "cpu-features",
+          "protobufjs",
+          "ssh2"
+        ]
+    },
     "dependencies": {
         "@angular/animations": "^15.1.0",
         "@angular/cdk": "~15.2.4",
