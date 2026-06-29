@@ -47,7 +47,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.shutdown(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY),
-            error: _ => this.showPopup(this.translateService.instant(SHUTDOWN_FAILED_KEY))
+            error: _ => this.ensureServerDisconnected(SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY)
         });
     }
 
@@ -55,7 +55,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.reboot(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(RESTART_SUCCESS_KEY, RESTART_FAILED_KEY),
-            error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
+            error: _ => this.ensureServerDisconnected(RESTART_SUCCESS_KEY, RESTART_FAILED_KEY)
         });
     }
 
@@ -63,7 +63,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.sleep(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY),
-            error: _ => this.showPopup(this.translateService.instant(SLEEP_FAILED_KEY))
+            error: _ => this.ensureServerDisconnected(SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY)
         });
     }
 
