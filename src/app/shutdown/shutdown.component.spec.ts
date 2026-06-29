@@ -19,6 +19,7 @@ import {environment} from "../../environments/environment.test";
 import {CommandResponse} from "../generated/commander/model/commandResponse";
 import {TranslateModule} from "@ngx-translate/core";
 import {CLOSE_KEY, DURATION} from "../app.component";
+import {LoadingService} from "../loading.service";
 
 describe('ShutdownComponent', () => {
     let component: ShutdownComponent;
@@ -45,6 +46,7 @@ describe('ShutdownComponent', () => {
         }).compileComponents();
 
         TestBed.inject(HttpClient);
+        TestBed.inject(LoadingService).setLoading(false);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         localStorage.clear();
@@ -58,129 +60,72 @@ describe('ShutdownComponent', () => {
     });
 
     describe('shutdown', () => {
-        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+        it('should show success popup when server goes down', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+        it('should show failure popup when server stays up', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
-
-            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
-
-        it('should show failure popup on HTTP error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
-            component.shutdown();
-
-            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
-            tick(250);
-            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
     });
 
     describe('reboot', () => {
-        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+        it('should show success popup when server goes down', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+        it('should show failure popup when server stays up', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
-
-            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
-
-        it('should show failure popup on HTTP error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
-            component.reboot();
-
-            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
-            tick(250);
-            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
     });
 
     describe('sleep', () => {
-        it('should show success popup when command succeeds and server goes down', fakeAsync(() => {
+        it('should show success popup when server goes down', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup when command succeeds but server stays up', fakeAsync(() => {
+        it('should show failure popup when server stays up', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(250);
+            tick(1000);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
-
-            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
-
-        it('should show failure popup on HTTP error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
-            component.sleep();
-
-            httpTestingController.expectOne(commandsUrl).error(new ProgressEvent('network error'));
-            tick(250);
-            httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            for (let i = 0; i < 4; i++) {
-                tick(200);
-                httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
-            }
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
