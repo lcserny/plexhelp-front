@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {CLOSE_KEY, DEFAULT_LANG, DURATION, LANG_KEY} from "../app.component";
-import {last, switchMap, take, takeWhile, timer} from "rxjs";
+import {Subscription, switchMap, take, timer} from "rxjs";
 
 export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
 export const SHUTDOWN_FAILED_KEY = "shutdown failed";
@@ -84,15 +84,18 @@ export class ShutdownComponent {
     }
 
     private ensureServerDisconnected(successKey: string, failureKey: string) {
-        timer(0, 2000).pipe(
-            take(10),
+        let sub: Subscription;
+        sub = timer(250, 2000).pipe(
             switchMap(() => this.shutdownService.ping()),
-            takeWhile(pingOk => pingOk, true),
-            last(),
-        ).subscribe(pingOk => {
-            if (!pingOk) {
-                this.showPopup(this.translateService.instant(successKey));
-            } else {
+            take(10),
+        ).subscribe({
+            next: pingOk => {
+                if (!pingOk) {
+                    this.showPopup(this.translateService.instant(successKey));
+                    sub.unsubscribe();
+                }
+            },
+            complete: () => {
                 this.showPopup(this.translateService.instant(failureKey));
             }
         });
