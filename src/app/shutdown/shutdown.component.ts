@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {CLOSE_KEY, DEFAULT_LANG, DURATION, LANG_KEY} from "../app.component";
-import {Subscription, switchMap, take, timer} from "rxjs";
+import {Subscription, switchMap, take, takeWhile, timer} from "rxjs";
 
 export const SHUTDOWN_SUCCESS_KEY = "shutdown successful";
 export const SHUTDOWN_FAILED_KEY = "shutdown failed";
@@ -47,7 +47,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.shutdown(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY),
-            error: _ => this.ensureServerDisconnected(SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY)
+            error: _ => this.showPopup(this.translateService.instant(SHUTDOWN_FAILED_KEY))
         });
     }
 
@@ -55,7 +55,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.reboot(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(RESTART_SUCCESS_KEY, RESTART_FAILED_KEY),
-            error: _ => this.ensureServerDisconnected(RESTART_SUCCESS_KEY, RESTART_FAILED_KEY)
+            error: _ => this.showPopup(this.translateService.instant(RESTART_FAILED_KEY))
         });
     }
 
@@ -63,7 +63,7 @@ export class ShutdownComponent {
         const minutes = this.shutdownForm.get("minutes")?.value || 0;
         this.shutdownService.sleep(Number(minutes)).subscribe({
             next: _ => this.ensureServerDisconnected(SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY),
-            error: _ => this.ensureServerDisconnected(SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY)
+            error: _ => this.showPopup(this.translateService.instant(SLEEP_FAILED_KEY))
         });
     }
 
@@ -84,19 +84,24 @@ export class ShutdownComponent {
     }
 
     private ensureServerDisconnected(successKey: string, failureKey: string) {
-        let sub: Subscription;
-        sub = timer(250, 2000).pipe(
+        let isDisconnected = false;
+        timer(250, 200).pipe(
             switchMap(() => this.shutdownService.ping()),
-            take(10),
-        ).subscribe({
-            next: pingOk => {
+            takeWhile(pingOk => {
                 if (!pingOk) {
-                    this.showPopup(this.translateService.instant(successKey));
-                    sub.unsubscribe();
+                    isDisconnected = true;
+                    return false;
                 }
-            },
+                return true;
+            }, true),
+            take(5)
+        ).subscribe({
             complete: () => {
-                this.showPopup(this.translateService.instant(failureKey));
+                if (isDisconnected) {
+                    this.showPopup(this.translateService.instant(successKey));
+                } else {
+                    this.showPopup(this.translateService.instant(failureKey));
+                }
             }
         });
     }
