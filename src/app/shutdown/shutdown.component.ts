@@ -18,7 +18,7 @@ export const SERVICE_RESTART_FAILED_KEY = "service restart failed";
 export const PROVIDE_SERVICE_NAME_KEY = "provide service name";
 
 export const SERVICE_NAME_KEY = "vm-front-serviceName";
-export const DELAY_PING_MS = 10000;
+export const DELAY_PING_MS = 3000;
 
 @Component({
     selector: 'app-shutdown',
@@ -47,26 +47,27 @@ export class ShutdownComponent {
     }
 
     shutdown(): void {
-        const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        this.shutdownService.shutdown(Number(minutes)).subscribe();
-        this.ensureServerStopped(SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY);
+        const minutes = Number(this.shutdownForm.get("minutes")?.value || 0);
+        this.shutdownService.shutdown(minutes).subscribe();
+        this.ensureServerStopped(minutes, SHUTDOWN_SUCCESS_KEY, SHUTDOWN_FAILED_KEY);
     }
 
     reboot(): void {
-        const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        this.shutdownService.reboot(Number(minutes)).subscribe();
-        this.ensureServerStopped(RESTART_SUCCESS_KEY, RESTART_FAILED_KEY);
+        const minutes = Number(this.shutdownForm.get("minutes")?.value || 0);
+        this.shutdownService.reboot(minutes).subscribe();
+        this.ensureServerStopped(minutes, RESTART_SUCCESS_KEY, RESTART_FAILED_KEY);
     }
 
     sleep(): void {
-        const minutes = this.shutdownForm.get("minutes")?.value || 0;
-        this.shutdownService.sleep(Number(minutes)).subscribe();
-        this.ensureServerStopped(SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY);
+        const minutes = Number(this.shutdownForm.get("minutes")?.value || 0);
+        this.shutdownService.sleep(minutes).subscribe();
+        this.ensureServerStopped(minutes, SLEEP_SUCCESS_KEY, SLEEP_FAILED_KEY);
     }
 
-    ensureServerStopped(successKey: string, failureKey: string): void {
+    ensureServerStopped(minutes: number, successKey: string, failureKey: string): void {
         this.loadingService.setPinnedLoading(true);
-        timer(DELAY_PING_MS).pipe(
+        const waitMs = minutes * 60 * 1000 + DELAY_PING_MS;
+        timer(waitMs).pipe(
             switchMap(() => this.shutdownService.ping()),
             finalize(() => this.loadingService.setPinnedLoading(false))
         ).subscribe({

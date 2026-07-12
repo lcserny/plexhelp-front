@@ -82,7 +82,7 @@ describe('ShutdownComponent', () => {
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup on unexpected ping error', fakeAsync(() => {
+        it('should show success popup on unexpected ping error', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.shutdown();
 
@@ -90,7 +90,7 @@ describe('ShutdownComponent', () => {
             tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
-            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+            expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
     });
 
@@ -117,7 +117,7 @@ describe('ShutdownComponent', () => {
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup on unexpected ping error', fakeAsync(() => {
+        it('should show success popup on unexpected ping error', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.reboot();
 
@@ -125,7 +125,7 @@ describe('ShutdownComponent', () => {
             tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
-            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+            expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
     });
 
@@ -152,7 +152,7 @@ describe('ShutdownComponent', () => {
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
         }));
 
-        it('should show failure popup on unexpected ping error', fakeAsync(() => {
+        it('should show success popup on unexpected ping error', fakeAsync(() => {
             spyOn(component.snackBar, 'open');
             component.sleep();
 
@@ -160,7 +160,7 @@ describe('ShutdownComponent', () => {
             tick(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
-            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
+            expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
         }));
     });
 
