@@ -31,7 +31,7 @@ export class MediaDetailComponent {
     finalName?: string;
     mediaDescription?: MediaDescriptionData;
 
-    season = "";
+    season = "1";
     groupText = "";
 
     constructor(
@@ -49,7 +49,7 @@ export class MediaDetailComponent {
         if (state) {
             this.allMediaFileGroups = state;
             this.mainMediaFileGroup = this.allMediaFileGroups[0];
-            this.season = String(this.mainMediaFileGroup?.season || "");
+            this.season = String(this.mainMediaFileGroup?.season || "1");
             this.initGroupText();
         }
     }
