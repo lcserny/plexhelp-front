@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MediaDetailOptionsComponent} from './media-detail-options.component';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {MatListModule, MatNavList} from "@angular/material/list";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 
 describe('MediaDetailOptionsComponent', () => {
     let component: MediaDetailOptionsComponent;
@@ -12,13 +12,13 @@ describe('MediaDetailOptionsComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [MediaDetailOptionsComponent],
-            providers: [
+            providers: [provideTranslateService(), 
                 { provide: MatBottomSheetRef, useValue: {} },
                 { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} }
             ],
             imports: [
                 MatListModule,
-                TranslateModule.forRoot()
+                TranslatePipe
             ]
         }).compileComponents();
 

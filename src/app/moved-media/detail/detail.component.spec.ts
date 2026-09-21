@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MovedMediaDetailComponent} from './detail.component';
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -16,12 +16,12 @@ describe('DetailComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [MovedMediaDetailComponent],
             imports: [
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
                 MatDialogModule
             ],
-            providers: [DatePipe]
+            providers: [provideTranslateService(), DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaDetailComponent);

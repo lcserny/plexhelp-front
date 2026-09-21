@@ -8,7 +8,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -16,6 +16,7 @@ describe('LoginComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            providers: [provideTranslateService()],
             declarations: [LoginComponent],
             imports: [
                 HttpClientTestingModule,
@@ -25,7 +26,7 @@ describe('LoginComponent', () => {
                 MatInputModule,
                 NoopAnimationsModule,
                 MatSnackBarModule,
-                TranslateModule.forRoot()
+                TranslatePipe
             ]
         }).compileComponents();
 

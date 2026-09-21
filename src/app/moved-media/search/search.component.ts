@@ -3,6 +3,7 @@ import {MovedMediaService, MovedMediaView, SortData, sortOptions} from "../moved
 import {MatSelectChange} from "@angular/material/select";
 
 @Component({
+    standalone: false,
     selector: 'movedMedia-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']

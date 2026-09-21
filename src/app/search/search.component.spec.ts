@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -37,7 +37,7 @@ describe('SearchComponent', () => {
             declarations: [SearchComponent],
             imports: [
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatSnackBarModule,
                 MatPaginatorModule,
                 MatSlideToggleModule,
@@ -46,7 +46,7 @@ describe('SearchComponent', () => {
                 MatTooltipModule,
                 NoopAnimationsModule,
             ],
-            providers: [
+            providers: [provideTranslateService(), 
                 {provide: Router, useValue: mockRouter},
                 {provide: MatBottomSheet, useValue: mockBottomSheet},
             ]

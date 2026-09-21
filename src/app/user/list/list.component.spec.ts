@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ListComponent} from './list.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -26,7 +26,7 @@ describe('ListComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 MatSnackBarModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 RouterModule.forRoot(routes),
                 NoopAnimationsModule,
                 MatPaginatorModule,
@@ -35,7 +35,7 @@ describe('ListComponent', () => {
                 MatInputModule,
                 MatButtonModule
             ],
-            providers: [DatePipe]
+            providers: [provideTranslateService(), DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ListComponent);

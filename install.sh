@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Installing new front"
-cp -R dist/front/* "$DEST_DIR"
+cp -R dist/front/browser/* "$DEST_DIR"
 if [ $? -ne 0 ]; then
   exit 1
 fi

@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../confirm/confirm.component";
 
 @Component({
+    standalone: false,
   selector: 'movedMedia-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']

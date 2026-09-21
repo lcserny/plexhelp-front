@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptionData";
 
 @Component({
+    standalone: false,
     selector: 'app-media-detail-options',
     templateUrl: './media-detail-options.component.html',
     styleUrls: ['./media-detail-options.component.scss']

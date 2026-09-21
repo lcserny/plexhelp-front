@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export const FETCH_FAILED_KEY = "fetch user failed";
 
 @Component({
+    standalone: false,
     selector: 'app-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.scss']

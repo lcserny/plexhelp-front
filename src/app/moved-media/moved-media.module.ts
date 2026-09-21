@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "../security/auth.guard";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 import {MovedMediaSearchComponent} from "./search/search.component";
 import {MovedMediaDetailComponent} from "./detail/detail.component";
 import {MovedMediaLayoutComponent} from "./layout/layout.component";
@@ -46,7 +46,7 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
         HttpClientModule,
-        TranslateModule,
+        TranslatePipe,
         MatButtonModule,
         MatDialogModule,
         MatCardModule,

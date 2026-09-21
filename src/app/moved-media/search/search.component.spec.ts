@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MovedMediaSearchComponent} from './search.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -21,7 +21,7 @@ describe('SearchComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [MovedMediaSearchComponent],
             imports: [
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
                 FormsModule,
@@ -31,7 +31,7 @@ describe('SearchComponent', () => {
                 MatIconModule,
                 MatSelectModule
             ],
-            providers: [DatePipe]
+            providers: [provideTranslateService(), DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaSearchComponent);

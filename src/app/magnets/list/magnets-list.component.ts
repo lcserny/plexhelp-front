@@ -18,6 +18,7 @@ const NO_DATE_KEY = "no date available";
 const FETCH_FAILED_KEY = "fetch magnets failed";
 
 @Component({
+    standalone: false,
     selector: 'app-magnets-list',
     templateUrl: './magnets-list.component.html',
     styleUrls: ['./magnets-list.component.scss']

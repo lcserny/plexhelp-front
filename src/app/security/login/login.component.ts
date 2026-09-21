@@ -9,6 +9,7 @@ import {TranslateService} from "@ngx-translate/core";
 export const FAILED_KEY = "login error";
 
 @Component({
+    standalone: false,
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']

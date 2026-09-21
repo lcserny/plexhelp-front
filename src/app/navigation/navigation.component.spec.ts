@@ -12,7 +12,7 @@ import {RouterModule} from "@angular/router";
 import {routes} from "../routing/routing.module";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
@@ -22,6 +22,7 @@ describe('NavigationComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
+            providers: [provideTranslateService()],
             declarations: [NavigationComponent],
             imports: [
                 NoopAnimationsModule,
@@ -33,7 +34,7 @@ describe('NavigationComponent', () => {
                 MatToolbarModule,
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatMenuModule,
                 MatSlideToggleModule
             ],

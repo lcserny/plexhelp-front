@@ -8,7 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -16,6 +16,7 @@ describe('RegisterComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            providers: [provideTranslateService()],
             declarations: [RegisterComponent],
             imports: [
                 HttpClientTestingModule,
@@ -25,7 +26,7 @@ describe('RegisterComponent', () => {
                 MatInputModule,
                 RouterModule.forRoot(routes),
                 NoopAnimationsModule,
-                TranslateModule.forRoot()
+                TranslatePipe
             ]
         }).compileComponents();
 

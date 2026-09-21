@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -29,7 +29,7 @@ describe('DownloadsListComponent', () => {
             declarations: [DownloadsListComponent],
             imports: [
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatSnackBarModule,
                 MatIconModule,
                 MatFormFieldModule,
@@ -44,7 +44,7 @@ describe('DownloadsListComponent', () => {
                 MatDatepickerModule,
                 MatNativeDateModule
             ],
-            providers: [
+            providers: [provideTranslateService(), 
                 DatePipe,
                 {provide: DateAdapter, useClass: CustomDateAdapter}
             ]

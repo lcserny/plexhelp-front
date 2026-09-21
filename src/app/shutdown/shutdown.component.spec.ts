@@ -17,7 +17,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {environment} from "../../environments/environment.test";
 import {CommandResponse} from "../generated/commander/model/commandResponse";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {CLOSE_KEY, DURATION} from "../app.component";
 import {LoadingService} from "../loading.service";
 
@@ -31,6 +31,7 @@ describe('ShutdownComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            providers: [provideTranslateService()],
             declarations: [ShutdownComponent],
             imports: [
                 HttpClientTestingModule,
@@ -41,7 +42,7 @@ describe('ShutdownComponent', () => {
                 MatInputModule,
                 FormsModule,
                 ReactiveFormsModule,
-                TranslateModule.forRoot()
+                TranslatePipe
             ],
         }).compileComponents();
 

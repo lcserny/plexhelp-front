@@ -24,6 +24,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
 }
 
 @Component({
+    standalone: false,
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         const lang = localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
-        this.translateService.setDefaultLang(lang);
+        this.translateService.setFallbackLang(lang);
+        this.translateService.use(lang);
     }
 }

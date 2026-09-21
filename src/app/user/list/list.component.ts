@@ -17,6 +17,7 @@ import {Pageable} from "../../base.service";
 const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
 
 @Component({
+    standalone: false,
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']

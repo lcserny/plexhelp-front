@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../confirm/confirm.component";
 
 @Component({
+    standalone: false,
   selector: 'movedMedia-tvshow-season',
   templateUrl: './tvshow-season.component.html',
   styleUrls: ['./tvshow-season.component.scss']

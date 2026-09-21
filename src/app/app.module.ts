@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
@@ -29,8 +29,8 @@ import {MediaDetailOptionsComponent} from './media-detail-options/media-detail-o
 import {ShutdownComponent} from './shutdown/shutdown.component';
 import {TextFieldModule} from "@angular/cdk/text-field";
 import {JwtInterceptor} from "./security/jwt.interceptor";
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
+import {provideTranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {TranslatedPaginator} from "./custom.paginator";
@@ -54,10 +54,6 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MagDownTabsComponent} from "./magnets-downloads/tabs/mag-down-tabs.component";
 import {environment} from "../environments/environment";
-
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http);
-}
 
 @NgModule({
     declarations: [
@@ -96,13 +92,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatSnackBarModule,
         MatMenuModule,
         ReactiveFormsModule,
-        TranslateModule.forRoot(({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        })),
+        TranslatePipe,
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTableModule,
@@ -117,6 +107,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatNativeDateModule
     ],
     providers: [
+        provideTranslateService(),
+        provideTranslateHttpLoader(),
         {provide: DateAdapter, useClass: CustomDateAdapter},
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

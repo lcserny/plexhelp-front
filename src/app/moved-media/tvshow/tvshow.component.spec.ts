@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MovedMediaTVShowComponent} from './tvshow.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {DatePipe} from "@angular/common";
@@ -16,12 +16,12 @@ describe('TvshowComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [MovedMediaTVShowComponent],
             imports: [
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
                 MatDialogModule
             ],
-            providers: [DatePipe]
+            providers: [provideTranslateService(), DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaTVShowComponent);

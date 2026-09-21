@@ -17,6 +17,7 @@ const SEARCH_PER_PAGE_KEY = "vm-front-search-perPage";
 const SEARCH_FAILED_KEY = "search items failed";
 
 @Component({
+    standalone: false,
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']

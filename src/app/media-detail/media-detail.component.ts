@@ -19,6 +19,7 @@ export const GEN_OPTS_FAILED_KEY = "generating rename options failed";
 export const OTHER_MEDIA_KEY = "other media";
 
 @Component({
+    standalone: false,
     selector: 'app-media-detail',
     templateUrl: './media-detail.component.html',
     styleUrls: ['./media-detail.component.scss']

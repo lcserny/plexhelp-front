@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MagnetsListComponent} from './magnets-list.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
@@ -23,7 +23,7 @@ describe('ListComponent', () => {
             declarations: [MagnetsListComponent],
             imports: [
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatSnackBarModule,
                 MatDialogModule,
                 MatIconModule,
@@ -35,7 +35,7 @@ describe('ListComponent', () => {
                 MatInputModule,
                 NoopAnimationsModule
             ],
-            providers: [
+            providers: [provideTranslateService(), 
                 DatePipe
             ]
         }).compileComponents();

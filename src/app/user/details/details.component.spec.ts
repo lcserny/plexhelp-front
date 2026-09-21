@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {DetailsComponent} from './details.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
@@ -22,14 +22,14 @@ describe('DetailsComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 MatSnackBarModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 RouterModule.forRoot(routes),
                 NoopAnimationsModule,
                 ReactiveFormsModule,
                 MatInputModule,
                 MatButtonModule
             ],
-            providers: [DatePipe]
+            providers: [provideTranslateService(), DatePipe]
         }).compileComponents();
 
         fixture = TestBed.createComponent(DetailsComponent);

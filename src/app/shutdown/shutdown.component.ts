@@ -21,6 +21,7 @@ export const SERVICE_NAME_KEY = "vm-front-serviceName";
 export const DELAY_PING_MS = 3000;
 
 @Component({
+    standalone: false,
     selector: 'app-shutdown',
     templateUrl: './shutdown.component.html',
     styleUrls: ['./shutdown.component.scss']

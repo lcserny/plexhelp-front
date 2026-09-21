@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {NavigationComponent} from "./navigation/navigation.component";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -19,6 +19,7 @@ import {LoadingComponent} from "./loading/loading.component";
 describe('AppComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            providers: [provideTranslateService()],
             declarations: [
                 AppComponent,
                 NavigationComponent,
@@ -34,7 +35,7 @@ describe('AppComponent', () => {
                 MatToolbarModule,
                 RouterModule.forRoot(routes),
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatMenuModule,
                 MatSlideToggleModule
             ]

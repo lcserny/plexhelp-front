@@ -1,34 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-@import "@angular/material/theming";
+html {
+    color-scheme: light;
 
-@include mat.core();
-
-$angular-primary: mat.define-palette(mat.$purple-palette, 500, 100, 900);
-$angular-accent: mat.define-palette(mat.$purple-palette, A200, 200, 800);
-$angular-warn: mat.define-palette(mat.$red-palette);
-
-$angular-default-theme: mat.define-light-theme((
-    color: (
-        primary: $angular-primary,
-        accent: $angular-accent,
-        warn: $angular-warn,
-    ),
-));
-
-@include mat.all-component-themes($angular-default-theme);
-
-$angular-dark-theme: mat.define-dark-theme((
-    color: (
-        primary: $angular-primary,
-        accent: $angular-accent,
-        warn: $angular-warn,
-    ),
-));
+    @include mat.theme((
+        color: (
+            primary: mat.$violet-palette,
+            tertiary: mat.$violet-palette,
+        ),
+        typography: Roboto,
+        density: 0,
+    ));
+}
 
 .darkMode {
-    @include mat.all-component-colors($angular-dark-theme);
+    color-scheme: dark;
+
+    @include mat.theme((
+        color: (
+            theme-type: dark,
+            primary: mat.$violet-palette,
+            tertiary: mat.$violet-palette,
+        ),
+    ));
 }
 
 @font-face {

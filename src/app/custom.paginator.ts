@@ -17,11 +17,11 @@ export class TranslatedPaginator extends MatPaginatorIntl {
     constructor(private translateService: TranslateService) {
         super();
 
-        super.itemsPerPageLabel = this.translateService.instant(ITEMS_PER_PAGE_KEY);
-        super.nextPageLabel = this.translateService.instant(NEXT_PAGE_KEY);
-        super.previousPageLabel = this.translateService.instant(PREV_PAGE_KEY);
-        super.firstPageLabel = this.translateService.instant(FIRST_PAGE_KEY);
-        super.lastPageLabel = this.translateService.instant(LAST_PAGE_KEY);
+        this.itemsPerPageLabel = this.translateService.instant(ITEMS_PER_PAGE_KEY);
+        this.nextPageLabel = this.translateService.instant(NEXT_PAGE_KEY);
+        this.previousPageLabel = this.translateService.instant(PREV_PAGE_KEY);
+        this.firstPageLabel = this.translateService.instant(FIRST_PAGE_KEY);
+        this.lastPageLabel = this.translateService.instant(LAST_PAGE_KEY);
     }
 
     override getRangeLabel = (page: number, pageSize: number, length: number): string => {

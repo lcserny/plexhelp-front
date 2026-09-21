@@ -11,6 +11,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {DarkModeService} from "../dark-mode.service";
 
 @Component({
+    standalone: false,
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.scss']

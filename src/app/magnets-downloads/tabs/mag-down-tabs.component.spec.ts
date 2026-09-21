@@ -4,7 +4,7 @@ import {MagDownTabsComponent} from './mag-down-tabs.component';
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {MatTabsModule} from "@angular/material/tabs";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe, provideTranslateService} from "@ngx-translate/core";
 import {MagnetsListComponent} from "../../magnets/list/magnets-list.component";
 import {DownloadsListComponent} from "../../downloads/list/downloads-list.component";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -38,7 +38,7 @@ describe('TabsComponent', () => {
                 RouterModule.forRoot(routes),
                 MatTabsModule,
                 HttpClientTestingModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
                 MatSnackBarModule,
                 MatDialogModule,
                 MatIconModule,
@@ -53,7 +53,7 @@ describe('TabsComponent', () => {
                 MatCheckboxModule,
                 MatNativeDateModule
             ],
-            providers: [DatePipe, {provide: DateAdapter, useClass: CustomDateAdapter}]
+            providers: [provideTranslateService(), DatePipe, {provide: DateAdapter, useClass: CustomDateAdapter}]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagDownTabsComponent);

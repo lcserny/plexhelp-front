@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
+    standalone: false,
   selector: 'app-mag-down-tabs',
   templateUrl: './mag-down-tabs.component.html',
   styleUrls: ['./mag-down-tabs.component.scss']
