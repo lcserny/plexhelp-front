@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {
     SHUTDOWN_FAILED_KEY, SHUTDOWN_SUCCESS_KEY,
     RESTART_FAILED_KEY, RESTART_SUCCESS_KEY,
@@ -9,7 +9,7 @@ import {
 } from './shutdown.component';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule, MatSnackBarRef} from "@angular/material/snack-bar";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {TextFieldModule} from "@angular/cdk/text-field";
@@ -20,6 +20,7 @@ import {CommandResponse} from "../generated/commander/model/commandResponse";
 import {TranslateModule} from "@ngx-translate/core";
 import {CLOSE_KEY, DURATION} from "../app.component";
 import {LoadingService} from "../loading.service";
+import {vi} from "vitest";
 
 describe('ShutdownComponent', () => {
     let component: ShutdownComponent;
@@ -51,6 +52,7 @@ describe('ShutdownComponent', () => {
         fixture = TestBed.createComponent(ShutdownComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+        vi.useFakeTimers();
     });
 
     it('should create', () => {
@@ -58,113 +60,113 @@ describe('ShutdownComponent', () => {
     });
 
     describe('shutdown', () => {
-        it('should show success popup when server goes down', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup when server goes down', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 404, statusText: 'Not Found'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show failure popup when server stays up', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show failure popup when server stays up', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show success popup on unexpected ping error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup on unexpected ping error', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.shutdown();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SHUTDOWN_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
     });
 
     describe('reboot', () => {
-        it('should show success popup when server goes down', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup when server goes down', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 404, statusText: 'Not Found'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show failure popup when server stays up', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show failure popup when server stays up', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show success popup on unexpected ping error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup on unexpected ping error', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.reboot();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(RESTART_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
     });
 
     describe('sleep', () => {
-        it('should show success popup when server goes down', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup when server goes down', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 404, statusText: 'Not Found'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show failure popup when server stays up', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show failure popup when server stays up', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).flush(null, {status: 200, statusText: 'OK'});
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_FAILED_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
 
-        it('should show success popup on unexpected ping error', fakeAsync(() => {
-            spyOn(component.snackBar, 'open');
+        it('should show success popup on unexpected ping error', async () => {
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.sleep();
 
             httpTestingController.expectOne(commandsUrl).flush({status: "SUCCESS"} as CommandResponse);
-            tick(DELAY_PING_MS);
+            await vi.advanceTimersByTimeAsync(DELAY_PING_MS);
             httpTestingController.expectOne(pingUrl).error(new ProgressEvent('network error'));
 
             expect(component.snackBar.open).toHaveBeenCalledWith(SLEEP_SUCCESS_KEY, CLOSE_KEY, {duration: DURATION});
-        }));
+        });
     });
 
     describe('restartService', () => {
         it('should show success popup when command succeeds', () => {
-            spyOn(component.snackBar, 'open');
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.serviceForm.get('serviceName')?.setValue('nginx');
             component.restartService();
 
@@ -174,7 +176,7 @@ describe('ShutdownComponent', () => {
         });
 
         it('should show failure popup on HTTP error', () => {
-            spyOn(component.snackBar, 'open');
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.serviceForm.get('serviceName')?.setValue('nginx');
             component.restartService();
 
@@ -184,7 +186,7 @@ describe('ShutdownComponent', () => {
         });
 
         it('should show prompt popup when service name is empty', () => {
-            spyOn(component.snackBar, 'open');
+            vi.spyOn(component.snackBar, 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
             component.restartService();
 
             expect(component.snackBar.open).toHaveBeenCalledWith(PROVIDE_SERVICE_NAME_KEY, CLOSE_KEY, {duration: DURATION});
@@ -193,5 +195,7 @@ describe('ShutdownComponent', () => {
 
     afterEach(() => {
         httpTestingController.verify();
+        vi.useRealTimers();
+        vi.restoreAllMocks();
     });
 });

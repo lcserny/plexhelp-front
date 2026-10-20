@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule, MatSnackBarRef} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -19,6 +19,7 @@ import {CustomDateAdapter, booleanValidator} from "../../app.component";
 import {DownloadsListComponent} from './downloads-list.component';
 import {environment} from "../../../environments/environment";
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import {vi} from "vitest";
 
 describe('DownloadsListComponent', () => {
     let component: DownloadsListComponent;
@@ -64,6 +65,7 @@ describe('DownloadsListComponent', () => {
 
     afterEach(() => {
         httpMock.verify();
+        vi.restoreAllMocks();
     });
 
     it('should create', () => {
@@ -77,7 +79,7 @@ describe('DownloadsListComponent', () => {
 
         expect(component.downloadsForm.get('date')?.value).toBeNull();
         expect(component.downloadsForm.get('fileName')?.value).toBe('');
-        expect(component.downloadsForm.get('downloaded')?.value).toBeTrue();
+        expect(component.downloadsForm.get('downloaded')?.value).toBe(true);
     });
 
     it('should have correct default configuration values', () => {
@@ -91,32 +93,32 @@ describe('DownloadsListComponent', () => {
 
     it('should validate text control with pattern', () => {
         const control = component.produceTextControl();
-        expect(control.valid).toBeTrue();
+        expect(control.valid).toBe(true);
         expect(control.errors).toBeNull();
 
         control.setValue('valid-name-123');
-        expect(control.valid).toBeTrue();
+        expect(control.valid).toBe(true);
 
         control.setValue('invalid@chars!');
-        expect(control.valid).toBeFalse();
+        expect(control.valid).toBe(false);
         expect(control.errors?.['pattern']).toBeDefined();
     });
 
     it('should validate date control with dateValidator', () => {
         const control = component.produceDateControl();
-        expect(control.valid).toBeTrue();
+        expect(control.valid).toBe(true);
 
         control.setValue(new Date());
-        expect(control.valid).toBeTrue();
+        expect(control.valid).toBe(true);
 
         control.setValue('invalid date string' as any);
-        expect(control.valid).toBeFalse();
+        expect(control.valid).toBe(false);
         expect(control.errors?.['invalidDate']).toBeDefined();
     });
 
     it('should create checkmark control with initial value true', () => {
         const control = component.produceCheckmarkControl();
-        expect(control.value).toBeTrue();
+        expect(control.value).toBe(true);
     });
 
     it('booleanValidator should validate boolean values', () => {
@@ -136,20 +138,20 @@ describe('DownloadsListComponent', () => {
         component.downloadsForm.get('fileName')?.setValue('test-file');
         component.downloadsForm.get('downloaded')?.setValue(false);
 
-        spyOn(component, 'loadData');
+        vi.spyOn(component, 'loadData').mockReturnValue(undefined);
         component.reset();
 
         expect(component.downloadsForm.get('date')?.value).toBeNull();
         expect(component.downloadsForm.get('fileName')?.value).toBe('');
-        expect(component.downloadsForm.get('downloaded')?.value).toBeTrue();
+        expect(component.downloadsForm.get('downloaded')?.value).toBe(true);
         expect(component.loadData).toHaveBeenCalledWith(0, component.defaultPageSize, component.defaultSort);
     });
 
     it('search() should call loadData when form is valid', () => {
-        spyOn(component, 'loadData');
+        vi.spyOn(component, 'loadData').mockReturnValue(undefined);
 
         component.downloadsForm.get('fileName')?.setValue('valid-name');
-        expect(component.downloadsForm.valid).toBeTrue();
+        expect(component.downloadsForm.valid).toBe(true);
 
         component.search();
 
@@ -157,10 +159,10 @@ describe('DownloadsListComponent', () => {
     });
 
     it('search() should show snackbar error when form is invalid', () => {
-        spyOn(component['snackBar'], 'open');
+        vi.spyOn(component['snackBar'], 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
 
         component.downloadsForm.get('fileName')?.setValue('invalid@chars!');
-        expect(component.downloadsForm.valid).toBeFalse();
+        expect(component.downloadsForm.valid).toBe(false);
 
         component.search();
 
@@ -191,7 +193,7 @@ describe('DownloadsListComponent', () => {
     });
 
     it('loadData() should show snackbar error on failure', () => {
-        spyOn(component['snackBar'], 'open');
+        vi.spyOn(component['snackBar'], 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
 
         component.loadData(0, 20, component.defaultSort);
 
@@ -202,8 +204,8 @@ describe('DownloadsListComponent', () => {
     });
 
     it('onPageChange() should save page size to localStorage and load data', () => {
-        spyOn(component, 'loadData');
-        spyOn(localStorage, 'setItem');
+        vi.spyOn(component, 'loadData').mockReturnValue(undefined);
+        vi.spyOn(localStorage, 'setItem').mockImplementation(() => {});
 
         const event = {pageIndex: 2, pageSize: 50, length: 100};
         component.onPageChange(event);

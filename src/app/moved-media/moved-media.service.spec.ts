@@ -8,12 +8,13 @@ import {environment} from '../../environments/environment';
 import {MediaFileType} from '../generated/commander/model/mediaFileType';
 import {MovedMediaData} from '../generated/commander/model/movedMediaData';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import {Mocked, vi} from "vitest";
 
 describe('MovedMediaService', () => {
     let service: MovedMediaService;
     let httpMock: HttpTestingController;
-    let mockRepository: jasmine.SpyObj<MovedMediaRepository>;
-    let mockMessageService: jasmine.SpyObj<MessageService>;
+    let mockRepository: Mocked<MovedMediaRepository>;
+    let mockMessageService: Mocked<MessageService>;
 
     const apiUrl = environment.commanderApiUrl;
     const testDate1 = new Date('2023-01-15');
@@ -57,12 +58,19 @@ describe('MovedMediaService', () => {
     ];
 
     beforeEach(() => {
-        mockRepository = jasmine.createSpyObj('MovedMediaRepository', [
-            'saveAll', 'removeAll', 'findAll', 'findById',
-            'findAllByMediaNameSubstr', 'findAllByMediaTypeAndDateAndMediaName',
-            'findAllByMediaTypeAndDateAndMediaNameAndSeason', 'removeById'
-        ]);
-        mockMessageService = jasmine.createSpyObj('MessageService', ['add']);
+        mockRepository = {
+            saveAll: vi.fn(),
+            removeAll: vi.fn(),
+            findAll: vi.fn(),
+            findById: vi.fn(),
+            findAllByMediaNameSubstr: vi.fn(),
+            findAllByMediaTypeAndDateAndMediaName: vi.fn(),
+            findAllByMediaTypeAndDateAndMediaNameAndSeason: vi.fn(),
+            removeById: vi.fn(),
+        } as unknown as Mocked<MovedMediaRepository>;
+        mockMessageService = {
+            add: vi.fn(),
+        } as unknown as Mocked<MessageService>;
 
         TestBed.configureTestingModule({
     imports: [],
@@ -97,7 +105,7 @@ describe('MovedMediaService', () => {
             const promise = service.refreshMovedMedia();
             const req = httpMock.expectOne(`${apiUrl}/media-moves`);
             expect(req.request.method).toBe('GET');
-            expect(req.request.withCredentials).toBeTrue();
+            expect(req.request.withCredentials).toBe(true);
             expect(req.request.headers.get('Content-Type')).toBe('plain/text');
             req.flush(mockData);
 
@@ -105,7 +113,7 @@ describe('MovedMediaService', () => {
 
             expect(mockRepository.removeAll).toHaveBeenCalled();
             expect(mockRepository.saveAll).toHaveBeenCalled();
-            const saved = mockRepository.saveAll.calls.first().args[0] as MovedMedia[];
+            const saved = mockRepository.saveAll.mock.calls[0][0] as MovedMedia[];
             expect(saved.length).toBe(1);
             expect(saved[0].id).toBe('10');
             expect(saved[0].date).toEqual(new Date(1700000000 * 1000));
@@ -117,7 +125,7 @@ describe('MovedMediaService', () => {
             const req = httpMock.expectOne(`${apiUrl}/media-moves`);
             req.error(new ProgressEvent('error'), {status: 500, statusText: 'Server Error'});
 
-            await expectAsync(promise).toBeRejected();
+            await expect(promise).rejects.toThrow();
             expect(mockRepository.removeAll).not.toHaveBeenCalled();
             expect(mockRepository.saveAll).not.toHaveBeenCalled();
         });
@@ -132,7 +140,7 @@ describe('MovedMediaService', () => {
             req.flush(mockData);
             await promise;
 
-            const saved = mockRepository.saveAll.calls.first().args[0] as MovedMedia[];
+            const saved = mockRepository.saveAll.mock.calls[0][0] as MovedMedia[];
             expect(saved[0].date).toEqual(new Date(0));
         });
 
@@ -146,7 +154,7 @@ describe('MovedMediaService', () => {
             req.flush(mockData);
             await promise;
 
-            const saved = mockRepository.saveAll.calls.first().args[0] as MovedMedia[];
+            const saved = mockRepository.saveAll.mock.calls[0][0] as MovedMedia[];
             expect(saved[0].date).toBeNull();
         });
 
@@ -160,14 +168,14 @@ describe('MovedMediaService', () => {
             req.flush(mockData);
             await promise;
 
-            const saved = mockRepository.saveAll.calls.first().args[0] as MovedMedia[];
+            const saved = mockRepository.saveAll.mock.calls[0][0] as MovedMedia[];
             expect(saved[0].id).toBe('<noId>');
         });
     });
 
     describe('getAllMovedMedia', () => {
         it('should return all moved media grouped by name without filter', () => {
-            mockRepository.findAll.and.returnValue(mockMovieMedia);
+            mockRepository.findAll.mockReturnValue(mockMovieMedia);
             const sort = sortOptions[0];
 
             const result = service.getAllMovedMedia(sort);
@@ -178,7 +186,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should filter by media name when filter provided', () => {
-            mockRepository.findAllByMediaNameSubstr.and.returnValue([mockMovieMedia[0]]);
+            mockRepository.findAllByMediaNameSubstr.mockReturnValue([mockMovieMedia[0]]);
             const sort = sortOptions[0];
 
             const result = service.getAllMovedMedia(sort, 'Alpha');
@@ -195,7 +203,7 @@ describe('MovedMediaService', () => {
                 {...mockMovieMedia[0]},
                 {...mockMovieMedia[0], id: '1-dup', date: laterDate}
             ];
-            mockRepository.findAll.and.returnValue(duplicates);
+            mockRepository.findAll.mockReturnValue(duplicates);
 
             const result = service.getAllMovedMedia(sortOptions[0]);
 
@@ -204,7 +212,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should return empty array when no media', () => {
-            mockRepository.findAll.and.returnValue([]);
+            mockRepository.findAll.mockReturnValue([]);
 
             const result = service.getAllMovedMedia(sortOptions[0]);
 
@@ -213,7 +221,7 @@ describe('MovedMediaService', () => {
 
         describe('sorting', () => {
             beforeEach(() => {
-                mockRepository.findAll.and.returnValue([...mockMovieMedia]);
+                mockRepository.findAll.mockReturnValue([...mockMovieMedia]);
             });
 
             it('should sort by title ascending', () => {
@@ -248,7 +256,7 @@ describe('MovedMediaService', () => {
 
     describe('getMovedMedia', () => {
         it('should return a view for an existing media id', () => {
-            mockRepository.findById.and.returnValue(mockMovieMedia[0]);
+            mockRepository.findById.mockReturnValue(mockMovieMedia[0]);
 
             const result = service.getMovedMedia('1');
 
@@ -266,7 +274,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should return undefined for non-existing id', () => {
-            mockRepository.findById.and.returnValue(undefined);
+            mockRepository.findById.mockReturnValue(undefined);
 
             const result = service.getMovedMedia('non-existent');
 
@@ -274,7 +282,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should use fallback poster when mediaDesc is missing', () => {
-            mockRepository.findById.and.returnValue(mockMovieMedia[2]);
+            mockRepository.findById.mockReturnValue(mockMovieMedia[2]);
 
             const result = service.getMovedMedia('3');
 
@@ -288,7 +296,7 @@ describe('MovedMediaService', () => {
                 ...mockMovieMedia[0],
                 mediaDesc: {posterUrl: undefined, description: 'desc', cast: ['Actor1']}
             };
-            mockRepository.findById.and.returnValue(mediaWithNoPoster);
+            mockRepository.findById.mockReturnValue(mediaWithNoPoster);
 
             const result = service.getMovedMedia('1');
 
@@ -298,7 +306,7 @@ describe('MovedMediaService', () => {
 
     describe('getAllTVShowSeasons', () => {
         it('should return unique seasons for a TV show', () => {
-            mockRepository.findAllByMediaTypeAndDateAndMediaName.and.returnValue(mockTVMedia);
+            mockRepository.findAllByMediaTypeAndDateAndMediaName.mockReturnValue(mockTVMedia);
             const view: MovedMediaView = {
                 id: '4', type: MediaFileType.Tv,
                 season: 1, episode: 1,
@@ -316,7 +324,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should return empty array when no media found', () => {
-            mockRepository.findAllByMediaTypeAndDateAndMediaName.and.returnValue([]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaName.mockReturnValue([]);
             const view: MovedMediaView = {
                 id: '99', type: MediaFileType.Tv,
                 season: 1, episode: 1,
@@ -333,7 +341,7 @@ describe('MovedMediaService', () => {
     describe('getAllTVShowEpisodes', () => {
         it('should return episodes for a given season', () => {
             const season1Media = mockTVMedia.filter(m => m.season === 1);
-            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.and.returnValue(season1Media);
+            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.mockReturnValue(season1Media);
             const view: MovedMediaView = {
                 id: '4', type: MediaFileType.Tv,
                 season: 1, episode: 1,
@@ -349,7 +357,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should return empty array when no episodes found', () => {
-            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.and.returnValue([]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.mockReturnValue([]);
             const view: MovedMediaView = {
                 id: '4', type: MediaFileType.Tv,
                 season: 1, episode: 1,
@@ -375,7 +383,7 @@ describe('MovedMediaService', () => {
             const promise = service.removeMovedMedia(view);
             const req = httpMock.expectOne(`${apiUrl}/media-moves/1`);
             expect(req.request.method).toBe('DELETE');
-            expect(req.request.withCredentials).toBeTrue();
+            expect(req.request.withCredentials).toBe(true);
             expect(req.request.headers.get('Content-Type')).toBe('plain/text');
             req.flush(null);
 
@@ -396,20 +404,20 @@ describe('MovedMediaService', () => {
             const req = httpMock.expectOne(`${apiUrl}/media-moves/1`);
             req.error(new ProgressEvent('error'), {status: 500, statusText: 'Error'});
 
-            await expectAsync(promise).toBeRejected();
+            await expect(promise).rejects.toThrow();
             expect(mockRepository.removeById).not.toHaveBeenCalled();
         });
     });
 
     describe('removeMovedMediaSeason', () => {
         it('should delete all episodes of a season', async () => {
-            mockRepository.findById.and.returnValue(mockTVMedia[0]);
-            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.and.returnValue(mockTVMedia.slice(0, 2));
+            mockRepository.findById.mockReturnValue(mockTVMedia[0]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.mockReturnValue(mockTVMedia.slice(0, 2));
 
             const promise = service.removeMovedMediaSeason('4');
             const req = httpMock.expectOne(`${apiUrl}/media-moves/delete-all`);
             expect(req.request.method).toBe('POST');
-            expect(req.request.withCredentials).toBeTrue();
+            expect(req.request.withCredentials).toBe(true);
             expect(req.request.headers.get('Content-Type')).toBe('application/json');
             expect(req.request.body).toEqual(['4', '5']);
             req.flush(null);
@@ -421,7 +429,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should do nothing when media not found', async () => {
-            mockRepository.findById.and.returnValue(undefined);
+            mockRepository.findById.mockReturnValue(undefined);
 
             await service.removeMovedMediaSeason('non-existent');
 
@@ -430,8 +438,8 @@ describe('MovedMediaService', () => {
         });
 
         it('should POST with empty array when no media returned from repository', async () => {
-            mockRepository.findById.and.returnValue(mockTVMedia[0]);
-            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.and.returnValue([]);
+            mockRepository.findById.mockReturnValue(mockTVMedia[0]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaNameAndSeason.mockReturnValue([]);
 
             const promise = service.removeMovedMediaSeason('4');
             const req = httpMock.expectOne(`${apiUrl}/media-moves/delete-all`);
@@ -447,8 +455,8 @@ describe('MovedMediaService', () => {
 
     describe('removeMovedMediaShow', () => {
         it('should delete all episodes of a show', async () => {
-            mockRepository.findById.and.returnValue(mockTVMedia[0]);
-            mockRepository.findAllByMediaTypeAndDateAndMediaName.and.returnValue(mockTVMedia);
+            mockRepository.findById.mockReturnValue(mockTVMedia[0]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaName.mockReturnValue(mockTVMedia);
 
             const promise = service.removeMovedMediaShow('4');
             const req = httpMock.expectOne(`${apiUrl}/media-moves/delete-all`);
@@ -464,7 +472,7 @@ describe('MovedMediaService', () => {
         });
 
         it('should do nothing when media not found', async () => {
-            mockRepository.findById.and.returnValue(undefined);
+            mockRepository.findById.mockReturnValue(undefined);
 
             await service.removeMovedMediaShow('non-existent');
 
@@ -473,8 +481,8 @@ describe('MovedMediaService', () => {
         });
 
         it('should POST with empty array when no media returned from repository', async () => {
-            mockRepository.findById.and.returnValue(mockTVMedia[0]);
-            mockRepository.findAllByMediaTypeAndDateAndMediaName.and.returnValue([]);
+            mockRepository.findById.mockReturnValue(mockTVMedia[0]);
+            mockRepository.findAllByMediaTypeAndDateAndMediaName.mockReturnValue([]);
 
             const promise = service.removeMovedMediaShow('4');
             const req = httpMock.expectOne(`${apiUrl}/media-moves/delete-all`);

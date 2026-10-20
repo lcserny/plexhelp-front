@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import {RenamedMediaOptions} from "../generated/commander/model/renamedMediaOptions";
 import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptionData";
 

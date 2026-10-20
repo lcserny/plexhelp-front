@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule, MatSnackBarRef} from "@angular/material/snack-bar";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatCardModule} from "@angular/material/card";
@@ -11,6 +11,7 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {NavigationStart, Router} from "@angular/router";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {Subject, of} from "rxjs";
+import {Mocked, vi} from "vitest";
 
 import {SearchComponent, SearchItem} from './search.component';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
@@ -19,17 +20,22 @@ describe('SearchComponent', () => {
     let component: SearchComponent;
     let fixture: ComponentFixture<SearchComponent>;
     let httpMock: HttpTestingController;
-    let mockRouter: jasmine.SpyObj<Router>;
-    let mockBottomSheet: jasmine.SpyObj<MatBottomSheet>;
+    let mockRouter: Mocked<Router>;
+    let mockBottomSheet: Mocked<MatBottomSheet>;
     let routerEventsSubject: Subject<any>;
 
     beforeEach(async () => {
         routerEventsSubject = new Subject<Event>();
-        mockRouter = jasmine.createSpyObj('Router', ['navigate'], {events: routerEventsSubject.asObservable()});
-        mockRouter.navigate.and.returnValue(Promise.resolve(true));
+        mockRouter = {
+            navigate: vi.fn(),
+            events: routerEventsSubject.asObservable(),
+        } as unknown as Mocked<Router>;
+        mockRouter.navigate.mockResolvedValue(true);
 
-        mockBottomSheet = jasmine.createSpyObj('MatBottomSheet', ['open']);
-        mockBottomSheet.open.and.returnValue({
+        mockBottomSheet = {
+            open: vi.fn(),
+        } as unknown as Mocked<MatBottomSheet>;
+        mockBottomSheet.open.mockReturnValue({
             afterDismissed: () => of(undefined as any),
             dismiss: () => {}
         } as any);
@@ -63,6 +69,7 @@ describe('SearchComponent', () => {
 
     afterEach(() => {
         httpMock.verify();
+        vi.restoreAllMocks();
     });
 
     it('should create', () => {
@@ -72,7 +79,7 @@ describe('SearchComponent', () => {
     it('should have default configuration values', () => {
         expect(component.pageSizeOptions).toEqual([10, 20, 50]);
         expect(component.defaultPageSize).toBe(10);
-        expect(component.searchPerformed).toBeTrue();
+        expect(component.searchPerformed).toBe(true);
         expect(component.searchItems).toEqual([]);
         expect(component.totalItems).toBe(0);
     });
@@ -94,14 +101,14 @@ describe('SearchComponent', () => {
         downloadReq.flush(mockDownloads);
 
         expect(component.searchItems.length).toBe(2);
-        expect(component.searchItems[0].downloaded).toBeTrue();
-        expect(component.searchItems[1].downloaded).toBeFalse();
+        expect(component.searchItems[0].downloaded).toBe(true);
+        expect(component.searchItems[1].downloaded).toBe(false);
         expect(component.totalItems).toBe(2);
-        expect(component.searchPerformed).toBeTrue();
+        expect(component.searchPerformed).toBe(true);
     });
 
     it('should show snackbar error when searchMedia fails', () => {
-        spyOn(component['snackBar'], 'open');
+        vi.spyOn(component['snackBar'], 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
 
         component.initSearch();
 
@@ -109,11 +116,11 @@ describe('SearchComponent', () => {
         mediaReq.flush('Error', {status: 500, statusText: 'Internal Server Error'});
 
         expect(component['snackBar'].open).toHaveBeenCalled();
-        expect(component.searchPerformed).toBeFalse();
+        expect(component.searchPerformed).toBe(false);
     });
 
     it('should show snackbar error when searchDownloadedMedia fails', () => {
-        spyOn(component['snackBar'], 'open');
+        vi.spyOn(component['snackBar'], 'open').mockReturnValue(undefined as unknown as MatSnackBarRef<any>);
 
         component.initSearch();
 
@@ -136,11 +143,11 @@ describe('SearchComponent', () => {
 
         expect(component.searchItems).toEqual([]);
         expect(component.totalItems).toBe(0);
-        expect(component.searchPerformed).toBeTrue();
+        expect(component.searchPerformed).toBe(true);
     });
 
     it('save page size to localStorage and adjust view on page change', () => {
-        spyOn(localStorage, 'setItem');
+        vi.spyOn(localStorage, 'setItem').mockImplementation(() => {});
 
         component.searchItems = [
             {index: 0, group: {} as any, checked: false, downloaded: false},
@@ -165,8 +172,8 @@ describe('SearchComponent', () => {
 
         component.toggleMedia(true, 0);
 
-        expect(component.searchItems[0].checked).toBeTrue();
-        expect(component.searchItems[1].checked).toBeFalse();
+        expect(component.searchItems[0].checked).toBe(true);
+        expect(component.searchItems[1].checked).toBe(false);
         expect(component.toggledItemsCount).toBe(1);
     });
 
@@ -181,7 +188,7 @@ describe('SearchComponent', () => {
     });
 
     it('toggleMedia should close bottom sheet when no items are checked', () => {
-        spyOn(component, 'closeButtonsSheet');
+        vi.spyOn(component, 'closeButtonsSheet').mockReturnValue(undefined);
 
         component.searchItems = [
             {index: 0, group: {} as any, checked: false, downloaded: true},
@@ -204,8 +211,8 @@ describe('SearchComponent', () => {
 
         component.clearToggles();
 
-        expect(component.searchItems[0].checked).toBeFalse();
-        expect(component.searchItems[1].checked).toBeFalse();
+        expect(component.searchItems[0].checked).toBe(false);
+        expect(component.searchItems[1].checked).toBe(false);
         expect(component.toggledItemsCount).toBe(0);
     });
 
@@ -237,7 +244,7 @@ describe('SearchComponent', () => {
 
         component.adminForceToggle(event, item);
 
-        expect(item.downloaded).toBeTrue();
+        expect(item.downloaded).toBe(true);
     });
 
     it('adminForceToggle should not toggle without modifier keys', () => {
@@ -246,11 +253,11 @@ describe('SearchComponent', () => {
 
         component.adminForceToggle(event, item);
 
-        expect(item.downloaded).toBeFalse();
+        expect(item.downloaded).toBe(false);
     });
 
     it('should close buttons sheet on navigation start', () => {
-        spyOn(component, 'closeButtonsSheet');
+        vi.spyOn(component, 'closeButtonsSheet').mockReturnValue(undefined);
         component.bottomSheetRef = {} as any;
 
         routerEventsSubject.next(new NavigationStart(0, '/some-url'));
@@ -275,7 +282,7 @@ describe('SearchComponent', () => {
 
     it('should unsubscribe from router events on destroy', () => {
         const subscription = component['routerSubscription'];
-        spyOn(subscription, 'unsubscribe');
+        vi.spyOn(subscription, 'unsubscribe').mockReturnValue(undefined);
 
         component.ngOnDestroy();
 

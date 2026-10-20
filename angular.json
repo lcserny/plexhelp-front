@@ -115,7 +115,9 @@
                           "text-summary"
                         ],
                         "buildTarget": ":build:testing",
-                        "runner": "vitest"
+                        "runner": "vitest",
+                        "browsers": ["chromium"],
+                        "include": ["src/**/*.spec.ts"]
                     }
                 }
             }
