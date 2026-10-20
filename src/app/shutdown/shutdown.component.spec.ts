@@ -7,8 +7,8 @@ import {
     PROVIDE_SERVICE_NAME_KEY,
     ShutdownComponent, DELAY_PING_MS,
 } from './shutdown.component';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient} from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -31,19 +31,17 @@ describe('ShutdownComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ShutdownComponent],
-            imports: [
-                HttpClientTestingModule,
-                MatSnackBarModule,
-                NoopAnimationsModule,
-                MatFormFieldModule,
-                TextFieldModule,
-                MatInputModule,
-                FormsModule,
-                ReactiveFormsModule,
-                TranslateModule.forRoot()
-            ],
-        }).compileComponents();
+    declarations: [ShutdownComponent],
+    imports: [MatSnackBarModule,
+        NoopAnimationsModule,
+        MatFormFieldModule,
+        TextFieldModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule.forRoot()],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         TestBed.inject(HttpClient);
         TestBed.inject(LoadingService).setLoading(false);

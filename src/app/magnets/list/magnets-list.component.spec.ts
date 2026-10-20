@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MagnetsListComponent} from './magnets-list.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ListComponent', () => {
     let component: MagnetsListComponent;
@@ -20,25 +21,24 @@ describe('ListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MagnetsListComponent],
-            imports: [
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatSnackBarModule,
-                MatDialogModule,
-                MatIconModule,
-                MatFormFieldModule,
-                MatPaginatorModule,
-                ReactiveFormsModule,
-                FormsModule,
-                MatTableModule,
-                MatInputModule,
-                NoopAnimationsModule
-            ],
-            providers: [
-                DatePipe
-            ]
-        }).compileComponents();
+    declarations: [MagnetsListComponent],
+    imports: [TranslateModule.forRoot(),
+        MatSnackBarModule,
+        MatDialogModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatTableModule,
+        MatInputModule,
+        NoopAnimationsModule],
+    providers: [
+        DatePipe,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(MagnetsListComponent);
         component = fixture.componentInstance;

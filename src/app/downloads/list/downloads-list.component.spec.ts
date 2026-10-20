@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
@@ -18,6 +18,7 @@ import {CustomDateAdapter, booleanValidator} from "../../app.component";
 
 import {DownloadsListComponent} from './downloads-list.component';
 import {environment} from "../../../environments/environment";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('DownloadsListComponent', () => {
     let component: DownloadsListComponent;
@@ -26,29 +27,28 @@ describe('DownloadsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DownloadsListComponent],
-            imports: [
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatSnackBarModule,
-                MatIconModule,
-                MatFormFieldModule,
-                MatPaginatorModule,
-                ReactiveFormsModule,
-                FormsModule,
-                MatTableModule,
-                MatInputModule,
-                BrowserModule,
-                NoopAnimationsModule,
-                MatCheckboxModule,
-                MatDatepickerModule,
-                MatNativeDateModule
-            ],
-            providers: [
-                DatePipe,
-                {provide: DateAdapter, useClass: CustomDateAdapter}
-            ]
-        }).compileComponents();
+    declarations: [DownloadsListComponent],
+    imports: [TranslateModule.forRoot(),
+        MatSnackBarModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatTableModule,
+        MatInputModule,
+        BrowserModule,
+        NoopAnimationsModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatNativeDateModule],
+    providers: [
+        DatePipe,
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(DownloadsListComponent);
         component = fixture.componentInstance;

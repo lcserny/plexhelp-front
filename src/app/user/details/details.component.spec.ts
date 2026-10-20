@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DetailsComponent} from './details.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TranslateModule} from "@ngx-translate/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -11,6 +11,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {DatePipe} from "@angular/common";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('DetailsComponent', () => {
     let component: DetailsComponent;
@@ -18,19 +19,16 @@ describe('DetailsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DetailsComponent],
-            imports: [
-                HttpClientTestingModule,
-                MatSnackBarModule,
-                TranslateModule.forRoot(),
-                RouterModule.forRoot(routes),
-                NoopAnimationsModule,
-                ReactiveFormsModule,
-                MatInputModule,
-                MatButtonModule
-            ],
-            providers: [DatePipe]
-        }).compileComponents();
+    declarations: [DetailsComponent],
+    imports: [MatSnackBarModule,
+        TranslateModule.forRoot(),
+        RouterModule.forRoot(routes),
+        NoopAnimationsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule],
+    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         fixture = TestBed.createComponent(DetailsComponent);
         component = fixture.componentInstance;

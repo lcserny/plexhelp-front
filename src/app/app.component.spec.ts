@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {NavigationComponent} from "./navigation/navigation.component";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {LayoutModule} from "@angular/cdk/layout";
 import {MatButtonModule} from "@angular/material/button";
@@ -15,30 +15,29 @@ import {routes} from "./routing/routing.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {LoadingComponent} from "./loading/loading.component";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                AppComponent,
-                NavigationComponent,
-                LoadingComponent
-            ],
-            imports: [
-                NoopAnimationsModule,
-                LayoutModule,
-                MatButtonModule,
-                MatIconModule,
-                MatListModule,
-                MatSidenavModule,
-                MatToolbarModule,
-                RouterModule.forRoot(routes),
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatMenuModule,
-                MatSlideToggleModule
-            ]
-        }).compileComponents();
+    declarations: [
+        AppComponent,
+        NavigationComponent,
+        LoadingComponent
+    ],
+    imports: [NoopAnimationsModule,
+        LayoutModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        RouterModule.forRoot(routes),
+        TranslateModule.forRoot(),
+        MatMenuModule,
+        MatSlideToggleModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     });
 
     it('should create the app', () => {

@@ -4,9 +4,10 @@ import {MovedMediaDetailComponent} from './detail.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
 import {MatDialogModule} from "@angular/material/dialog";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('DetailComponent', () => {
     let component: MovedMediaDetailComponent;
@@ -14,15 +15,12 @@ describe('DetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MovedMediaDetailComponent],
-            imports: [
-                TranslateModule.forRoot(),
-                RouterModule.forRoot(routes),
-                HttpClientTestingModule,
-                MatDialogModule
-            ],
-            providers: [DatePipe]
-        }).compileComponents();
+    declarations: [MovedMediaDetailComponent],
+    imports: [TranslateModule.forRoot(),
+        RouterModule.forRoot(routes),
+        MatDialogModule],
+    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaDetailComponent);
         component = fixture.componentInstance;

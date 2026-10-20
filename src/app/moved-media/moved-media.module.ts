@@ -10,7 +10,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {HttpClientModule} from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {MovedMediaTVShowComponent} from './tvshow/tvshow.component';
 import {MovedMediaTVShowSeasonComponent} from './tvshow-season/tvshow-season.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -33,8 +33,7 @@ const routes: Routes = [
     }
 ];
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         MovedMediaLayoutComponent,
         MovedMediaSearchComponent,
         MovedMediaDetailComponent,
@@ -42,10 +41,8 @@ const routes: Routes = [
         MovedMediaTVShowSeasonComponent,
         ConfirmComponent
     ],
-    imports: [
-        CommonModule,
+    exports: [RouterModule], imports: [CommonModule,
         RouterModule.forChild(routes),
-        HttpClientModule,
         TranslateModule,
         MatButtonModule,
         MatDialogModule,
@@ -57,10 +54,7 @@ const routes: Routes = [
         MatInputModule,
         ReactiveFormsModule,
         MatIconModule,
-        MatSelectModule,
-    ],
-    exports: [RouterModule]
-})
+        MatSelectModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class MovedMediaModule {
 }
 

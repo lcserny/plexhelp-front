@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {UserRegistration} from "../generated/auth/model/userRegistration";
 import {catchError, Observable, tap} from "rxjs";
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {BaseService, Pageable} from "../base.service";
 import {MessageService} from "../message.service";
 import {UserData} from "../generated/auth/model/userData";

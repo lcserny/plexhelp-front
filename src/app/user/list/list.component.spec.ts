@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ListComponent} from './list.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TranslateModule} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DatePipe} from "@angular/common";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ListComponent', () => {
     let component: ListComponent;
@@ -20,23 +21,20 @@ describe('ListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                ListComponent
-            ],
-            imports: [
-                HttpClientTestingModule,
-                MatSnackBarModule,
-                TranslateModule.forRoot(),
-                RouterModule.forRoot(routes),
-                NoopAnimationsModule,
-                MatPaginatorModule,
-                MatTableModule,
-                ReactiveFormsModule,
-                MatInputModule,
-                MatButtonModule
-            ],
-            providers: [DatePipe]
-        }).compileComponents();
+    declarations: [
+        ListComponent
+    ],
+    imports: [MatSnackBarModule,
+        TranslateModule.forRoot(),
+        RouterModule.forRoot(routes),
+        NoopAnimationsModule,
+        MatPaginatorModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule],
+    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         fixture = TestBed.createComponent(ListComponent);
         component = fixture.componentInstance;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MovedMedia, MovedMediaRepository} from "./moved-media.repository";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {BaseService} from "../base.service";
 import {MessageService} from "../message.service";
 import {environment} from "../../environments/environment";

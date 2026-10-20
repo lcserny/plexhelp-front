@@ -11,10 +11,11 @@ import {NavigationComponent} from './navigation.component';
 import {RouterModule} from "@angular/router";
 import {routes} from "../routing/routing.module";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('NavigationComponent', () => {
     let component: NavigationComponent;
@@ -22,25 +23,23 @@ describe('NavigationComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [NavigationComponent],
-            imports: [
-                NoopAnimationsModule,
-                LayoutModule,
-                MatButtonModule,
-                MatIconModule,
-                MatListModule,
-                MatSidenavModule,
-                MatToolbarModule,
-                RouterModule.forRoot(routes),
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatMenuModule,
-                MatSlideToggleModule
-            ],
-            schemas: [
-                CUSTOM_ELEMENTS_SCHEMA
-            ]
-        }).compileComponents();
+    declarations: [NavigationComponent],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ],
+    imports: [NoopAnimationsModule,
+        LayoutModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        RouterModule.forRoot(routes),
+        TranslateModule.forRoot(),
+        MatMenuModule,
+        MatSlideToggleModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     }));
 
     beforeEach(() => {

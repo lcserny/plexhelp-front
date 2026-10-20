@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import {DatePipe} from '@angular/common';
 import {MovedMediaService, MovedMediaView, sortOptions} from './moved-media.service';
 import {MovedMedia, MovedMediaRepository} from './moved-media.repository';
@@ -7,6 +7,7 @@ import {MessageService} from '../message.service';
 import {environment} from '../../environments/environment';
 import {MediaFileType} from '../generated/commander/model/mediaFileType';
 import {MovedMediaData} from '../generated/commander/model/movedMediaData';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MovedMediaService', () => {
     let service: MovedMediaService;
@@ -64,14 +65,16 @@ describe('MovedMediaService', () => {
         mockMessageService = jasmine.createSpyObj('MessageService', ['add']);
 
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [
-                MovedMediaService,
-                DatePipe,
-                {provide: MovedMediaRepository, useValue: mockRepository},
-                {provide: MessageService, useValue: mockMessageService}
-            ]
-        });
+    imports: [],
+    providers: [
+        MovedMediaService,
+        DatePipe,
+        { provide: MovedMediaRepository, useValue: mockRepository },
+        { provide: MessageService, useValue: mockMessageService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
 
         service = TestBed.inject(MovedMediaService);
         httpMock = TestBed.inject(HttpTestingController);

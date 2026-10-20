@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -13,6 +13,7 @@ import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {Subject, of} from "rxjs";
 
 import {SearchComponent, SearchItem} from './search.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('SearchComponent', () => {
     let component: SearchComponent;
@@ -34,23 +35,22 @@ describe('SearchComponent', () => {
         } as any);
 
         await TestBed.configureTestingModule({
-            declarations: [SearchComponent],
-            imports: [
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatSnackBarModule,
-                MatPaginatorModule,
-                MatSlideToggleModule,
-                MatCardModule,
-                MatButtonModule,
-                MatTooltipModule,
-                NoopAnimationsModule,
-            ],
-            providers: [
-                {provide: Router, useValue: mockRouter},
-                {provide: MatBottomSheet, useValue: mockBottomSheet},
-            ]
-        }).compileComponents();
+    declarations: [SearchComponent],
+    imports: [TranslateModule.forRoot(),
+        MatSnackBarModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatCardModule,
+        MatButtonModule,
+        MatTooltipModule,
+        NoopAnimationsModule],
+    providers: [
+        { provide: Router, useValue: mockRouter },
+        { provide: MatBottomSheet, useValue: mockBottomSheet },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
         fixture = TestBed.createComponent(SearchComponent);
         component = fixture.componentInstance;

@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
@@ -59,8 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         NavigationComponent,
         LoadingComponent,
@@ -75,11 +74,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         DownloadsListComponent,
         MagDownTabsComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         FormsModule,
         RoutingModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         LayoutModule,
         MatToolbarModule,
@@ -114,18 +111,15 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatDatepickerModule,
         MatCheckboxModule,
         NgOptimizedImage,
-        MatNativeDateModule
-    ],
-    providers: [
-        {provide: DateAdapter, useClass: CustomDateAdapter},
-        {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-        {provide: MatPaginatorIntl, useClass: TranslatedPaginator},
-        {provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: environment.region.dateFormat, timezone: environment.region.timezone }},
-        {provide: MAT_DATE_LOCALE, useValue: environment.region.locale},
-        DatePipe
-    ],
-    bootstrap: [AppComponent]
-})
+        MatNativeDateModule], providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: MatPaginatorIntl, useClass: TranslatedPaginator },
+        { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: environment.region.dateFormat, timezone: environment.region.timezone } },
+        { provide: MAT_DATE_LOCALE, useValue: environment.region.locale },
+        DatePipe,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }

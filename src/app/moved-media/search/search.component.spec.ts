@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MovedMediaSearchComponent} from './search.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
 import {TranslateModule} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
@@ -12,6 +12,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('SearchComponent', () => {
     let component: MovedMediaSearchComponent;
@@ -19,20 +20,17 @@ describe('SearchComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MovedMediaSearchComponent],
-            imports: [
-                TranslateModule.forRoot(),
-                RouterModule.forRoot(routes),
-                HttpClientTestingModule,
-                FormsModule,
-                MatInputModule,
-                NoopAnimationsModule,
-                MatFormFieldModule,
-                MatIconModule,
-                MatSelectModule
-            ],
-            providers: [DatePipe]
-        }).compileComponents();
+    declarations: [MovedMediaSearchComponent],
+    imports: [TranslateModule.forRoot(),
+        RouterModule.forRoot(routes),
+        FormsModule,
+        MatInputModule,
+        NoopAnimationsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatSelectModule],
+    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaSearchComponent);
         component = fixture.componentInstance;

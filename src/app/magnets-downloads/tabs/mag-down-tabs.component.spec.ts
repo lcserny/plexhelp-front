@@ -7,7 +7,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {TranslateModule} from "@ngx-translate/core";
 import {MagnetsListComponent} from "../../magnets/list/magnets-list.component";
 import {DownloadsListComponent} from "../../downloads/list/downloads-list.component";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {DatePipe} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -22,6 +22,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
 import {CustomDateAdapter} from "../../app.component";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('TabsComponent', () => {
     let component: MagDownTabsComponent;
@@ -29,32 +30,29 @@ describe('TabsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                MagnetsListComponent,
-                DownloadsListComponent,
-                MagDownTabsComponent
-            ],
-            imports: [
-                RouterModule.forRoot(routes),
-                MatTabsModule,
-                HttpClientTestingModule,
-                TranslateModule.forRoot(),
-                MatSnackBarModule,
-                MatDialogModule,
-                MatIconModule,
-                MatFormFieldModule,
-                MatPaginatorModule,
-                ReactiveFormsModule,
-                FormsModule,
-                MatTableModule,
-                MatInputModule,
-                NoopAnimationsModule,
-                MatDatepickerModule,
-                MatCheckboxModule,
-                MatNativeDateModule
-            ],
-            providers: [DatePipe, {provide: DateAdapter, useClass: CustomDateAdapter}]
-        }).compileComponents();
+    declarations: [
+        MagnetsListComponent,
+        DownloadsListComponent,
+        MagDownTabsComponent
+    ],
+    imports: [RouterModule.forRoot(routes),
+        MatTabsModule,
+        TranslateModule.forRoot(),
+        MatSnackBarModule,
+        MatDialogModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatTableModule,
+        MatInputModule,
+        NoopAnimationsModule,
+        MatDatepickerModule,
+        MatCheckboxModule,
+        MatNativeDateModule],
+    providers: [DatePipe, { provide: DateAdapter, useClass: CustomDateAdapter }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
         fixture = TestBed.createComponent(MagDownTabsComponent);
         component = fixture.componentInstance;

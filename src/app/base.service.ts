@@ -3,7 +3,7 @@ import { MessageService } from './message.service';
 import {Observable} from 'rxjs';
 import {ApplicationErrorResponse as authError} from "./generated/auth/model/applicationErrorResponse";
 import {ApplicationErrorResponse as apiError} from "./generated/commander/model/applicationErrorResponse";
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
 import {MessageType} from "./messages/messages.model";
 
 @Injectable({
