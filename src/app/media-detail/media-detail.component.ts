@@ -44,7 +44,7 @@ export class MediaDetailComponent {
         private translateService: TranslateService
     ) {
         // only available in constructor
-        const navigation = this.router.getCurrentNavigation();
+        const navigation = this.router.currentNavigation();
         let state: MediaFileGroup[] = navigation?.extras.state?.["items"] ?? [];
 
         if (state) {

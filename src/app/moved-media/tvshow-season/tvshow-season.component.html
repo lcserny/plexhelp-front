@@ -1,31 +1,35 @@
-<div *ngIf="!tvShowSeasonEpisodes.length">
+@if (!tvShowSeasonEpisodes.length) {
+  <div>
     <br />
     <h3>{{ "no media found, try again" | translate }}</h3>
-</div>
+  </div>
+}
 
-<div *ngIf="tvShowSeasonEpisodes.length">
+@if (tvShowSeasonEpisodes.length) {
+  <div>
     <h1>{{ generateTitle(tvShowSeasonEpisodes[0]) }} {{ "season" | translate }} {{ tvShowSeasonEpisodes[0].season }}</h1>
-
     <div class="button-container">
-        <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
-        <button mat-raised-button color="primary" id="delete-season-btn" (click)="deleteSeason()">{{ "delete season" | translate }}</button>
+      <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+      <button mat-raised-button color="primary" id="delete-season-btn" (click)="deleteSeason()">{{ "delete season" | translate }}</button>
     </div>
-
-    <div *ngFor="let media of tvShowSeasonEpisodes; let i = index">
+    @for (media of tvShowSeasonEpisodes; track media; let i = $index) {
+      <div>
         <mat-card class="search-item-card">
-            <div style="display: flex">
-                <div class="media-container">
-                    <div class="title-container">
-                        <mat-card-title><span class="media-title">{{ "episode" | translate }} {{ formatEpisode(media.episode) }}</span></mat-card-title>
-                    </div>
-                    <div class="actions-container">
-                        <mat-card-actions>
-                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
-                        </mat-card-actions>
-                    </div>
-                </div>
+          <div style="display: flex">
+            <div class="media-container">
+              <div class="title-container">
+                <mat-card-title><span class="media-title">{{ "episode" | translate }} {{ formatEpisode(media.episode) }}</span></mat-card-title>
+              </div>
+              <div class="actions-container">
+                <mat-card-actions>
+                  <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                </mat-card-actions>
+              </div>
             </div>
+          </div>
         </mat-card>
         <br/>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}

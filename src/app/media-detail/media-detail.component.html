@@ -1,54 +1,60 @@
 <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
 
-<div *ngIf="mainMediaFileGroup">
+@if (mainMediaFileGroup) {
+  <div>
     <div class="header-container">
-        <h1>{{mainMediaFileGroup.name}}</h1><h3>{{groupText}}</h3>
+      <h1>{{mainMediaFileGroup.name}}</h1><h3>{{groupText}}</h3>
     </div>
-
-    <div *ngFor="let group of allMediaFileGroups">
+    @for (group of allMediaFileGroups; track group) {
+      <div>
         <div>{{ "path" | translate }}</div>
         <div class="path-text">{{group.path}}</div>
         <div>{{ "media files" | translate }}:</div>
-        <div class="files-text" *ngFor="let video of group.videos; let i = index">
+        @for (video of group.videos; track video; let i = $index) {
+          <div class="files-text">
             {{i+1}}. {{video}}
-        </div>
+          </div>
+        }
         <br/>
-    </div>
-
+      </div>
+    }
     <div class="form-container">
-        <div class="button-container">
-            <button mat-raised-button color="primary"
-                    (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'TV')">{{ "tv" | translate }}</button>
-        </div>
-        <div class="button-container">
-            <button mat-raised-button color="primary"
-                    (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'MOVIE')">{{ "movie" | translate }}</button>
-        </div>
+      <div class="button-container">
+        <button mat-raised-button color="primary"
+        (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'TV')">{{ "tv" | translate }}</button>
+      </div>
+      <div class="button-container">
+        <button mat-raised-button color="primary"
+        (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'MOVIE')">{{ "movie" | translate }}</button>
+      </div>
     </div>
-
     <div class="form-container input-container">
-        <mat-form-field appearance="outline" color="accent" class="dest-field">
-            <mat-label>{{ "media destination name" | translate }}</mat-label>
-            <input matInput [(ngModel)]="finalName">
-        </mat-form-field>
+      <mat-form-field appearance="outline" color="accent" class="dest-field">
+        <mat-label>{{ "media destination name" | translate }}</mat-label>
+        <input matInput [(ngModel)]="finalName">
+      </mat-form-field>
     </div>
-
-    <div *ngIf="type && finalName">
-        <div *ngIf="type === 'TV'" class="form-container">
+    @if (type && finalName) {
+      <div>
+        @if (type === 'TV') {
+          <div class="form-container">
             <p>{{ "season" | translate }}</p>
             <mat-button-toggle-group [ngModel]="season" (change)="setSeason($event.value)" class="season-toggle-group">
-                <mat-button-toggle value="1" class="season-toggle">1</mat-button-toggle>
-                <mat-button-toggle value="2" class="season-toggle">2</mat-button-toggle>
-                <mat-button-toggle value="3" class="season-toggle">3</mat-button-toggle>
-                <mat-button-toggle value="4" class="season-toggle">4</mat-button-toggle>
-                <mat-button-toggle value="5" class="season-toggle">5</mat-button-toggle>
-                <mat-button-toggle value="6" class="season-toggle">6</mat-button-toggle>
+              <mat-button-toggle value="1" class="season-toggle">1</mat-button-toggle>
+              <mat-button-toggle value="2" class="season-toggle">2</mat-button-toggle>
+              <mat-button-toggle value="3" class="season-toggle">3</mat-button-toggle>
+              <mat-button-toggle value="4" class="season-toggle">4</mat-button-toggle>
+              <mat-button-toggle value="5" class="season-toggle">5</mat-button-toggle>
+              <mat-button-toggle value="6" class="season-toggle">6</mat-button-toggle>
             </mat-button-toggle-group>
-        </div>
+          </div>
+        }
         <div class="form-container">
-            <div class="button-container">
-                <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
-            </div>
+          <div class="button-container">
+            <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}

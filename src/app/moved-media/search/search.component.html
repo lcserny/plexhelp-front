@@ -1,57 +1,65 @@
 <h1>{{ "media files found" | translate }}</h1>
 <div class="button-container">
-    <button mat-raised-button id="search-btn" (click)="refreshMedia()">{{ "refresh" | translate }}</button>
+  <button mat-raised-button id="search-btn" (click)="refreshMedia()">{{ "refresh" | translate }}</button>
 </div>
 
 <div class="button-container">
-    <mat-form-field id="search-input">
-        <mat-label>{{ "search" | translate }}</mat-label>
-        <input #searchInput type="text" matInput (input)="filterMedia()" [(ngModel)]="searchText">
-        <button matSuffix mat-icon-button aria-label="Search">
-            <mat-icon>search</mat-icon>
-        </button>
-    </mat-form-field>
+  <mat-form-field id="search-input">
+    <mat-label>{{ "search" | translate }}</mat-label>
+    <input #searchInput type="text" matInput (input)="filterMedia()" [(ngModel)]="searchText">
+    <button matSuffix mat-icon-button aria-label="Search">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
 
-    <mat-form-field id="sort-select">
-        <mat-label>{{ "sort" | translate }}</mat-label>
-        <mat-select [(value)]="selectedSort" (selectionChange)="onSortChange($event)">
-            <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
-                {{ sortOption.label | translate }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+  <mat-form-field id="sort-select">
+    <mat-label>{{ "sort" | translate }}</mat-label>
+    <mat-select [(value)]="selectedSort" (selectionChange)="onSortChange($event)">
+      @for (sortOption of sortOptions; track sortOption) {
+        <mat-option [value]="sortOption">
+          {{ sortOption.label | translate }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </div>
 
-<div *ngIf="!movedMediaList.length">
+@if (!movedMediaList.length) {
+  <div>
     <br />
     <h3>{{ "no media found, try again" | translate }}</h3>
-</div>
+  </div>
+}
 
-<div *ngIf="movedMediaList.length">
-    <div *ngFor="let media of movedMediaList; let i = index">
+@if (movedMediaList.length) {
+  <div>
+    @for (media of movedMediaList; track media; let i = $index) {
+      <div>
         <mat-card class="search-item-card">
-            <div style="display: flex">
-                <div class="poster-container" >
-                    <img class="options-item-poster" src="{{media.posterUrl}}" alt="">
-                </div>
-                <div class="media-container">
-                    <div class="title-container">
-                        <mat-card-title><span class="media-title">{{ generateTitle(media) }}</span></mat-card-title>
-                        <mat-card-subtitle><span>{{ media.type }}</span></mat-card-subtitle>
-                        <div>{{ media.description ? media.description : ("no media description" | translate) }}</div>
-                        <br />
-                        <div>
-                            <span class="ccc">{{ "cast" | translate }}</span> {{ media.cast.length > 0 ? media.cast.join(", ") : ("no cast available" | translate) }}
-                        </div>
-                    </div>
-                    <div class="actions-container">
-                        <mat-card-actions>
-                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
-                        </mat-card-actions>
-                    </div>
-                </div>
+          <div style="display: flex">
+            <div class="poster-container" >
+              <img class="options-item-poster" src="{{media.posterUrl}}" alt="">
             </div>
+            <div class="media-container">
+              <div class="title-container">
+                <mat-card-title><span class="media-title">{{ generateTitle(media) }}</span></mat-card-title>
+                <mat-card-subtitle><span>{{ media.type }}</span></mat-card-subtitle>
+                <div>{{ media.description ? media.description : ("no media description" | translate) }}</div>
+                <br />
+                <div>
+                  <span class="ccc">{{ "cast" | translate }}</span> {{ media.cast.length > 0 ? media.cast.join(", ") : ("no cast available" | translate) }}
+                </div>
+              </div>
+              <div class="actions-container">
+                <mat-card-actions>
+                  <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                </mat-card-actions>
+              </div>
+            </div>
+          </div>
         </mat-card>
         <br/>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}

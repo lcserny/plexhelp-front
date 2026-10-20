@@ -1,10 +1,12 @@
-<div *ngIf="loadingService.getLoading()">
+@if (loadingService.getLoading()) {
+  <div>
     <div id="loading-container">
-        <div class="loading">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-</div>
+  </div>
+}

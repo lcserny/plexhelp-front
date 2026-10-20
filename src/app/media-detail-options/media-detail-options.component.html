@@ -1,17 +1,27 @@
 <mat-nav-list class="options-list">
-    <div class="options-origin">{{ "origin" | translate }} {{data.origin}}</div>
-    <div *ngFor="let desc of data.mediaDescriptions">
-        <a mat-list-item (click)="selectDescription(desc)">
-            <img *ngIf="desc.posterUrl" class="options-item-poster" src="{{desc.posterUrl}}" alt="">
-            <img *ngIf="!desc.posterUrl" class="options-item-poster" src="{{fallbackPosterUrl}}" alt="">
-            <div class="options-item-details">
-                <div class="options-item-title">{{desc.title}} <span *ngIf="desc.date">({{desc.date}})</span></div>
-                <div class="options-item-desc">{{desc.description}}</div>
-                <div class="options-item-cast">{{ "cast" | translate }}
-                    <span *ngFor="let actor of desc.cast">{{actor}}, </span>
-                </div>
-            </div>
-        </a>
-        <mat-divider class="options-divider"></mat-divider>
+  <div class="options-origin">{{ "origin" | translate }} {{data.origin}}</div>
+  @for (desc of data.mediaDescriptions; track desc) {
+    <div>
+      <a mat-list-item (click)="selectDescription(desc)">
+        @if (desc.posterUrl) {
+          <img class="options-item-poster" src="{{desc.posterUrl}}" alt="">
+        }
+        @if (!desc.posterUrl) {
+          <img class="options-item-poster" src="{{fallbackPosterUrl}}" alt="">
+        }
+        <div class="options-item-details">
+          <div class="options-item-title">{{desc.title}} @if (desc.date) {
+            <span>({{desc.date}})</span>
+          }</div>
+          <div class="options-item-desc">{{desc.description}}</div>
+          <div class="options-item-cast">{{ "cast" | translate }}
+            @for (actor of desc.cast; track actor) {
+              <span>{{actor}}, </span>
+            }
+          </div>
+        </div>
+      </a>
+      <mat-divider class="options-divider"></mat-divider>
     </div>
+  }
 </mat-nav-list>
