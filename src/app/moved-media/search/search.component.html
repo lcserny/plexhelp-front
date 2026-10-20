@@ -1,6 +1,6 @@
 <h1>{{ "media files found" | translate }}</h1>
 <div class="button-container">
-    <button mat-raised-button id="search-btn" (click)="refreshMedia()">{{ "refresh" | translate }}</button>
+    <button mat-stroked-button id="search-btn" (click)="refreshMedia()">{{ "refresh" | translate }}</button>
 </div>
 
 <div class="button-container">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                            <button mat-flat-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
                         </mat-card-actions>
                     </div>
                 </div>

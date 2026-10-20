@@ -45,4 +45,14 @@ describe('LoadingService', () => {
     tick(30000); // 70s + 30s = 100s, total 100s. Should be false now
     expect(service.getLoading()).toBe(false);
   }));
+
+  it('should emit loading changes through loading$', () => {
+    const emitted: boolean[] = [];
+    service.loading$.subscribe(v => emitted.push(v));
+
+    service.setLoading(true);
+    service.setLoading(false);
+
+    expect(emitted).toEqual([false, true, false]);
+  });
 });

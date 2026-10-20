@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {ApplicationErrorResponse as authError} from "./generated/auth/model/applicationErrorResponse";
 import {ApplicationErrorResponse as apiError} from "./generated/commander/model/applicationErrorResponse";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -22,10 +22,12 @@ export abstract class BaseService {
     }
 
     error(outerError: HttpErrorResponse): Observable<never> {
-        const actualError = (outerError.error?.error ?? outerError.error) as (authError | apiError);
-        const errorLog = `code=${actualError.code}, type=${actualError.type}, message=${actualError.message}`;
+        const actualError = (outerError.error?.error ?? outerError.error) as (authError | apiError | undefined);
+        const errorLog = actualError
+            ? `code=${actualError.code}, type=${actualError.type}, message=${actualError.message}`
+            : `status=${outerError.status}, message=${outerError.message}`;
         this.messageService.add(errorLog, "ERROR");
-        throw actualError;
+        return throwError(() => actualError ?? outerError);
     }
 }
 

@@ -7,8 +7,8 @@
     <h1>{{ generateTitle(tvShowSeasonEpisodes[0]) }} {{ "season" | translate }} {{ tvShowSeasonEpisodes[0].season }}</h1>
 
     <div class="button-container">
-        <button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
-        <button mat-raised-button color="primary" id="delete-season-btn" (click)="deleteSeason()">{{ "delete season" | translate }}</button>
+        <button mat-stroked-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+        <button mat-flat-button color="primary" id="delete-season-btn" (click)="deleteSeason()">{{ "delete season" | translate }}</button>
     </div>
 
     <div *ngFor="let media of tvShowSeasonEpisodes; let i = index">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="actions-container">
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
+                            <button mat-flat-button color="primary" class="details-button" [routerLink]="generateLink(media)">{{ "details" | translate }}</button>
                         </mat-card-actions>
                     </div>
                 </div>

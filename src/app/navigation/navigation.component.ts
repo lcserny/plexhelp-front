@@ -37,7 +37,7 @@ export class NavigationComponent {
                 private darkModeService: DarkModeService) {
         this.securityService.user.subscribe(user => {
             this.isLoggedIn = !!user;
-            this.isLoggedInAdmin = !!user?.roles.includes("ADMIN");
+            this.isLoggedInAdmin = !!user?.roles?.includes("ADMIN");
             this.currentUserId = user?.userId;
         });
     }

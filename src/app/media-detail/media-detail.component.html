@@ -1,4 +1,4 @@
-<button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+<button mat-stroked-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
 
 <div *ngIf="mainMediaFileGroup">
     <div class="header-container">
@@ -17,11 +17,11 @@
 
     <div class="form-container">
         <div class="button-container">
-            <button mat-raised-button color="primary"
+            <button mat-flat-button color="primary"
                     (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'TV')">{{ "tv" | translate }}</button>
         </div>
         <div class="button-container">
-            <button mat-raised-button color="primary"
+            <button mat-flat-button color="primary"
                     (click)="generateName(finalName ? finalName : mainMediaFileGroup.name!, 'MOVIE')">{{ "movie" | translate }}</button>
         </div>
     </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="form-container">
             <div class="button-container">
-                <button mat-raised-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
+                <button mat-flat-button color="accent" class="move-button" (click)="moveMedia()">{{ "move" | translate }} {{ type.toLowerCase() | translate }}</button>
             </div>
         </div>
     </div>

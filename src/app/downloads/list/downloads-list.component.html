@@ -8,7 +8,7 @@
         <mat-datepicker #datepicker>
             <mat-datepicker-actions>
                 <button mat-button matDatepickerCancel>{{ "cancel" | translate }}</button>
-                <button mat-raised-button matDatepickerApply>{{ "apply" | translate }}</button>
+                <button mat-flat-button matDatepickerApply>{{ "apply" | translate }}</button>
             </mat-datepicker-actions>
         </mat-datepicker>
     </mat-form-field>
@@ -23,11 +23,11 @@
     </div>
 
     <div class="button-container">
-        <button mat-raised-button type="submit" color="accent">{{ "search" | translate }}</button>
+        <button mat-flat-button type="submit" color="accent">{{ "search" | translate }}</button>
     </div>
 
     <div class="button-container">
-        <button mat-raised-button type="reset" color="primary" (click)="reset()">{{ "reset" | translate }}</button>
+        <button mat-stroked-button type="reset" color="primary" (click)="reset()">{{ "reset" | translate }}</button>
     </div>
 </form>
 

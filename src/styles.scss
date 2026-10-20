@@ -7,7 +7,7 @@ html {
     @include mat.theme((
         color: (
             primary: mat.$violet-palette,
-            tertiary: mat.$violet-palette,
+            tertiary: mat.$magenta-palette,
         ),
         typography: Roboto,
         density: 0,
@@ -21,7 +21,7 @@ html {
         color: (
             theme-type: dark,
             primary: mat.$violet-palette,
-            tertiary: mat.$violet-palette,
+            tertiary: mat.$magenta-palette,
         ),
     ));
 }

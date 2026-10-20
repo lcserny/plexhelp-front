@@ -8,10 +8,20 @@ import {Router} from "@angular/router";
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
+    // Auth endpoints manage their own errors (login shows a snackbar, refresh
+    // clears the session). They must bypass the 401 -> refresh flow: a failing
+    // refresh is itself a 401, which would trigger another refresh, so the
+    // request would never terminate and the loading spinner would stay on forever.
+    private static readonly AUTH_PATH = '/authenticate';
+
     constructor(private securityService: SecurityService, private router: Router) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.includes(JwtInterceptor.AUTH_PATH)) {
+            return next.handle(req);
+        }
+
         req = this.addTokenHeader(req, this.securityService.userValue);
 
         return next.handle(req).pipe(

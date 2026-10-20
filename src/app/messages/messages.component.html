@@ -1,4 +1,4 @@
-<h1>{{ "current messages" | translate }} <button mat-raised-button id="clear-btn" (click)="clearMessages()">{{ "clear all" | translate }}</button></h1>
+<h1>{{ "current messages" | translate }} <button mat-stroked-button id="clear-btn" (click)="clearMessages()">{{ "clear all" | translate }}</button></h1>
 
 <div *ngIf="messages">
     <div *ngFor="let m of messages">

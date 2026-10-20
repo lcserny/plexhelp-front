@@ -1,4 +1,4 @@
-<button mat-raised-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
+<button mat-stroked-button id="back-btn" (click)="goBack()">{{ "back" | translate }}</button>
 
 <div *ngIf="detailsForm" class="center-container">
     <h1>{{ "user details" | translate }}</h1>
@@ -71,7 +71,7 @@
             <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
                     <button mat-button matDatepickerCancel>{{ "cancel" | translate }}</button>
-                    <button mat-raised-button matDatepickerApply>{{ "apply" | translate }}</button>
+                    <button mat-flat-button matDatepickerApply>{{ "apply" | translate }}</button>
                 </mat-datepicker-actions>
             </mat-datepicker>
             <mat-error *ngIf="detailsForm.get('created')?.errors">{{ "created required" | translate }}</mat-error>
