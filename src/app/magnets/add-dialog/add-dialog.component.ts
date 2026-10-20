@@ -1,10 +1,11 @@
-import {Component, Inject, inject} from '@angular/core';
+import {Component, Inject, inject, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
     selector: 'app-add-dialog',
     templateUrl: './add-dialog.component.html',
     styleUrls: ['./add-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AddDialogComponent {

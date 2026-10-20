@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {NativeDateAdapter} from "@angular/material/core";
 import {environment} from "../environments/environment";
@@ -27,6 +27,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent implements OnInit {

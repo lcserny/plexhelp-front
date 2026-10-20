@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {UserService} from "../user.service";
 import {SecurityService} from "../../security/security.service";
 import {UserData} from "../../generated/auth/model/userData";
@@ -15,6 +15,7 @@ export const FETCH_FAILED_KEY = "fetch user failed";
     selector: 'app-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DetailsComponent {

@@ -9,7 +9,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {TranslateModule} from "@ngx-translate/core";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -25,7 +25,7 @@ describe('LoginComponent', () => {
         NoopAnimationsModule,
         MatSnackBarModule,
         TranslateModule.forRoot()],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         fixture = TestBed.createComponent(LoginComponent);

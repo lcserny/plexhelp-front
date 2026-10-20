@@ -13,7 +13,7 @@ import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {Subject, of} from "rxjs";
 
 import {SearchComponent, SearchItem} from './search.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('SearchComponent', () => {
     let component: SearchComponent;
@@ -47,7 +47,7 @@ describe('SearchComponent', () => {
     providers: [
         { provide: Router, useValue: mockRouter },
         { provide: MatBottomSheet, useValue: mockBottomSheet },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
 }).compileComponents();

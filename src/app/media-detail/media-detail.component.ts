@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {Router} from '@angular/router';
 import { MediaDetailOptionsComponent } from '../media-detail-options/media-detail-options.component';
@@ -22,6 +22,7 @@ export const OTHER_MEDIA_KEY = "other media";
     selector: 'app-media-detail',
     templateUrl: './media-detail.component.html',
     styleUrls: ['./media-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MediaDetailComponent {

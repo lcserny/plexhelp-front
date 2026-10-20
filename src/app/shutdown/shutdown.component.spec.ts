@@ -8,7 +8,7 @@ import {
     ShutdownComponent, DELAY_PING_MS,
 } from './shutdown.component';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -40,7 +40,7 @@ describe('ShutdownComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         TranslateModule.forRoot()],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         TestBed.inject(HttpClient);

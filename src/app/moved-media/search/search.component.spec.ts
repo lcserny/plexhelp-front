@@ -12,7 +12,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('SearchComponent', () => {
     let component: MovedMediaSearchComponent;
@@ -29,7 +29,7 @@ describe('SearchComponent', () => {
         MatFormFieldModule,
         MatIconModule,
         MatSelectModule],
-    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [DatePipe, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaSearchComponent);

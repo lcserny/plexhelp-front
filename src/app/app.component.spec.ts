@@ -15,7 +15,7 @@ import {routes} from "./routing/routing.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {LoadingComponent} from "./loading/loading.component";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('AppComponent', () => {
     beforeEach(async () => {
@@ -36,7 +36,7 @@ describe('AppComponent', () => {
         TranslateModule.forRoot(),
         MatMenuModule,
         MatSlideToggleModule],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
     });
 

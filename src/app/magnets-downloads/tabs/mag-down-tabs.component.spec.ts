@@ -22,7 +22,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
 import {CustomDateAdapter} from "../../app.component";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('TabsComponent', () => {
     let component: MagDownTabsComponent;
@@ -51,7 +51,7 @@ describe('TabsComponent', () => {
         MatDatepickerModule,
         MatCheckboxModule,
         MatNativeDateModule],
-    providers: [DatePipe, { provide: DateAdapter, useClass: CustomDateAdapter }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [DatePipe, { provide: DateAdapter, useClass: CustomDateAdapter }, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         fixture = TestBed.createComponent(MagDownTabsComponent);

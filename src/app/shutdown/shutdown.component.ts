@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ShutdownService} from '../shutdown.service';
 import {LoadingService} from '../loading.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -24,6 +24,7 @@ export const DELAY_PING_MS = 3000;
     selector: 'app-shutdown',
     templateUrl: './shutdown.component.html',
     styleUrls: ['./shutdown.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ShutdownComponent {

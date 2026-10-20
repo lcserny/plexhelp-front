@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {MovedMediaService, MovedMediaView, SortData, sortOptions} from "../moved-media.service";
 import {MatSelectChange} from "@angular/material/select";
 
@@ -6,6 +6,7 @@ import {MatSelectChange} from "@angular/material/select";
     selector: 'movedMedia-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MovedMediaSearchComponent implements OnInit {

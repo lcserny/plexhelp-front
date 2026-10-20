@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { MessageService } from '../message.service';
 import {Message} from "./messages.model";
 
@@ -6,6 +6,7 @@ import {Message} from "./messages.model";
     selector: 'app-messages',
     templateUrl: './messages.component.html',
     styleUrls: ['./messages.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MessagesComponent implements OnInit {

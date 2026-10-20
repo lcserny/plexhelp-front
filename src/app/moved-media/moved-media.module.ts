@@ -10,7 +10,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
 import {MovedMediaTVShowComponent} from './tvshow/tvshow.component';
 import {MovedMediaTVShowSeasonComponent} from './tvshow-season/tvshow-season.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -54,7 +54,7 @@ const routes: Routes = [
         MatInputModule,
         ReactiveFormsModule,
         MatIconModule,
-        MatSelectModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        MatSelectModule], providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 export class MovedMediaModule {
 }
 

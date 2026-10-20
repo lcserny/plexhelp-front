@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { MediaService } from '../media.service';
 import {MediaFileGroup} from "../generated/commander/model/mediaFileGroup";
 import {PageEvent} from "@angular/material/paginator";
@@ -20,6 +20,7 @@ const SEARCH_FAILED_KEY = "search items failed";
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy {
@@ -244,6 +245,7 @@ export interface SearchItem {
             width: 100%;
         }`
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MatButtonModule]
 })
 export class SearchButtonsComponent {

@@ -7,7 +7,7 @@ import {MessageService} from '../message.service';
 import {environment} from '../../environments/environment';
 import {MediaFileType} from '../generated/commander/model/mediaFileType';
 import {MovedMediaData} from '../generated/commander/model/movedMediaData';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('MovedMediaService', () => {
     let service: MovedMediaService;
@@ -71,7 +71,7 @@ describe('MovedMediaService', () => {
         DatePipe,
         { provide: MovedMediaRepository, useValue: mockRepository },
         { provide: MessageService, useValue: mockMessageService },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
     ]
 });

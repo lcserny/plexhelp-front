@@ -8,7 +8,7 @@ import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from "@angular
 import {MatListModule} from "@angular/material/list";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TranslateModule} from "@ngx-translate/core";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('MediaDetailComponent', () => {
     let component: MediaDetailComponent;
@@ -23,7 +23,7 @@ describe('MediaDetailComponent', () => {
     providers: [
         { provide: MatBottomSheet, useValue: {} },
         { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
     ]
 }).compileComponents();

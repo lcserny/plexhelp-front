@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {MatTableDataSource} from "@angular/material/table";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
@@ -18,6 +18,7 @@ const FETCH_FAILED_KEY = "fetch downloads failed";
     selector: 'app-downloads-list',
     templateUrl: './downloads-list.component.html',
     styleUrls: ['./downloads-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DownloadsListComponent {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {formatNumber} from "../moved-media.utils";
@@ -9,6 +9,7 @@ import {ConfirmComponent} from "../confirm/confirm.component";
     selector: 'movedMedia-tvshow',
     templateUrl: './tvshow.component.html',
     styleUrls: ['./tvshow.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MovedMediaTVShowComponent implements OnInit {

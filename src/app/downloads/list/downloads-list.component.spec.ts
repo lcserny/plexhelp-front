@@ -18,7 +18,7 @@ import {CustomDateAdapter, booleanValidator} from "../../app.component";
 
 import {DownloadsListComponent} from './downloads-list.component';
 import {environment} from "../../../environments/environment";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('DownloadsListComponent', () => {
     let component: DownloadsListComponent;
@@ -45,7 +45,7 @@ describe('DownloadsListComponent', () => {
     providers: [
         DatePipe,
         { provide: DateAdapter, useClass: CustomDateAdapter },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
     ]
 }).compileComponents();

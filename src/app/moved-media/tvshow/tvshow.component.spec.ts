@@ -7,7 +7,7 @@ import {RouterModule} from "@angular/router";
 import {routes} from "../../routing/routing.module";
 import {DatePipe} from "@angular/common";
 import {MatDialogModule} from "@angular/material/dialog";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('TvshowComponent', () => {
     let component: MovedMediaTVShowComponent;
@@ -19,7 +19,7 @@ describe('TvshowComponent', () => {
     imports: [TranslateModule.forRoot(),
         RouterModule.forRoot(routes),
         MatDialogModule],
-    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [DatePipe, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         fixture = TestBed.createComponent(MovedMediaTVShowComponent);

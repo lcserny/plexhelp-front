@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-mag-down-tabs',
     templateUrl: './mag-down-tabs.component.html',
     styleUrls: ['./mag-down-tabs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MagDownTabsComponent implements OnInit {

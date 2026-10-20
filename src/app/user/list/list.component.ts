@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {UserService} from "../user.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserData} from "../../generated/auth/model/userData";
@@ -20,6 +20,7 @@ const USERS_PER_PAGE_KEY = "vm-front-users-perPage";
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListComponent {

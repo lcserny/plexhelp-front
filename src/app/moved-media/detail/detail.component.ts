@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovedMediaService, MovedMediaView} from "../moved-media.service";
 import {Location} from "@angular/common";
@@ -10,6 +10,7 @@ import {ConfirmComponent} from "../confirm/confirm.component";
     selector: 'movedMedia-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MovedMediaDetailComponent implements OnInit {

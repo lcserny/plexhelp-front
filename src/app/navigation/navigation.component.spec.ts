@@ -15,7 +15,7 @@ import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {TranslateModule} from "@ngx-translate/core";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('NavigationComponent', () => {
     let component: NavigationComponent;
@@ -38,7 +38,7 @@ describe('NavigationComponent', () => {
         TranslateModule.forRoot(),
         MatMenuModule,
         MatSlideToggleModule],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
     }));
 

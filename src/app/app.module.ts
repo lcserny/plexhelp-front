@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {LoadingComponent} from './loading/loading.component';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import {LoadingInterceptor} from './loading.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RoutingModule} from './routing/routing.module';
@@ -119,7 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: environment.region.dateFormat, timezone: environment.region.timezone } },
         { provide: MAT_DATE_LOCALE, useValue: environment.region.locale },
         DatePipe,
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withXhr(), withInterceptorsFromDi())
     ] })
 export class AppModule {
 }

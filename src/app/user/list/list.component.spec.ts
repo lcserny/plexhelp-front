@@ -13,7 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DatePipe} from "@angular/common";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('ListComponent', () => {
     let component: ListComponent;
@@ -33,7 +33,7 @@ describe('ListComponent', () => {
         ReactiveFormsModule,
         MatInputModule,
         MatButtonModule],
-    providers: [DatePipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [DatePipe, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 
         fixture = TestBed.createComponent(ListComponent);

@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import {MagnetService} from "../magnet.service";
 import {MagnetData} from "../../generated/commander/model/magnetData";
 import {MatTableDataSource} from "@angular/material/table";
@@ -21,6 +21,7 @@ const FETCH_FAILED_KEY = "fetch magnets failed";
     selector: 'app-magnets-list',
     templateUrl: './magnets-list.component.html',
     styleUrls: ['./magnets-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MagnetsListComponent {
