@@ -23,7 +23,8 @@ export const DELAY_PING_MS = 3000;
 @Component({
     selector: 'app-shutdown',
     templateUrl: './shutdown.component.html',
-    styleUrls: ['./shutdown.component.scss']
+    styleUrls: ['./shutdown.component.scss'],
+    standalone: false
 })
 export class ShutdownComponent {
 

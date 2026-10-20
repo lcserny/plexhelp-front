@@ -6,9 +6,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../confirm/confirm.component";
 
 @Component({
-  selector: 'movedMedia-tvshow',
-  templateUrl: './tvshow.component.html',
-  styleUrls: ['./tvshow.component.scss']
+    selector: 'movedMedia-tvshow',
+    templateUrl: './tvshow.component.html',
+    styleUrls: ['./tvshow.component.scss'],
+    standalone: false
 })
 export class MovedMediaTVShowComponent implements OnInit {
 

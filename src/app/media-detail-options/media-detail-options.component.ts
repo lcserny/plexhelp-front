@@ -7,7 +7,8 @@ import {MediaDescriptionData} from "../generated/commander/model/mediaDescriptio
 @Component({
     selector: 'app-media-detail-options',
     templateUrl: './media-detail-options.component.html',
-    styleUrls: ['./media-detail-options.component.scss']
+    styleUrls: ['./media-detail-options.component.scss'],
+    standalone: false
 })
 export class MediaDetailOptionsComponent {
 

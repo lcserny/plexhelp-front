@@ -21,7 +21,8 @@ export const OTHER_MEDIA_KEY = "other media";
 @Component({
     selector: 'app-media-detail',
     templateUrl: './media-detail.component.html',
-    styleUrls: ['./media-detail.component.scss']
+    styleUrls: ['./media-detail.component.scss'],
+    standalone: false
 })
 export class MediaDetailComponent {
 

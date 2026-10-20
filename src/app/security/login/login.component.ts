@@ -11,7 +11,8 @@ export const FAILED_KEY = "login error";
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent {
 

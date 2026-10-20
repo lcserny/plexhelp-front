@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-mag-down-tabs',
-  templateUrl: './mag-down-tabs.component.html',
-  styleUrls: ['./mag-down-tabs.component.scss']
+    selector: 'app-mag-down-tabs',
+    templateUrl: './mag-down-tabs.component.html',
+    styleUrls: ['./mag-down-tabs.component.scss'],
+    standalone: false
 })
 export class MagDownTabsComponent implements OnInit {
 

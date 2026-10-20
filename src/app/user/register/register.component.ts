@@ -10,9 +10,10 @@ import {TranslateService} from "@ngx-translate/core";
 export const FAILED_MSG = "registration failed";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class RegisterComponent {
 

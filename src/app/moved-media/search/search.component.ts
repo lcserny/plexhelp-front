@@ -5,7 +5,8 @@ import {MatSelectChange} from "@angular/material/select";
 @Component({
     selector: 'movedMedia-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss']
+    styleUrls: ['./search.component.scss'],
+    standalone: false
 })
 export class MovedMediaSearchComponent implements OnInit {
 

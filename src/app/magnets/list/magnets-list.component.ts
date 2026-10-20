@@ -20,7 +20,8 @@ const FETCH_FAILED_KEY = "fetch magnets failed";
 @Component({
     selector: 'app-magnets-list',
     templateUrl: './magnets-list.component.html',
-    styleUrls: ['./magnets-list.component.scss']
+    styleUrls: ['./magnets-list.component.scss'],
+    standalone: false
 })
 export class MagnetsListComponent {
 

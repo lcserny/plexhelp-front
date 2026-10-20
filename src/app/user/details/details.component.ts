@@ -14,7 +14,8 @@ export const FETCH_FAILED_KEY = "fetch user failed";
 @Component({
     selector: 'app-details',
     templateUrl: './details.component.html',
-    styleUrls: ['./details.component.scss']
+    styleUrls: ['./details.component.scss'],
+    standalone: false
 })
 export class DetailsComponent {
 

@@ -19,7 +19,8 @@ const SEARCH_FAILED_KEY = "search items failed";
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss']
+    styleUrls: ['./search.component.scss'],
+    standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
@@ -243,8 +244,7 @@ export interface SearchItem {
             width: 100%;
         }`
     ],
-    standalone: true,
-    imports: [MatButtonModule],
+    imports: [MatButtonModule]
 })
 export class SearchButtonsComponent {
 

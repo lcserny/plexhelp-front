@@ -15,9 +15,10 @@ const DOWNLOADS_PER_PAGE_KEY = "vm-front-downloads-perPage";
 const FETCH_FAILED_KEY = "fetch downloads failed";
 
 @Component({
-  selector: 'app-downloads-list',
-  templateUrl: './downloads-list.component.html',
-  styleUrls: ['./downloads-list.component.scss']
+    selector: 'app-downloads-list',
+    templateUrl: './downloads-list.component.html',
+    styleUrls: ['./downloads-list.component.scss'],
+    standalone: false
 })
 export class DownloadsListComponent {
 
