@@ -121,6 +121,7 @@
                         "buildTarget": ":build:testing",
                         "runner": "vitest",
                         "browsers": ["chromium"],
+                        "headless": true,
                         "include": ["src/**/*.spec.ts"]
                     }
                 }

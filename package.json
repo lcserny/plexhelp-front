@@ -10,7 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "specgen": "openapi-generator-cli generate -i spec.yml -g typescript-angular -o src/app/generated/commander --global-property models",
     "specgen:auth": "openapi-generator-cli generate -i auth-spec.yml -g typescript-angular -o src/app/generated/auth --global-property models",
-    "test": "ng test --watch=false"
+    "test": "playwright install chromium && ng test --watch=false"
   },
   "private": true,
   "dependencies": {
