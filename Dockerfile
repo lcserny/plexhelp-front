@@ -1,8 +1,10 @@
 FROM docker.io/library/node:24-bookworm as node-helper
 
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+RUN npx playwright install --with-deps chromium
 COPY . .
-RUN npm install
 RUN npm test
 RUN npx ng build
 
